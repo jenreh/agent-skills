@@ -1,22 +1,24 @@
-# Data Display & Feedback Reference
+# Data Display Reference
 
 ## Contents
 
 - Accordion
 - Avatar
+- Badge
 - Card
-- Image
+- Image, BackgroundImage
 - Paper
 - Indicator
 - Timeline
-- NumberFormatter
-- Alert
-- Notification
-- Progress
-- Skeleton
-- Tooltip
-- HoverCard
-- Button and ActionIcon
+- NumberFormatter, RollingNumber
+- ThemeIcon, ColorSwatch
+- Kbd
+- Spoiler
+- Button, ActionIcon
+- CloseButton, UnstyledButton
+- Tooltip, HoverCard
+
+For status feedback (Alert, Notification, Progress, Skeleton, Loader) → see [references/feedback.md](references/feedback.md)
 
 ## Accordion
 
@@ -41,6 +43,8 @@ Props: `multiple`, `value`, `default_value`, `transition_duration`,
 `chevron_position`, `variant` (`"default"`, `"contained"`, `"filled"`, `"separated"`),
 `on_change`.
 
+> [Mantine docs — Accordion](https://mantine.dev/core/accordion/)
+
 ## Avatar
 
 ```python
@@ -57,6 +61,30 @@ mn.avatar.group(
 
 Props: `src`, `alt`, `radius`, `size`, `color`, `variant`, `name`, `allowed_initials_colors`.
 
+> [Mantine docs — Avatar](https://mantine.dev/core/avatar/)
+
+## Badge
+
+Status indicator, label, or count chip.
+
+```python
+mn.badge("New", color="blue", variant="light", size="md", radius="sm")
+mn.badge("99+", color="red", variant="filled", circle=True)  # circular badge
+mn.badge(
+    "Premium",
+    variant="gradient",
+    gradient={"from": "indigo", "to": "cyan"},
+    left_section=rx.icon("star", size=12),
+)
+```
+
+Variants: `filled`, `light`, `outline`, `dot`, `transparent`, `default`, `white`.
+
+Props: `color`, `variant`, `size`, `radius`, `gradient`, `circle`, `full_width`,
+`auto_contrast`, `left_section`, `right_section`.
+
+> [Mantine docs — Badge](https://mantine.dev/core/badge/)
+
 ## Card
 
 ```python
@@ -68,11 +96,14 @@ mn.card(
     padding="lg",
     radius="md",
     with_border=True,
+    orientation="vertical",  # "vertical" (default) | "horizontal"
 )
 ```
 
-Card props: `shadow`, `radius`, `with_border`, `padding`.
+Card props: `shadow`, `radius`, `with_border`, `padding`, `orientation`.
 Card.Section props: `with_border`, `inherit_padding`.
+
+> [Mantine docs — Card](https://mantine.dev/core/card/)
 
 ## Image
 
@@ -89,6 +120,25 @@ mn.image(
 
 Props: `src`, `fit`, `fallback_src`, `radius`, `w`, `h`.
 
+> [Mantine docs — Image](https://mantine.dev/core/image/)
+
+## BackgroundImage
+
+Renders any element with a background image (covers, hero blocks).
+
+```python
+mn.background_image(
+    mn.center(mn.title("Welcome", c="white"), h="100%"),
+    src="/img/hero.jpg",
+    h=300,
+    radius="md",
+)
+```
+
+Props: `src`, `radius`.
+
+> [Mantine docs — BackgroundImage](https://mantine.dev/core/background-image/)
+
 ## Paper
 
 ```python
@@ -102,6 +152,8 @@ mn.paper(
 ```
 
 Props: `shadow`, `radius`, `with_border`.
+
+> [Mantine docs — Paper](https://mantine.dev/core/paper/)
 
 ## Indicator
 
@@ -117,6 +169,8 @@ mn.indicator(
 Props: `position`, `offset`, `inline`, `size`, `color`, `with_border`,
 `disabled`, `processing`, `label`.
 
+> [Mantine docs — Indicator](https://mantine.dev/core/indicator/)
+
 ## Timeline
 
 ```python
@@ -131,6 +185,8 @@ mn.timeline(
 
 Timeline props: `active`, `reverse_active`, `line_width`, `bullet_size`, `color`, `align`.
 Timeline.Item props: `title`, `bullet`, `bullet_size`, `color`, `line_variant`.
+
+> [Mantine docs — Timeline](https://mantine.dev/core/timeline/)
 
 ## NumberFormatter
 
@@ -148,68 +204,187 @@ mn.number_formatter(
 Props: `allow_negative`, `decimal_scale`, `decimal_separator`, `fixed_decimal_scale`,
 `prefix`, `suffix`, `thousand_separator`, `thousands_group_style`.
 
-## Alert
+> [Mantine docs — NumberFormatter](https://mantine.dev/core/number-formatter/)
+
+## RollingNumber
+
+Animated counter that "rolls" when the value changes.
 
 ```python
-mn.alert(
-    "This is an important message",
-    title="Warning",
-    color="yellow",
-    variant="light",
-    icon=rx.icon("alert-triangle"),
-    with_close_button=True,
-    on_close=State.dismiss_alert,
-)
-```
-
-Props: `title`, `color`, `variant`, `radius`, `with_close_button`, `icon`, `on_close`.
-
-## Notification
-
-```python
-mn.notification(
-    "Your file has been uploaded",
-    title="Success",
-    color="green",
-    icon=rx.icon("check"),
-    with_close_button=True,
-    loading=False,
-)
-```
-
-Props: `title`, `color`, `radius`, `icon`, `with_close_button`, `with_border`,
-`loading`, `on_close`.
-
-## Progress
-
-Simple:
-
-```python
-mn.progress(value=65, color="blue", size="lg", striped=True, animated=True)
-```
-
-Compound (multi-section):
-
-```python
-mn.progress.root(
-    mn.progress.section(value=40, color="blue"),
-    mn.progress.section(value=25, color="green"),
-    mn.progress.section(value=15, color="yellow"),
+mn.rolling_number(
+    value=State.live_count,
     size="xl",
+    fw=700,
+    duration=500,
 )
 ```
 
-Props: `value`, `color`, `size`, `radius`, `striped`, `animated`, `transition_duration`.
+Props: `value` (number), `duration`, `easing`, plus typography style props.
 
-## Skeleton
+> Mantine extension component.
+
+## ThemeIcon
+
+Colored icon container — fixed-size box around an icon.
 
 ```python
-mn.skeleton(height=50, radius="md", animate=True)
-mn.skeleton(height=8, radius="xl", visible=State.loading)  # inline
-mn.skeleton(height=40, circle=True)  # circular
+mn.theme_icon(
+    rx.icon("check"),
+    size="lg",
+    radius="xl",
+    color="green",
+    variant="filled",  # "filled" | "light" | "outline" | "default" | "gradient" | "white" | "transparent"
+    gradient={"from": "teal", "to": "lime", "deg": 105},
+)
 ```
 
-Props: `visible`, `height`, `width`, `circle`, `radius`, `animate`.
+Props: `size`, `radius`, `color`, `variant`, `gradient`, `autocontrast`.
+
+> [Mantine docs — ThemeIcon](https://mantine.dev/core/theme-icon/)
+
+## ColorSwatch
+
+Solid-color circular swatch — for palettes, color pickers, indicators.
+
+```python
+mn.color_swatch(color="#fa5252", size=24, radius="xl", with_shadow=True)
+```
+
+Props: `color`, `size`, `radius`, `with_shadow`.
+
+> [Mantine docs — ColorSwatch](https://mantine.dev/core/color-swatch/)
+
+## Kbd
+
+Renders a keyboard key (`<kbd>`).
+
+```python
+mn.group(
+    mn.kbd("⌘"),
+    mn.text("+", c="dimmed"),
+    mn.kbd("K"),
+    gap=4,
+)
+```
+
+Props: `size`, plus standard layout props.
+
+> [Mantine docs — Kbd](https://mantine.dev/core/kbd/)
+
+## Spoiler
+
+Collapses long content with show-more/show-less toggle.
+
+```python
+mn.spoiler(
+    rx.text(State.long_text),
+    max_height=120,
+    show_label="Show more",
+    hide_label="Hide",
+    initial_state=False,
+    expanded=State.expanded,
+    on_expanded_change=State.set_expanded,
+    transition_duration=200,
+)
+```
+
+Props: `max_height`, `show_label`, `hide_label`, `initial_state`, `expanded`,
+`transition_duration`, `control_ref`, `on_expanded_change` (receives `bool`).
+
+> [Mantine docs — Spoiler](https://mantine.dev/core/spoiler/)
+
+## Button
+
+```python
+mn.button(
+    "Click me",
+    variant="filled",  # filled, light, subtle, outline, default, gradient, link
+    color="blue",
+    size="md",
+    radius="md",
+    loading=State.is_loading,
+    disabled=State.is_disabled,
+    data_disabled=True,  # visually disabled but keeps pointer events (for Tooltip wrapping)
+    left_section=rx.icon("download"),
+    full_width=True,
+    on_click=State.handle_click,
+)
+```
+
+Gradient button:
+
+```python
+mn.button(
+    "Upgrade",
+    variant="gradient",
+    gradient={"from": "indigo", "to": "cyan", "deg": 45},
+)
+```
+
+Props: `variant`, `color`, `size`, `radius`, `gradient`, `disabled`, `data_disabled`,
+`loading`, `loader_props`, `full_width`, `justify`, `left_section`, `right_section`,
+`component`, `type`, `on_click`.
+
+> `data_disabled=True` vs `disabled=True`: `disabled` blocks pointer events entirely (Tooltip won't show); `data_disabled` keeps them active so a wrapping Tooltip still fires.
+>
+> [Mantine docs — Button](https://mantine.dev/core/button/)
+
+## ActionIcon
+
+Icon-only button.
+
+```python
+mn.action_icon(
+    rx.icon("settings"),
+    variant="subtle",
+    size="lg",
+    on_click=State.open_settings,
+)
+```
+
+Props: same as Button minus `left_section`/`right_section`/`full_width`.
+Group: `mn.action_icon.group(icon1, icon2, orientation="horizontal")`.
+
+> [Mantine docs — ActionIcon](https://mantine.dev/core/action-icon/)
+
+## CloseButton
+
+X-icon button for closing modals, dismissing alerts, removing tags, etc.
+
+```python
+mn.close_button(
+    on_click=State.dismiss,
+    size="md",
+    radius="xl",
+    variant="subtle",
+    icon_size=16,
+    aria_label="Close",
+)
+```
+
+Props: `size`, `radius`, `icon`, `icon_size`, `variant`, `color`, `disabled`, plus
+`MantineButtonBase` props.
+
+> [Mantine docs — CloseButton](https://mantine.dev/core/close-button/)
+
+## UnstyledButton
+
+Button element with no default styling — use when wrapping arbitrary clickable content.
+
+```python
+mn.unstyled_button(
+    mn.group(
+        mn.avatar(src=State.user.avatar),
+        mn.text(State.user.name),
+    ),
+    on_click=State.open_profile,
+)
+```
+
+No component-specific props beyond `MantineButtonBase` (href, target, type,
+loading, loader_props, disabled, etc.).
+
+> [Mantine docs — UnstyledButton](https://mantine.dev/core/unstyled-button/)
 
 ## Tooltip
 
@@ -228,55 +403,96 @@ Props: `label`, `position`, `offset`, `open_delay`, `close_delay`, `color`,
 
 Floating tooltip: `mn.tooltip.floating(child, label="Follows cursor")`.
 
+> [Mantine docs — Tooltip](https://mantine.dev/core/tooltip/)
+
 ## HoverCard
+
+Reveals a card when hovering over a trigger element.
 
 ```python
 mn.hover_card(
-    mn.hover_card.target(mn.text("Hover me")),
+    mn.hover_card.target(
+        mn.avatar(src="/img/user.jpg", radius="xl"),
+    ),
     mn.hover_card.dropdown(
-        mn.text("Detailed info appears here"),
+        mn.stack(
+            mn.group(
+                mn.avatar(src="/img/user.jpg"),
+                mn.stack(
+                    mn.text("Alice Smith", fw=500),
+                    mn.text("@alice", size="xs", c="dimmed"),
+                    gap=2,
+                ),
+            ),
+            mn.text("Full stack developer at Acme Corp.", size="sm"),
+            gap="xs",
+        ),
     ),
     width=280,
     shadow="md",
     open_delay=200,
+    close_delay=150,
 )
 ```
 
-Props: `width`, `shadow`, `open_delay`, `close_delay`, `disabled`.
+Sub-components: `mn.hover_card.target(child)`, `mn.hover_card.dropdown(*content)`.
 
-## Button
+Props: `width`, `shadow`, `open_delay`, `close_delay`, `position`, `disabled`.
+
+> [Mantine docs — HoverCard](https://mantine.dev/core/hover-card/)
+
+## DataList (Mantine 9.4)
+
+Semantic label/value pairs rendered as `dl`/`dt`/`dd`.
 
 ```python
-mn.button(
-    "Click me",
-    variant="filled",       # filled, light, subtle, outline, default, gradient, link
-    color="blue",
-    size="md",
-    radius="md",
-    loading=State.is_loading,
-    disabled=State.is_disabled,
-    left_section=rx.icon("download"),
-    full_width=True,
-    on_click=State.handle_click,
+mn.data_list(
+    mn.data_list.item(
+        mn.data_list.item_label("Name"),
+        mn.data_list.item_value("Jane Doe"),
+    ),
+    mn.data_list.item(
+        mn.data_list.item_label("Email"),
+        mn.data_list.item_value("jane@example.com"),
+    ),
+    orientation="horizontal",   # or "vertical"
+    with_divider=True,
+    label_width=120,
 )
 ```
 
-Props: `variant`, `color`, `size`, `radius`, `gradient`, `disabled`, `loading`,
-`loader_props`, `full_width`, `justify`, `left_section`, `right_section`,
-`component`, `type`, `on_click`.
+Props: `gap`, `label_width`, `orientation` (`"horizontal"|"vertical"`), `size`,
+`with_divider`. Sub-components: `mn.data_list.item`, `mn.data_list.item_label`
+(`dt`), `mn.data_list.item_value` (`dd`).
 
-## ActionIcon
+> [Mantine docs — DataList](https://mantine.dev/core/data-list/)
 
-Icon-only button.
+## EmptyState (Mantine 9.4)
+
+Placeholder for "no data" situations, with optional call-to-action.
 
 ```python
-mn.action_icon(
-    rx.icon("settings"),
-    variant="subtle",
-    size="lg",
-    on_click=State.open_settings,
+# Shorthand props
+mn.empty_state(
+    icon=rx.icon("search-x", size=32),
+    title="No results found",
+    description="Try adjusting your filters.",
+    with_indicator_background=True,
+    variant="light",
+    align="center",
+)
+
+# Compound sub-components (for an action button)
+mn.empty_state(
+    mn.empty_state.indicator(rx.icon("inbox", size=32)),
+    mn.empty_state.title("Inbox empty"),
+    mn.empty_state.description("New messages appear here."),
+    mn.empty_state.actions(mn.button("Refresh", variant="light")),
 )
 ```
 
-Props: same as Button minus `left_section`/`right_section`/`full_width`.
-Group: `mn.action_icon.group(icon1, icon2, orientation="horizontal")`.
+Props: `align` (`"center"|"left"|"right"`), `color`, `description`, `icon`,
+`size`, `title`, `with_indicator_background`, `variant` (`"filled"|"light"`).
+Sub-components: `indicator`, `title`, `description`, `actions`.
+
+> [Mantine docs — EmptyState](https://mantine.dev/core/empty-state/)
