@@ -1,33 +1,27 @@
 #!/usr/bin/env bash
-# (Re)build the Claude Code marketplace plugin layer:
-#   * write each plugin's .claude-plugin/plugin.json
-#   * symlink plugins/<plugin>/skills/<name> -> ../../../skills/<name>
-# Skills are NEVER duplicated — the marketplace points back at the canonical skills/.
+# (Re)build the repo's two layouts from a single source of truth.
+#
+# Source of truth: the REAL skill folders live under each plugin:
+#     plugins/<plugin>/skills/<name>/SKILL.md
+# This is what Claude Code's marketplace installs (a plugin folder is copied
+# standalone, so its skills must be real files — never symlinks that escape it).
+#
+# This script:
+#   * writes each plugin's .claude-plugin/plugin.json
+#   * regenerates the flat, portable view used by Codex/Copilot:
+#       skills/<name> -> ../plugins/<plugin>/skills/<name>   (read in place)
+# Skills are NEVER duplicated — the flat skills/ dir points back at the plugins.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# plugin : space-separated skill names
 declare -a PLUGINS=(jenreh-core jenreh-python jenreh-reflex jenreh-terraform)
-
-core="boost code-cleanup commit-msg create-readme frontend-design release skills-creator skills-find"
-python="python-coding python-clean-code docker-multi-stage github-actions-cicd runic runic-migrate runic-ogm"
-reflex="appkit-commons appkit-mantine-reference reflex-docs reflex-state-and-architecture reflex-testing-state"
-terraform="terraform-azure-verified-modules terraform-refactor-module terraform-run-acceptance-tests terraform-search-import terraform-stacks terraform-style-guide terraform-test"
 
 desc_jenreh_core="Cross-cutting agent skills (boost, commit-msg, create-readme, release, …)."
 desc_jenreh_python="Python archetype skills (python-coding, runic, docker-multi-stage, …)."
 desc_jenreh_reflex="reflex.dev / AppKit web skills (appkit-*, reflex-*)."
 desc_jenreh_terraform="Terraform / infra skills (terraform-*)."
 
-skills_for() {
-  case "$1" in
-    jenreh-core) echo "$core" ;;
-    jenreh-python) echo "$python" ;;
-    jenreh-reflex) echo "$reflex" ;;
-    jenreh-terraform) echo "$terraform" ;;
-  esac
-}
-
+# 1) Write plugin.json for each plugin.
 for plugin in "${PLUGINS[@]}"; do
   pdir="plugins/$plugin"
   mkdir -p "$pdir/.claude-plugin" "$pdir/skills"
@@ -41,10 +35,24 @@ for plugin in "${PLUGINS[@]}"; do
   "license": "MIT"
 }
 EOF
-  # Reset skill symlinks for this plugin.
-  find "$pdir/skills" -maxdepth 1 -type l -delete
-  for skill in $(skills_for "$plugin"); do
-    ln -sfn "../../../skills/$skill" "$pdir/skills/$skill"
-  done
-  echo "linked $plugin: $(skills_for "$plugin" | wc -w | tr -d ' ') skills"
 done
+
+# 2) Rebuild the flat skills/ view from the real skill folders in the plugins.
+mkdir -p skills
+find skills -maxdepth 1 -type l -delete
+count=0
+for plugin in "${PLUGINS[@]}"; do
+  for sdir in "plugins/$plugin/skills"/*/; do
+    [ -d "$sdir" ] || continue
+    skill=$(basename "$sdir")
+    if [ -e "skills/$skill" ] && [ ! -L "skills/$skill" ]; then
+      echo "ERROR: skills/$skill exists as a real path (expected a generated symlink)" >&2
+      exit 1
+    fi
+    ln -sfn "../plugins/$plugin/skills/$skill" "skills/$skill"
+    count=$((count + 1))
+  done
+  n=$(find "plugins/$plugin/skills" -maxdepth 1 -mindepth 1 -type d | wc -l | tr -d ' ')
+  echo "plugin $plugin: $n skills"
+done
+echo "linked $count skills into the flat skills/ view"
