@@ -46,6 +46,34 @@ feature, keep that variant out of this repo and only in the project's `.claude/s
 
 `task validate` (or `python3 scripts/validate_skills.py`) enforces these rules.
 
+## Plugin marketplace format (Claude Code + GitHub Copilot)
+
+The `plugins/` directory and root `.claude-plugin/marketplace.json` are a second,
+optional consumption path (see the [README](../README.md#plugin-marketplace)) for
+ad-hoc projects that want an installable plugin instead of vendoring the whole repo.
+Despite the `.claude-plugin/` name, this layer is **not Claude-only**:
+
+- Both the GitHub Copilot CLI and VS Code's agent plugin loader check
+  `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` as a fallback
+  manifest location (after `.plugin/plugin.json`, root `plugin.json`, and
+  `.github/plugin/plugin.json`). See the [Copilot CLI plugin reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference)
+  and [VS Code agent plugins docs](https://code.visualstudio.com/docs/agent-customization/agent-plugins).
+- `plugin.json` fields used here (`name`, `description`, `version`, `author`, `license`)
+  and `marketplace.json` fields (`name`, `owner`, `metadata.pluginRoot`, per-plugin
+  `source`) are recognized identically by both schemas.
+- **Do not add a second manifest** (e.g. `.github/plugin/plugin.json`) — it would just
+  duplicate what fallback detection already provides and risk drifting out of sync.
+- MCP servers are portable as-is: both Claude Code and VS Code's agent plugin loader
+  read server definitions from `.mcp.json` at the plugin root (e.g.
+  `plugins/jenreh-core/.mcp.json`), so a single file works for every loader. Only
+  `hooks.json` location differs — if a future plugin ships hooks, revisit:
+  Claude-format plugins expect `hooks/hooks.json` and support the
+  `${CLAUDE_PLUGIN_ROOT}` token, while Copilot-format plugins expect `hooks.json` at
+  the plugin root and don't expand that token — pick whichever the auto-detected
+  format (Claude, since we ship `.claude-plugin/`) requires.
+- Skill and plugin `name` fields must stay plain kebab-case with no namespace prefix
+  (e.g. `boost`, not `jenreh-core/boost`) — both loaders silently skip prefixed names.
+
 ## Verifying discovery per agent
 
 After running `scripts/add-skills.sh` (or the Copier template's `include_skills` task):

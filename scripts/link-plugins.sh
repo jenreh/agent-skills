@@ -3,8 +3,13 @@
 #
 # Source of truth: the REAL skill folders live under each plugin:
 #     plugins/<plugin>/skills/<name>/SKILL.md
-# This is what Claude Code's marketplace installs (a plugin folder is copied
-# standalone, so its skills must be real files — never symlinks that escape it).
+# This is what a marketplace install copies standalone (a plugin folder is
+# copied on its own, so its skills must be real files — never symlinks that
+# escape it). The generated plugins/<plugin>/.claude-plugin/plugin.json is
+# read by Claude Code, the GitHub Copilot CLI, and VS Code alike — all three
+# check .claude-plugin/ as a fallback manifest location, so this one manifest
+# serves every tool (see docs/cross-agent-skills.md). Do not add a second,
+# Copilot-specific manifest — it would just duplicate this and drift.
 #
 # This script:
 #   * writes each plugin's .claude-plugin/plugin.json

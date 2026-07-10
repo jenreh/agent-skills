@@ -5,6 +5,15 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ## [Unreleased]
 
+### Changed
+
+- Documented that the `plugins/` marketplace layer (`.claude-plugin/plugin.json`,
+  `.claude-plugin/marketplace.json`) already works for GitHub Copilot CLI and VS Code's
+  agent plugins, not just Claude Code — both check `.claude-plugin/` as a fallback
+  manifest location, so no dual manifest is needed. Added `copilot plugin ...` install
+  instructions to the README alongside the existing `/plugin ...` Claude Code commands,
+  and a maintainer note in `docs/cross-agent-skills.md` about keeping it that way.
+
 ## [0.2.0] - 2026-07-02
 
 ### Changed

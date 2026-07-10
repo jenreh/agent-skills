@@ -52,10 +52,11 @@ See [docs/cross-agent-skills.md](docs/cross-agent-skills.md) for the full conven
 ### Per-agent native paths
 
 - **Claude Code** — `/plugin marketplace add gh:jenreh/agent-skills` then `/plugin install`
-  (see the [marketplace layer](#claude-code-marketplace-optional)), or just run
-  `add-skills.sh`.
+  (see the [plugin marketplace](#plugin-marketplace) below), or just run `add-skills.sh`.
 - **Codex** — run `add-skills.sh`; Codex scans `.agents/skills` and follows the symlink.
-- **GitHub Copilot** — run `add-skills.sh`, or drop skills into `.github/skills`.
+- **GitHub Copilot** — `copilot plugin marketplace add gh:jenreh/agent-skills` then
+  `copilot plugin install` (same marketplace layer, see below), or run `add-skills.sh`, or
+  drop skills into `.github/skills`.
 
 ### Copier templates
 
@@ -63,9 +64,16 @@ The [python-kit-template](https://github.com/jenreh/python-kit-template) and
 [project-kit-template](https://github.com/jenreh/project-kit-template) Copier templates
 wire these skills automatically when you answer `include_skills: true`.
 
-## Claude Code marketplace (optional)
+## Plugin marketplace
 
-For ad-hoc Claude-only projects, skills are also grouped into installable plugins:
+For ad-hoc projects, skills are also grouped into installable plugins under `plugins/` —
+usable from both **Claude Code** and **GitHub Copilot** (CLI + VS Code).
+The manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`) use the
+format shared by Claude Code, the GitHub Copilot CLI, and VS Code's agent plugins — both
+tools check `.claude-plugin/` as a fallback manifest location, so **one set of files
+serves both ecosystems** with no dual manifests needed.
+
+**Claude Code:**
 
 ```text
 /plugin marketplace add gh:jenreh/agent-skills
@@ -75,9 +83,28 @@ For ad-hoc Claude-only projects, skills are also grouped into installable plugin
 /plugin install jenreh-terraform@jenreh   # terraform-*
 ```
 
-Plugin updates are refresh + reinstall (`/plugin marketplace update`, then reinstall);
-plugin skills are namespaced, e.g. `jenreh-core:boost`. The plugins **symlink** back to the
-canonical `skills/` folders, so nothing is duplicated.
+**GitHub Copilot CLI** (and picked up automatically by VS Code's Agent Plugins view):
+
+```text
+copilot plugin marketplace add jenreh/agent-skills
+copilot plugin install jenreh-core@jenreh
+copilot plugin install jenreh-python@jenreh
+copilot plugin install jenreh-reflex@jenreh
+copilot plugin install jenreh-terraform@jenreh
+```
+
+**VS Code** also discovers plugins registered as a marketplace via the
+`chat.plugins.marketplaces` setting, or installed locally with `chat.pluginLocations`.
+
+> `jenreh-python` registers a Python LSP server (`pyright-langserver`) via `.lsp.json`.
+> Install it manually with `pip install pyright` — the plugin does not install it for you.
+
+Plugin updates are refresh + reinstall (`/plugin marketplace update` or
+`copilot plugin update --all`, then reinstall); plugin skills are namespaced, e.g.
+`jenreh-core:boost`. Each plugin's `skills/` folder holds real files (not symlinks) so the
+plugin directory is self-contained and can be vendored independently; the top-level
+`skills/` folder symlinks back into the plugins for the portable/subtree consumption path
+above.
 
 ## Develop
 

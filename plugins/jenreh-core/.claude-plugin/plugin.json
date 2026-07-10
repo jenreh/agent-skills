@@ -2,6 +2,7 @@
   "name": "jenreh-core",
   "description": "Cross-cutting agent skills (boost, commit-msg, create-readme, release, …).",
   "version": "0.1.0",
+  "repository": "https://github.com/jenreh/agent-skills",
   "author": { "name": "Jens Rehpöhler" },
   "license": "MIT"
 }

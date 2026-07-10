@@ -2,6 +2,7 @@
   "name": "jenreh-terraform",
   "description": "Terraform / infra skills (terraform-*).",
   "version": "0.1.0",
+  "repository": "https://github.com/jenreh/agent-skills",
   "author": { "name": "Jens Rehpöhler" },
   "license": "MIT"
 }
