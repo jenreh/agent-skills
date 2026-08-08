@@ -5,6 +5,8 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-08
+
 ### Added
 
 - Conformance with the vendor-neutral [Agent Plugins 1.0.0](https://agent-plugins.org)
@@ -20,6 +22,12 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ### Changed
 
+- Bumped all four marketplace plugins from `0.1.0` to `0.3.0` to match this repo's
+  release tag — their versions had never moved despite the skill churn in 0.2.0
+  (skills added, removed, and `appkit-mantine-reference` expanded). Also fixed
+  `jenreh-core` and `jenreh-python` descriptions in `marketplace.json` and
+  `scripts/link-plugins.sh`, which still named `skills-creator`, `skills-find`, and
+  `runic` after they were dropped.
 - Extended the Claude manifests with the spec metadata that does not collide with them:
   `plugin.json` gained `$schema`, `homepage`, `repository` and `keywords`; `.mcp.json`
   gained the required `$schema` and an explicit `"type": "stdio"` per server (Claude Code

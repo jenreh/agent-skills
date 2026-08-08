@@ -11,7 +11,7 @@ or Codex-only frontmatter, so the bytes are identical for every agent.
 ## What's here
 
 ```
-skills/<name>/SKILL.md   # 27 portable skills
+skills/<name>/SKILL.md   # 25 portable skills
 scripts/
   add-skills.sh          # vendor + wire into any repo (one command)
   validate_skills.py      # portable-core validator (run in CI)

@@ -12,16 +12,16 @@
     {
       "name": "jenreh-core",
       "source": "./jenreh-core",
-      "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, release, skills-creator, skills-find.",
-      "version": "0.1.0",
+      "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, plain-writing, release.",
+      "version": "0.3.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
     {
       "name": "jenreh-python",
       "source": "./jenreh-python",
-      "description": "Python archetype skills: python-coding, python-clean-code, docker-multi-stage, github-actions-cicd, runic, runic-migrate, runic-ogm.",
-      "version": "0.1.0",
+      "description": "Python archetype skills: python-coding, python-clean-code, docker-multi-stage, github-actions-cicd, runic-migrate, runic-ogm.",
+      "version": "0.3.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
@@ -29,7 +29,7 @@
       "name": "jenreh-reflex",
       "source": "./jenreh-reflex",
       "description": "reflex.dev / AppKit web skills: appkit-commons, appkit-mantine-reference, reflex-docs, reflex-state-and-architecture, reflex-testing-state.",
-      "version": "0.1.0",
+      "version": "0.3.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
