@@ -74,6 +74,51 @@ Despite the `.claude-plugin/` name, this layer is **not Claude-only**:
 - Skill and plugin `name` fields must stay plain kebab-case with no namespace prefix
   (e.g. `boost`, not `jenreh-core/boost`) — both loaders silently skip prefixed names.
 
+## Agent Plugins 1.0.0 conformance
+
+The plugins also target the vendor-neutral [Agent Plugins](https://agent-plugins.org)
+specification (Working Draft 1.0.0; TSC members include Amazon, Cursor, Microsoft,
+OpenAI and Vercel). It puts the manifest at `<plugin>/plugin.json` and the MCP config at
+`<plugin>/mcp.json` — both at the plugin **root**, and it forbids declaring MCP servers
+inline in `plugin.json` or loading them from an alternative path.
+
+Rather than maintaining a second copy of each file, the spec paths are **symlinks** into
+the existing Claude/Copilot locations, so there is exactly one file per plugin to edit:
+
+```
+plugins/jenreh-core/
+├── plugin.json  -> .claude-plugin/plugin.json   # Agent Plugins spec path
+├── mcp.json     -> .mcp.json                    # Agent Plugins spec path
+├── .claude-plugin/plugin.json                   # the real file
+├── .mcp.json                                    # the real file
+└── skills/<name>/SKILL.md
+```
+
+This is explicitly allowed: symlinks "MAY resolve to targets within the plugin root",
+and these relative links never leave it. `scripts/link-plugins.sh` (re)creates them with
+`ln -s`; nothing is ever duplicated.
+
+The two real files carry the spec metadata alongside the Claude fields, which do not
+collide:
+
+- `plugin.json` gained `$schema`, `homepage`, `repository` and `keywords`. Claude Code
+  accepts all four silently — verified with `claude plugin validate`.
+- `.mcp.json` gained the required `$schema` plus an explicit `"type": "stdio"` per
+  server. Claude Code has supported `type` on server entries all along, so this is a
+  no-op for it and a hard requirement for the spec.
+
+**One deliberate deviation:** `jenreh-python` and `jenreh-reflex` keep Claude Code's
+top-level `dependencies` field, which is not part of the portable core. The spec treats
+an unknown top-level field as non-fatal — "a client reports and ignores that field" —
+so this costs a warning rather than rejection. Moving it under `extensions` would make
+the manifest schema-clean but would silently break Claude Code's dependency
+auto-install, which is the worse trade. `scripts/validate_plugins.py` reports it as a
+known, accepted warning.
+
+Run `task validate` (or `python3 scripts/validate_plugins.py`) to check conformance;
+it mirrors both published schemas offline and also enforces that the spec paths and the
+Claude files really are the same inode, so they cannot drift apart.
+
 ## Verifying discovery per agent
 
 After running `scripts/add-skills.sh` (or the Copier template's `include_skills` task):

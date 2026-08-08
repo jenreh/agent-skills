@@ -5,14 +5,45 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ## [Unreleased]
 
+### Added
+
+- Conformance with the vendor-neutral [Agent Plugins 1.0.0](https://agent-plugins.org)
+  spec. The spec paths it requires at each plugin root are `ln -s` symlinks onto the
+  existing Claude files, so there is still exactly one file per plugin to maintain:
+  `plugins/<p>/plugin.json -> .claude-plugin/plugin.json` and
+  `plugins/<p>/mcp.json -> .mcp.json`. The spec permits this — symlinks may resolve to
+  targets inside the plugin root — and nothing is duplicated.
+- `scripts/validate_plugins.py`, an offline mirror of the two published schemas, wired
+  into `task validate` / `task validate:plugins` and the CI workflow. Beyond the schemas
+  it enforces that each spec path and its Claude counterpart are the same inode, so the
+  two views cannot drift.
+
 ### Changed
 
+- Extended the Claude manifests with the spec metadata that does not collide with them:
+  `plugin.json` gained `$schema`, `homepage`, `repository` and `keywords`; `.mcp.json`
+  gained the required `$schema` and an explicit `"type": "stdio"` per server (Claude Code
+  already accepted `type`). `claude plugin validate` still passes on all four plugins.
+  `jenreh-python` / `jenreh-reflex` keep Claude Code's top-level `dependencies`, which the
+  spec reports and ignores rather than rejecting — moving it under `extensions` would
+  break Claude Code's dependency auto-install.
+- `scripts/link-plugins.sh` now generates the full manifest (it had drifted from the
+  hand-edited `repository` / `dependencies` fields and would have clobbered them) and
+  creates the spec symlinks.
 - Documented that the `plugins/` marketplace layer (`.claude-plugin/plugin.json`,
   `.claude-plugin/marketplace.json`) already works for GitHub Copilot CLI and VS Code's
   agent plugins, not just Claude Code — both check `.claude-plugin/` as a fallback
   manifest location, so no dual manifest is needed. Added `copilot plugin ...` install
   instructions to the README alongside the existing `/plugin ...` Claude Code commands,
   and a maintainer note in `docs/cross-agent-skills.md` about keeping it that way.
+
+### Fixed
+
+- `reflex-testing-state/SKILL.md` frontmatter: an unindented continuation line ended the
+  folded `description:` block early, so the YAML failed to parse and the skill loaded with
+  all metadata silently dropped.
+- `.claude-plugin/marketplace.json`: plugin `source` values now use the `./<name>` form
+  the marketplace schema requires; all four entries previously failed validation.
 
 ## [0.2.0] - 2026-07-02
 

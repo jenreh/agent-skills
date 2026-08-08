@@ -15,9 +15,10 @@ skills/<name>/SKILL.md   # 27 portable skills
 scripts/
   add-skills.sh          # vendor + wire into any repo (one command)
   validate_skills.py      # portable-core validator (run in CI)
+  validate_plugins.py     # Agent Plugins 1.0.0 conformance validator
 Taskfile.yml             # task validate | task list
 docs/cross-agent-skills.md
-.claude-plugin/, plugins/  # optional Claude Code marketplace layer
+.claude-plugin/, plugins/  # optional marketplace / Agent Plugins layer
 ```
 
 Run `task list` to see every skill and its trigger description, or `task validate` to check
@@ -73,6 +74,19 @@ format shared by Claude Code, the GitHub Copilot CLI, and VS Code's agent plugin
 tools check `.claude-plugin/` as a fallback manifest location, so **one set of files
 serves both ecosystems** with no dual manifests needed.
 
+The same plugins also conform to the vendor-neutral
+[Agent Plugins 1.0.0](https://agent-plugins.org) spec, which expects `plugin.json` and
+`mcp.json` at the plugin root. Those spec paths are `ln -s` symlinks onto the Claude
+files — one file per plugin, no copies, no drift:
+
+```
+plugins/jenreh-core/plugin.json -> .claude-plugin/plugin.json
+plugins/jenreh-core/mcp.json    -> .mcp.json
+```
+
+See [docs/cross-agent-skills.md](docs/cross-agent-skills.md#agent-plugins-100-conformance)
+for what each file carries and the one accepted deviation.
+
 **Claude Code:**
 
 ```text
@@ -109,8 +123,10 @@ above.
 ## Develop
 
 ```bash
-task validate   # enforce portable core (also runs in CI on every PR)
-task list       # list skills + descriptions
+task validate           # portable core + Agent Plugins conformance (runs in CI)
+task validate:skills    # portable core only
+task validate:plugins   # Agent Plugins 1.0.0 only
+task list               # list skills + descriptions
 ```
 
 The bundled validator is self-contained. The hosted validators at
