@@ -28,7 +28,7 @@
       "name": "jenreh-reflex",
       "source": "./plugins/jenreh-reflex",
       "description": "reflex.dev / AppKit web skills: appkit-commons, appkit-mantine-reference, reflex-docs, reflex-state-and-architecture, reflex-testing-state.",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
