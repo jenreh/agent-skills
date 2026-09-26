@@ -11,8 +11,8 @@
     {
       "name": "jenreh-core",
       "source": "./plugins/jenreh-core",
-      "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, plain-writing, release.",
-      "version": "0.3.0",
+      "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, mein-schreibstil, plain-writing, release.",
+      "version": "0.3.2",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
