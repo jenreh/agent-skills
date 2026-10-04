@@ -11,7 +11,7 @@ or Codex-only frontmatter, so the bytes are identical for every agent.
 ## What's here
 
 ```
-skills/<name>/SKILL.md   # 25 portable skills
+skills/<name>/SKILL.md   # 30 portable skills
 scripts/
   add-skills.sh          # vendor + wire into any repo (one command)
   validate_skills.py      # portable-core validator (run in CI)
@@ -63,7 +63,10 @@ See [docs/cross-agent-skills.md](docs/cross-agent-skills.md) for the full conven
 
 The [python-kit-template](https://github.com/jenreh/python-kit-template) and
 [project-kit-template](https://github.com/jenreh/project-kit-template) Copier templates
-wire these skills automatically when you answer `include_skills: true`.
+wire these skills automatically when you answer `include_skills: true`. Since the whole repo
+is vendored, new skills (e.g. the `jenreh-design` set) arrive with the next
+`git subtree pull`; project-kit-template also lists `ui-ux-pro-max` and `design-system` in
+the generated AGENTS.md (reflex projects) and pre-approves them in `.claude/settings.json`.
 
 ## Plugin marketplace
 
@@ -92,6 +95,7 @@ for what each file carries and the one accepted deviation.
 ```text
 /plugin marketplace add gh:jenreh/agent-skills
 /plugin install jenreh-core@jenreh        # boost, commit-msg, create-readme, …
+/plugin install jenreh-design@jenreh      # brand, design-system, ui-ux-pro-max, …
 /plugin install jenreh-python@jenreh      # python-coding, runic, docker, …
 /plugin install jenreh-reflex@jenreh      # appkit + reflex skills
 /plugin install jenreh-terraform@jenreh   # terraform-*
@@ -102,6 +106,7 @@ for what each file carries and the one accepted deviation.
 ```text
 copilot plugin marketplace add jenreh/agent-skills
 copilot plugin install jenreh-core@jenreh
+copilot plugin install jenreh-design@jenreh
 copilot plugin install jenreh-python@jenreh
 copilot plugin install jenreh-reflex@jenreh
 copilot plugin install jenreh-terraform@jenreh

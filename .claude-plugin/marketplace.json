@@ -12,7 +12,15 @@
       "name": "jenreh-core",
       "source": "./plugins/jenreh-core",
       "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, mein-schreibstil, plain-writing, release.",
-      "version": "0.3.2",
+      "version": "0.3.3",
+      "author": { "name": "Jens Rehpöhler" },
+      "license": "MIT"
+    },
+    {
+      "name": "jenreh-design",
+      "source": "./plugins/jenreh-design",
+      "description": "Design skills: brand, design, design-system, ui-styling, ui-ux-pro-max.",
+      "version": "0.1.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
