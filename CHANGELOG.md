@@ -5,6 +5,11 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ## [Unreleased]
 
+### Added
+
+- `jenreh-python` 0.4.0: `code-review-high` skill, a high-effort, recall-oriented review of
+  the current diff.
+
 ## [0.3.0] - 2026-08-08
 
 ### Added

@@ -35,7 +35,7 @@ VERSION="0.3.0"
 
 desc_jenreh_core="Cross-cutting agent skills (boost, commit-msg, create-readme, release, …)."
 desc_jenreh_design="Design skills: brand, design, design-system, ui-styling, ui-ux-pro-max."
-desc_jenreh_python="Python archetype skills (python-coding, runic-ogm, docker-multi-stage, …)."
+desc_jenreh_python="Python archetype skills (python-coding, runic-ogm, code-review-high, docker-multi-stage, …)."
 desc_jenreh_reflex="reflex.dev / AppKit web skills (appkit-*, reflex-*)."
 desc_jenreh_terraform="Terraform / infra skills (terraform-*)."
 
