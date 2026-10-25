@@ -9,6 +9,29 @@ All notable changes to this repo are documented here. Format loosely follows
 
 - `jenreh-python` 0.4.0: `code-review-high` skill, a high-effort, recall-oriented review of
   the current diff.
+- `jenreh-reflex` 0.3.3: `appkit-mantine-reference` covers Mantine 9.6 and 9.7.3 (Lightbox,
+  ActionBar, Gauge/Waffle/Matrix/Candlestick charts, chart reference areas and dots, Toolbar,
+  Tour, Notifications, JsonViewer, resizable AppShell) on Reflex 0.10. The per-release notes
+  left `SKILL.md` and now live in the reference file of each component, so the skill loads
+  about 100 fewer lines. New rules: undeclared props silently become CSS (use
+  `custom_attrs`), Reflex 0.10 has no auto setters, JS function props go in `rx.Var`.
+  Props the wrappers now declare (TimeGrid `value`/`on_change`, Tree `on_select`/`on_check`,
+  Table/CloseButton `variant`, HoverCard/Popover positioning and transitions, picker
+  `presets`, MaskInput options, AngleSlider `format_label`, `light_hidden`/`dark_hidden`)
+  replace the earlier `custom_attrs` workarounds.
+
+### Fixed
+
+- `appkit-mantine-reference`: the RichTextEditor example used `on_change` and `toolbar=`
+  (the wrapper takes `on_update` and `toolbar_config=`); the theme reference documented a
+  non-existent `mn.virtual_color`; `alloq_commons` number helpers are now marked as
+  alloq-only. An audit against the wrapper source fixed about 30 sections that listed props
+  the wrappers do not declare (Marquee, Scroller, Collapse, OverflowList, Spoiler,
+  RollingNumber, MaskInput, MarkdownPreview, Tree, TimeGrid, Popover, HoverCard, ...), and
+  the color section now uses Mantine's 0–9 shades instead of Radix 1–12.
+- `appkit-commons`: documents `service_registry().snapshot()` / `restore()` for tests.
+- `appkit-commons`: `service_registry` is imported from `appkit_commons.registry`, not the
+  package root.
 
 ## [0.3.0] - 2026-08-08
 
