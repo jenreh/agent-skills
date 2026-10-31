@@ -11,8 +11,8 @@
     {
       "name": "jenreh-core",
       "source": "./plugins/jenreh-core",
-      "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, mein-schreibstil, plain-writing, release.",
-      "version": "0.3.3",
+      "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, mein-schreibstil, plain-writing, release, task-observer.",
+      "version": "0.4.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
@@ -36,7 +36,7 @@
       "name": "jenreh-reflex",
       "source": "./plugins/jenreh-reflex",
       "description": "reflex.dev / AppKit web skills: appkit-commons, appkit-mantine-reference, appkit-user, reflex-docs, reflex-state-and-architecture, reflex-testing-state.",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },

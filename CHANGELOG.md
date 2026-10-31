@@ -7,6 +7,13 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ### Added
 
+- `jenreh-core` 0.4.0: `task-observer` skill, which logs skill-improvement opportunities during
+  multi-step tasks and turns them into skill updates in a weekly review.
+- `jenreh-reflex` 0.3.4: skills updated for Reflex 0.10.1 (`reflex>=0.10.1`).
+  `appkit-user` documents `trusted_proxy_hops` for `router.session.client_ip` behind a proxy and
+  repeated cookie headers, `appkit-commons` adds sticky-session and `REFLEX_BACKEND_START_METHOD`
+  deployment rules, and `reflex-state-and-architecture` covers `rx.form.FormData` and sequence
+  `on_load`.
 - `jenreh-python` 0.4.0: `code-review-high` skill, a high-effort, recall-oriented review of
   the current diff.
 - `jenreh-reflex` 0.3.3: `appkit-mantine-reference` covers Mantine 9.6 and 9.7.3 (Lightbox,

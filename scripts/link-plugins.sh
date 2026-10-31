@@ -33,7 +33,7 @@ PLUGIN_SCHEMA="https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 REPO_URL="https://github.com/jenreh/agent-skills"
 VERSION="0.3.0"
 
-desc_jenreh_core="Cross-cutting agent skills (boost, commit-msg, create-readme, release, …)."
+desc_jenreh_core="Cross-cutting agent skills (boost, commit-msg, create-readme, release, task-observer, …)."
 desc_jenreh_design="Design skills: brand, design, design-system, ui-styling, ui-ux-pro-max."
 desc_jenreh_python="Python archetype skills (python-coding, runic-ogm, code-review-high, docker-multi-stage, …)."
 desc_jenreh_reflex="reflex.dev / AppKit web skills (appkit-*, reflex-*)."

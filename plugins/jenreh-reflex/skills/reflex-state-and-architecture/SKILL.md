@@ -169,6 +169,9 @@ async def on_load(self) -> AsyncGenerator:
         yield
 ```
 
+`on_load` accepts any sequence of events (list or tuple). Reflex 0.10.1 cancels unfinished
+page-load chains when the client disconnects; independent background events keep running.
+
 ### Cache invalidation
 
 ```python
@@ -484,6 +487,10 @@ Use a **dedicated `rx.State` subclass** (not mixed into the main feature state) 
 - Async DB uniqueness checks (`validate_email_unique`) — attach to `on_blur`, **not** `on_change` (avoids a DB hit on every keystroke).
 - Call `initialize()` from the parent state's `open_add_modal` / `open_edit_modal`, returning `[ValidationState.initialize(...)]`.
 - Call `validate_all()` at the top of the submit handler to surface all errors before bailing out.
+- For a native `rx.form` with repeated field names (checkbox groups, multi-selects), annotate the
+  `on_submit` handler as `form_data: rx.form.FormData[str, str]` and read `form_data.getlist("name")`
+  (Reflex 0.10.1). A plain `dict` annotation keeps only the last value per name. In a `TypedDict`,
+  `list[str]` collects every value and `bool` is `False` for an unchecked box.
 
 ### Pattern summary
 
