@@ -7,6 +7,9 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ### Added
 
+- `jenreh-reflex` 0.3.6: `appkit-commons` 2.2 adds the ASGI middleware section
+  (`ForceHTTPSMiddleware`, `SecurityHeadersMiddleware`). `appkit-user` 1.1 describes the login
+  throttle as stored in `auth_login_throttle`, shared across workers and restarts.
 - `jenreh-reflex` 0.3.5: `appkit-user` covers the login throttle (`login_rate_limit`,
   `get_login_throttle()`) and the forced password reset on login.
 - `jenreh-core` 0.4.0: `task-observer` skill, which logs skill-improvement opportunities during
