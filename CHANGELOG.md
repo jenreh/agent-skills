@@ -7,6 +7,8 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ### Added
 
+- `jenreh-reflex` 0.3.5: `appkit-user` covers the login throttle (`login_rate_limit`,
+  `get_login_throttle()`) and the forced password reset on login.
 - `jenreh-core` 0.4.0: `task-observer` skill, which logs skill-improvement opportunities during
   multi-step tasks and turns them into skill updates in a weekly review.
 - `jenreh-reflex` 0.3.4: skills updated for Reflex 0.10.1 (`reflex>=0.10.1`).
