@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "jenreh-graphdb",
+  "description": "Graph database skills (runic-ogm, runic-migrate).",
+  "version": "0.1.0",
+  "author": { "name": "Jens Rehpöhler" },
+  "homepage": "https://github.com/jenreh/agent-skills",
+  "repository": "https://github.com/jenreh/agent-skills",
+  "license": "MIT",
+  "keywords": ["agent-skills", "claude-code", "graph", "cypher", "python"],
+  "dependencies": [{ "name": "jenreh-python" }]
+}

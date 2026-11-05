@@ -96,7 +96,8 @@ for what each file carries and the one accepted deviation.
 /plugin marketplace add gh:jenreh/agent-skills
 /plugin install jenreh-core@jenreh        # boost, commit-msg, create-readme, …
 /plugin install jenreh-design@jenreh      # brand, design-system, ui-ux-pro-max, …
-/plugin install jenreh-python@jenreh      # python-coding, runic, docker, …
+/plugin install jenreh-graphdb@jenreh     # runic-ogm, runic-migrate
+/plugin install jenreh-python@jenreh      # python-coding, appkit-commons, docker, …
 /plugin install jenreh-reflex@jenreh      # appkit + reflex skills
 /plugin install jenreh-terraform@jenreh   # terraform-*
 ```
@@ -107,6 +108,7 @@ for what each file carries and the one accepted deviation.
 copilot plugin marketplace add jenreh/agent-skills
 copilot plugin install jenreh-core@jenreh
 copilot plugin install jenreh-design@jenreh
+copilot plugin install jenreh-graphdb@jenreh
 copilot plugin install jenreh-python@jenreh
 copilot plugin install jenreh-reflex@jenreh
 copilot plugin install jenreh-terraform@jenreh

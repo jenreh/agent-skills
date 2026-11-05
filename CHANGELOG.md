@@ -7,6 +7,9 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ### Added
 
+- `jenreh-design` 0.2.0: `hallmark` skill, vendored from
+  [Nutlope/hallmark](https://github.com/Nutlope/hallmark) (MIT, license kept in the skill folder).
+- `jenreh-graphdb` 0.1.0: new plugin for graph database skills.
 - `jenreh-reflex` 0.3.6: `appkit-commons` 2.2 adds the ASGI middleware section
   (`ForceHTTPSMiddleware`, `SecurityHeadersMiddleware`). `appkit-user` 1.1 describes the login
   throttle as stored in `auth_login_throttle`, shared across workers and restarts.
@@ -44,6 +47,12 @@ All notable changes to this repo are documented here. Format loosely follows
 - `appkit-commons`: documents `service_registry().snapshot()` / `restore()` for tests.
 - `appkit-commons`: `service_registry` is imported from `appkit_commons.registry`, not the
   package root.
+
+### Changed
+
+- `jenreh-graphdb` 0.1.0: `runic-ogm` and `runic-migrate` moved here from `jenreh-python`.
+- `jenreh-python` 0.5.0: `appkit-commons` moved here from `jenreh-reflex` (0.4.0).
+  `jenreh-reflex` already depends on `jenreh-python`.
 
 ## [0.3.0] - 2026-08-08
 
