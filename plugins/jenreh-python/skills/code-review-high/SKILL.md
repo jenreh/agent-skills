@@ -7,6 +7,9 @@ description: >
   agents when the tool supports them, dedup only, at most 10 findings. Works in Claude Code, Codex and GitHub Copilot. Use when the
   user asks for a thorough review, "review my changes", or "review before commit".
 license: MIT
+allowed-tools: Bash(git diff *) Bash(git log *) Bash(git status *) Bash(git show *) Bash(git rev-parse *) Bash(gh pr diff *) Bash(gh pr view *)
+disallowed-tools: Edit Write NotebookEdit
+argument-hint: "[PR number | branch | path]"
 ---
 
 `high effort → 8 angles (parallel agents if available) → dedup (no verify) → ≤10 findings`

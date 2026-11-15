@@ -1,0 +1,8 @@
+interface:
+  display_name: "Pydantic AI Agents"
+  short_description: "Build Pydantic AI agents with tools, output, and tests"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

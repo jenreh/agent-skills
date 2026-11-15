@@ -4,18 +4,24 @@ Canonical, portable [agent skills](https://agentskills.io) shared across **Claud
 **Codex**, and **GitHub Copilot** — a single source of truth, vendored into projects via
 `git subtree` and wired so every agent resolves the same physical files.
 
-Each skill is a `skills/<name>/SKILL.md` folder using only the portable core (name +
-description + markdown, with optional `scripts/`, `references/`, `assets/`). No Claude-only
-or Codex-only frontmatter, so the bytes are identical for every agent.
+Each skill is a `skills/<name>/SKILL.md` folder (name + description + markdown, with
+optional `scripts/`, `references/`, `assets/`). Skills are tuned for Claude Code
+(pre-approved tools, argument hints, pre-filled context, `${CLAUDE_SKILL_DIR}` script
+paths) and stay usable in Codex and Copilot, which ignore the Claude-only keys. Codex and
+ChatGPT read extra metadata from each skill's `agents/openai.yaml`.
 
 ## What's here
 
 ```
-skills/<name>/SKILL.md   # 30 portable skills
+skills/<name>/SKILL.md   # 48 portable skills (symlinks into plugins/)
 scripts/
   add-skills.sh          # vendor + wire into any repo (one command)
   validate_skills.py      # portable-core validator (run in CI)
   validate_plugins.py     # Agent Plugins 1.0.0 conformance validator
+  link-plugins.sh         # regenerate manifests, links, and the Codex layer
+  codex_metadata.py       # icons, agents/openai.yaml stubs, Codex marketplace
+assets/jenreh.svg        # shared icon for Codex / ChatGPT
+.agents/plugins/marketplace.json  # Codex marketplace (generated)
 Taskfile.yml             # task validate | task list
 docs/cross-agent-skills.md
 .claude-plugin/, plugins/  # optional marketplace / Agent Plugins layer
@@ -55,6 +61,11 @@ See [docs/cross-agent-skills.md](docs/cross-agent-skills.md) for the full conven
 - **Claude Code** — `/plugin marketplace add gh:jenreh/agent-skills` then `/plugin install`
   (see the [plugin marketplace](#plugin-marketplace) below), or just run `add-skills.sh`.
 - **Codex** — run `add-skills.sh`; Codex scans `.agents/skills` and follows the symlink.
+  Or add the plugin marketplace with `codex plugin marketplace add jenreh/agent-skills`
+  and install plugins from the ChatGPT desktop app (Codex reads
+  `.agents/plugins/marketplace.json`, the plugin cards from `extensions.com.openai` in
+  each `plugin.json`, and skill names, icons, and invocation policy from each skill's
+  `agents/openai.yaml`).
 - **GitHub Copilot** — `copilot plugin marketplace add gh:jenreh/agent-skills` then
   `copilot plugin install` (same marketplace layer, see below), or run `add-skills.sh`, or
   drop skills into `.github/skills`.
@@ -94,24 +105,28 @@ for what each file carries and the one accepted deviation.
 
 ```text
 /plugin marketplace add gh:jenreh/agent-skills
-/plugin install jenreh-core@jenreh        # boost, commit-msg, create-readme, …
-/plugin install jenreh-design@jenreh      # brand, design-system, ui-ux-pro-max, …
+/plugin install jenreh-agents@jenreh      # pydantic-ai agents, deepeval, tracing
+/plugin install jenreh-core@jenreh        # boost, brainstorming, deep-research, …
+/plugin install jenreh-design@jenreh      # brand, design-system, frontend-design, …
 /plugin install jenreh-graphdb@jenreh     # runic-ogm, runic-migrate
-/plugin install jenreh-python@jenreh      # python-coding, appkit-commons, docker, …
+/plugin install jenreh-python@jenreh      # python-coding, code-cleanup, debugging, TDD, …
 /plugin install jenreh-reflex@jenreh      # appkit + reflex skills
 /plugin install jenreh-terraform@jenreh   # terraform-*
+/plugin install jenreh-tools@jenreh       # commit-msg, release, drawio, mermaid, …
 ```
 
 **GitHub Copilot CLI** (and picked up automatically by VS Code's Agent Plugins view):
 
 ```text
 copilot plugin marketplace add jenreh/agent-skills
+copilot plugin install jenreh-agents@jenreh
 copilot plugin install jenreh-core@jenreh
 copilot plugin install jenreh-design@jenreh
 copilot plugin install jenreh-graphdb@jenreh
 copilot plugin install jenreh-python@jenreh
 copilot plugin install jenreh-reflex@jenreh
 copilot plugin install jenreh-terraform@jenreh
+copilot plugin install jenreh-tools@jenreh
 ```
 
 **VS Code** also discovers plugins registered as a marketplace via the
@@ -130,8 +145,8 @@ above.
 ## Develop
 
 ```bash
-task validate           # portable core + Agent Plugins conformance (runs in CI)
-task validate:skills    # portable core only
+task validate           # skill rules + Agent Plugins conformance (runs in CI)
+task validate:skills    # skill rules only
 task validate:plugins   # Agent Plugins 1.0.0 only
 task list               # list skills + descriptions
 ```

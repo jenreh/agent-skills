@@ -1,13 +1,16 @@
 ---
 name: hallmark
-description: "Design skill for websites and new pages that look designed, not generated. Use when the user asks to build or design something new, or names Hallmark. Never use it on an existing design unless the user names Hallmark, as in `/hallmark redesign <path>`."
+description: "Design skill for websites and new pages that look designed, not generated. Use when the user asks to build or design something new, or names Hallmark. Never use it on an existing design unless the user names Hallmark, as in `/hallmark redesign [path]`."
 argument-hint: "<prompt> | redesign <path> | audit <path>"
 version: 2.0.0
 metadata:
   opencode/slash: "true"
+allowed-tools: Bash(node ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
 
 # Hallmark
+
+> Skill directory: `${CLAUDE_SKILL_DIR}` (the folder that contains this SKILL.md; use that folder if your agent shows the placeholder unexpanded). Bundled script paths below are relative to it.
 
 Makes the UIs a coding assistant generates look made, not generated: a hard floor against the defaults every model was trained into, a dealt direction so consecutive builds do not converge, one idea per screen. Above the floor the page is yours: you are a capable designer.
 
@@ -32,7 +35,7 @@ Binds every output in every harness, none of it waivable, even when nothing else
 13. About 80 words on any one screen; the hero's text is the headline, one sentence and its actions. (58)
 14. The container is capped and centred: at 1920 the gutters grow, the measure and the grids do not. (44d)
 15. The first non-empty line of the CSS source is the Hallmark stamp, then the critique line, then any waivers. (20)
-16. If Node is available, run `node <skill-dir>/scripts/sloplint.mjs <output> --render` before handing back. Fix every `FAIL`; fix or waive every `REFLEX`.
+16. If Node is available, run `node ${CLAUDE_SKILL_DIR}/scripts/sloplint.mjs <output> --render` before handing back. Fix every `FAIL`; fix or waive every `REFLEX`.
 
 Above the Floor, a **Reflex** gate is a default a model falls into, waivable on the record with a real reason, and a **Finish** check is craft detail, answered, never blocking ([`references/gates.md`](references/gates.md) § 1 and § 2).
 
@@ -77,7 +80,7 @@ Skipped fields are opt-outs: infer them, state the inferences in one line at the
 
 Then design the page: its shape, how it opens, each section's content and composition, the nav, the footer, what carries the hero. Starting points: 21 shapes in [`references/macrostructures.md`](references/macrostructures.md) (load only the file you pick); compositions, navs and footers in `layout.md`.
 
-**The draw.** On a theme build, once Step 3 has picked the theme, run `node <skill-dir>/scripts/theme.mjs draw --material photo|product|words --job <job> --theme <slug> [--log .hallmark/log.json]`. Clear of the log and the theme's picture, it deals a shape, the hero posture, the nav, the footer, the first section, where the action sits, two compositions to leave out and what the hero leads with. Take it unless the material refuses a pick, and name any swap in the Picks block: one prompt in one theme, built twice, makes two pages. **Mirror test:** would a neighbouring prompt in the same category get this exact combination? If yes, change one decision and say which.
+**The draw.** On a theme build, once Step 3 has picked the theme, run `node ${CLAUDE_SKILL_DIR}/scripts/theme.mjs draw --material photo|product|words --job <job> --theme <slug> [--log .hallmark/log.json]`. Clear of the log and the theme's picture, it deals a shape, the hero posture, the nav, the footer, the first section, where the action sits, two compositions to leave out and what the hero leads with. Take it unless the material refuses a pick, and name any swap in the Picks block: one prompt in one theme, built twice, makes two pages. **Mirror test:** would a neighbouring prompt in the same category get this exact combination? If yes, change one decision and say which.
 
 **Signature.** The one thing a visitor would remember: the prompt's strongest real thing shown at its best (the photograph that is the place, the product doing its one job, a price set huge because it is the offer, a control to try). Make it in the theme's material (on a custom run, in its own look), show it on the first screen, name it in the Picks block and the stamp. A number drawn as marks is a device, not a signature (82).
 
@@ -92,7 +95,7 @@ The first match wins.
 3. **Everything else deals a theme:**
 
 ```
-node <skill-dir>/scripts/theme.mjs deal --genre <genre> --prompt "<the prompt>" [--log .hallmark/log.json]
+node ${CLAUDE_SKILL_DIR}/scripts/theme.mjs deal --genre <genre> --prompt "<the prompt>" [--log .hallmark/log.json]
 ```
 
 It deals three themes that fit the prompt and clear the log. Look at the three pictures, pick the one whose material can carry the prompt (motion, photographs, code), say which and why, and load only `references/themes/<slug>.md`. Re-deal only when asked (`--reroll 1`). No Node: pick from `references/themes/index.json` by hand and stamp `deal: manual`.
@@ -128,20 +131,20 @@ A custom run's rows are in `direction.md`. Then one quiet line, skipped in compo
 
 ### 6. Build
 
-- **Start from the scaffold.** `node <skill-dir>/scripts/theme.mjs scaffold <slug>` (with the deal's `--dealt`; `--custom` on a custom run) writes `tokens.css` (the theme's tokens and the shared scale) and `base.css` (what the Floor already decided) beside the project's stylesheet, and prints the stamp skeleton, the two imports and the slot script. Write only the page.
+- **Start from the scaffold.** `node ${CLAUDE_SKILL_DIR}/scripts/theme.mjs scaffold <slug>` (with the deal's `--dealt`; `--custom` on a custom run) writes `tokens.css` (the theme's tokens and the shared scale) and `base.css` (what the Floor already decided) beside the project's stylesheet, and prints the stamp skeleton, the two imports and the slot script. Write only the page.
 - **Read [`references/patterns.md`](references/patterns.md) once:** controls in all eight states, a slot, a missing fact, a form that posts nowhere yet, one reveal, figures that compare. Take their shape, never their copy.
-- **Hero first.** Write the nav and the hero, nothing below them yet, run `node <skill-dir>/scripts/sloplint.mjs <file> --render --stage hero`, then the hero review in fresh context (`gates.md` § 6). Build the sections once the hero ships; photo credits and page-wide checks wait for the page.
+- **Hero first.** Write the nav and the hero, nothing below them yet, run `node ${CLAUDE_SKILL_DIR}/scripts/sloplint.mjs <file> --render --stage hero`, then the hero review in fresh context (`gates.md` § 6). Build the sections once the hero ships; photo credits and page-wide checks wait for the page.
 - **One idea per screen, set big.** Hero: a headline of seven words or fewer (50 characters), one sentence of twelve words or fewer, one or two actions. Six to nine sections, hero and footer included (five on a thin prompt), 450 visible words at most, each a piece of the category's own content in a composition with mass (`layout.md` § 4 and § 5). The hero is the first screen and only the first screen, its posture taken from the job (`layout.md` § 6). Fullness comes from scale and pictures, never from more words (77 to 79).
-- **Show, do not describe** (`imagery.md`). The page shows the real thing: the user's pictures, screenshots of the real product taken with `scripts/capture.mjs` whenever it can be reached, the product built at full fidelity only when it cannot, or library photographs (`node <skill-dir>/scripts/theme.mjs photos "<subject>" --theme <slug>`), big, in the theme's treatment, in slots the user's files replace, each library photo credited in the footer. Pictures take at most a third of the page below the hero, never two photograph-led sections in a row, and the theme's Range carries the rest (83). Never a stock-site URL, a drawn illustration (80), an empty wash (81), a row of counting marks (82) or an invented figure.
+- **Show, do not describe** (`imagery.md`). The page shows the real thing: the user's pictures, screenshots of the real product taken with `scripts/capture.mjs` whenever it can be reached, the product built at full fidelity only when it cannot, or library photographs (`node ${CLAUDE_SKILL_DIR}/scripts/theme.mjs photos "<subject>" --theme <slug>`), big, in the theme's treatment, in slots the user's files replace, each library photo credited in the footer. Pictures take at most a third of the page below the hero, never two photograph-led sections in a row, and the theme's Range carries the rest (83). Never a stock-site URL, a drawn illustration (80), an empty wash (81), a row of counting marks (82) or an invented figure.
 - **Page invariants** (F15): one primary button style, one container width, one column gap below the hero, one radius per nesting level, never more centred heading groups than left-aligned ones.
 - **Type and motion** (`craft.md` § 1 and § 5). The theme's faces, two families at most (three with one outlier role); body 16px or more; heads one weight and one colour (38iii); labels never mono unless mono is the material (64). Eight states on every control; `transform` and `opacity` only; one reveal at most, none where the theme keeps still, visible by default.
 - **Stamp.** Line 1 of CSS is the scaffold's stamp skeleton with every field filled, then the critique line (`gates.md` § 3), then any `waive` and `answered` lines, all within the first 40 lines.
 - **Existing stylesheets are append-only:** the imports go right after the last `@import`, never below a rule or a `@tailwind` directive; reuse the project's token names ([`references/export-formats.md`](references/export-formats.md)).
-- **Log.** `node <skill-dir>/scripts/theme.mjs log --entry '<json>'` puts the build atop `.hallmark/log.json` with the fields rotation reads (`shape`, `theme`, `axes`, `hero`, `nav`, `footer`, `imagery`, `photos`, `entry`, `fingerprint`, `sections`, `signature`, `waived`, `prompt`) and names any you left out.
+- **Log.** `node ${CLAUDE_SKILL_DIR}/scripts/theme.mjs log --entry '<json>'` puts the build atop `.hallmark/log.json` with the fields rotation reads (`shape`, `theme`, `axes`, `hero`, `nav`, `footer`, `imagery`, `photos`, `entry`, `fingerprint`, `sections`, `signature`, `waived`, `prompt`) and names any you left out.
 
 ### 7. Sweep
 
-1. `node <skill-dir>/scripts/sloplint.mjs <files> --genre <genre> --render` (`--scope component` or `--scope app` where it applies; in a framework project, `--url http://localhost:<port>/<route>` with the dev server running). Fix every FAIL and re-run until clean. The render tier writes the screenshots; never drive a browser by hand.
+1. `node ${CLAUDE_SKILL_DIR}/scripts/sloplint.mjs <files> --genre <genre> --render` (`--scope component` or `--scope app` where it applies; in a framework project, `--url http://localhost:<port>/<route>` with the dev server running). Fix every FAIL and re-run until clean. The render tier writes the screenshots; never drive a browser by hand.
 2. Load [`references/gates.md`](references/gates.md) § 5 and walk the J and R/J gates. Confirm or dismiss every WARN. Fix every open Floor finding; fix or waive every Reflex one; answer every Finish one.
 3. The finish review in fresh context (`gates.md` § 6; the reviewer reads its prompt, you never open `review-*.md`): act on its first word (`recapture`, `rebuild`, `fix`, `ship`) and score the fixes yourself.
 4. Close with the material ask: every slot, its size and what belongs there, then the one piece of material that would most improve the page.

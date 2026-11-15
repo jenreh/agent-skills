@@ -5,6 +5,7 @@ description: >
   computed vars, substates, and mocked external dependencies. Use when the user asks to
   write, scaffold, or review tests for a Reflex State class. Do NOT use for Playwright
   integration tests or UI component rendering tests.
+argument-hint: "[state class or file]"
 ---
 
 # Testing Reflex State

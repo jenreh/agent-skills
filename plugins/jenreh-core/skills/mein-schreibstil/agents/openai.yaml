@@ -1,0 +1,8 @@
+interface:
+  display_name: "Mein Schreibstil"
+  short_description: "Texte im persönlichen Stil für Entscheider schreiben"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

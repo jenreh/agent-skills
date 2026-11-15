@@ -1,6 +1,8 @@
 interface:
   display_name: Hallmark
   short_description: Design skill. Pages that look made, not generated.
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
   default_prompts:
     - "$hallmark a landing page for <product>"
     - "$hallmark a pricing page for <product>, custom"

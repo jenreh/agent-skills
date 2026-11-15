@@ -2,13 +2,13 @@ version: "3"
 
 tasks:
   validate:
-    desc: Validate skills are portable and plugins conform to Agent Plugins 1.0.0
+    desc: Validate skills and check plugins conform to Agent Plugins 1.0.0
     cmds:
       - task: validate:skills
       - task: validate:plugins
 
   validate:skills:
-    desc: Validate all skills are portable cross-agent SKILL.md folders
+    desc: Validate all SKILL.md folders (Claude-first, Codex/Copilot-compatible)
     cmds:
       - python3 scripts/validate_skills.py
 

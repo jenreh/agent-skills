@@ -1,0 +1,8 @@
+interface:
+  display_name: "Task Observer"
+  short_description: "Log skill improvement ideas during multi-step tasks"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

@@ -9,6 +9,7 @@ metadata:
   author: jens-rehpoehler
   version: "1.0"
   license: MIT
+argument-hint: "[service or Dockerfile]"
 ---
 
 # Multi-Stage Dockerfiles

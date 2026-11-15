@@ -1,0 +1,8 @@
+interface:
+  display_name: "AppKit User"
+  short_description: "Login, OAuth, session guards, and roles in appkit"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

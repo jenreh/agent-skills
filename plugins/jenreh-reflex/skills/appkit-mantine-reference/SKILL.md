@@ -3,7 +3,7 @@ name: appkit-mantine-reference
 description: "MUST invoke when generating mn.* based UIs or the user asks how to use, configure, or debug any mn.* or appkit_mantine component. appkit_mantine is NOT in Claude's training data — always use this skill rather than guessing at APIs. Covers building forms, tables, drawers, modals, tooltips, color pickers, date/time pickers, charts, and navigation; looking up correct props; debugging on_change handler types (NumberInput sends float|str, DateInput sends str|\"\"); troubleshooting component quirks like tooltips on disabled elements, overlays not closing, or props having no effect. Targets Mantine 9.7.3 on Reflex 0.10."
 metadata:
   author: jens-rehpoehler
-  version: "1.7"
+  version: "1.9"
   license: MIT
 ---
 
@@ -100,143 +100,65 @@ Dict props (`*_props`, `styles`, `class_names`, chart `series`) reach React
 unchanged: Reflex camelCases keyword props, not dict keys, so write keys as
 Mantine names them (`{"startTime": "08:00:00"}`, `styles={"content": {"minHeight": 300}}`).
 
-## Component categories
+## Component index
 
-**Text inputs**: See [references/inputs-text.md](references/inputs-text.md)
-— TextInput, NumberInput, PasswordInput, Textarea, MaskedInput, JsonInput, Form (input sub-components)
+Find the component here, then read its reference file before writing code.
+Sub-components are namespaced: `.group` means `mn.checkbox.group`, not `mn.checkbox_group`.
 
-**Selection inputs**: See [references/inputs-selection.md](references/inputs-selection.md)
-— Select, MultiSelect, Autocomplete, NativeSelect, TreeSelect, Cascader, TagsInput, RichSelect, ComboboxPopover
+| Reference | Components (`mn.*`) | Pick notes |
+|---|---|---|
+| [inputs-text](references/inputs-text.md) | `text_input`, `number_input`, `password_input`, `textarea`, `masked_input`, `json_input`, `form.*` | Custom label/description/error layout: `form.wrapper`, `form.label`, `form.error`. Hidden field: `form.input(type="hidden", ...)` |
+| [inputs-selection](references/inputs-selection.md) | `select`, `multi_select`, `autocomplete`, `native_select`, `tags_input`, `tree_select`, `cascader`, `rich_select`, `combobox_popover` | Hierarchy: `tree_select`; drill-down columns: `cascader`. Custom-rendered options: `rich_select.map(data, renderer=...)`. Dropdown on a plain button: `combobox_popover` |
+| [inputs-toggle](references/inputs-toggle.md) | `checkbox` (`.group`, `.card`), `radio` (`.group`, `.card`), `switch`, `chip` (`.group`), `segmented_control`, `fieldset` | Related inputs under a legend: `fieldset` |
+| [inputs-datetime](references/inputs-datetime.md) | `date_input`, `date_picker_input`, `date_time_picker`, `inline_date_time_picker`, `month_picker_input`, `year_picker_input`, `time_input`, `time_picker`, `time_grid`, `calendar`, `date_picker`, `month_picker`, `year_picker`, `mini_calendar` | |
+| [inputs-specialized](references/inputs-specialized.md) | `slider`, `range_slider`, `file_input`, `pin_input`, `rating`, `color_input`, `color_picker`, `hue_slider`, `alpha_slider`, `angle_slider` | Button-style upload: `file_input`; drag-and-drop: `dropzone` (extensions) |
+| [layout](references/layout.md) | `stack`, `group`, `flex`, `grid`, `simple_grid`, `container`, `center`, `box`, `space`, `divider`, `affix`, `focus_trap`, `app_shell` (`.resizable`), `aspect_ratio`, `collapse`, `transition`, `marquee`, `portal`, `scroller`, `visually_hidden`, `floating_window`, `overflow_list`, `splitter` (`.pane`) | Vertical: `stack`; horizontal: `group`. Header/navbar/footer/aside: `app_shell` |
+| [overlays](references/overlays.md) | `modal`, `drawer`, `alert_dialog`, `dialog`, `popover`, `tour` (`.step`), `loading_overlay`, `overlay`, `floating_indicator` | Centered: `modal`; side panel: `drawer`; confirmation: `alert_dialog`; small floating panel: `dialog` |
+| [data-display](references/data-display.md) | `button`, `action_icon`, `close_button`, `unstyled_button`, `card`, `paper`, `accordion`, `avatar`, `badge`, `image`, `background_image`, `indicator`, `timeline`, `number_formatter`, `rolling_number`, `spoiler`, `theme_icon`, `color_swatch`, `kbd`, `tooltip`, `hover_card`, `data_list`, `empty_state` | Label/value pairs: `data_list`; "no data" with a CTA: `empty_state` |
+| [feedback](references/feedback.md) | `alert`, `notification`, `progress`, `ring_progress`, `semi_circle_progress`, `loader`, `skeleton` | Toasts from event handlers: `notifications.show` (extensions) |
+| [navigation](references/navigation.md) | `tabs`, `breadcrumbs`, `pagination`, `stepper`, `nav_link`, `navigation_progress`, `anchor`, `burger`, `table_of_contents`, `scroll_area` (`.autosize`, `.autoscroll`, `.stateful`), `rich_text_editor`, `markdown_preview`, `toggle`, `toolbar` | Chat/streaming scroll: `scroll_area.autoscroll`. Rich text (Tiptap): `rich_text_editor` |
+| [menu](references/menu.md) | `menu` (`.search`, `.checkbox_item`, `.radio_group`, `.context_menu`), `menubar` | Desktop-style File/Edit/View bar: `menubar` |
+| [table](references/table.md) | `table` | |
+| [tree](references/tree.md) | `tree` | |
+| [typography](references/typography.md) | `text`, `title`, `code`, `list_`, `blockquote`, `highlight`, `mark`, `typography_styles_provider` | HTML/Markdown with Mantine styles: `typography_styles_provider` |
+| [charts](references/charts.md) | `line_chart`, `bar_chart`, `area_chart`, `composite_chart`, `donut_chart`, `pie_chart`, `radar_chart`, `radial_bar_chart`, `scatter_chart`, `bubble_chart`, `funnel_chart`, `sankey_chart`, `sunburst_chart`, `bullet_chart`, `gauge_chart`, `waffle_chart`, `matrix_chart`, `candlestick_chart`, `sparkline`, `heatmap`, `treemap`, `bars_list`, `chart_brush` | KPI: `gauge_chart`, `bullet_chart`, `waffle_chart` |
+| [schedule](references/schedule.md) | `schedule` (`.day_view`, `.week_view`, `.month_view`, `.year_view`, `.mobile_month_view`), `resources_schedule`, `resources_day_view`, `resources_week_view`, `resources_month_view`, `agenda_view` | Rooms/people as rows: `resources_*` |
+| [extensions](references/extensions.md) | `carousel` (`.slide`), `dropzone`, `modals_provider`, `notifications_provider` + `notifications.show`, `lightbox`, `lightbox_api`, `action_bar`, `json_viewer` | Bulk actions on selected rows: `action_bar` |
+| [maps](references/maps.md) | `map` (`.marker`, `.popup`, `.route`, `.arc`, `.geojson`, `.cluster`, `.navigation`, `.controls`, `.directions_panel`) | |
+| [theme](references/theme.md) | `create_theme`, `mantine_provider`, `virtual_color`, `theme_wrapper`, `ThemeState`, `mermaid_zoom_script` | Scoped theme override: `mantine_provider`. Mermaid click-to-zoom: `mermaid_zoom_script` |
+| [App helpers](#app-helpers) | `delete_dialog`, `LoadingState`, `with_loading_reset`, `sticky_header_style` | Row delete confirmation: `delete_dialog` |
 
-**Toggle inputs**: See [references/inputs-toggle.md](references/inputs-toggle.md)
-— Checkbox/CheckboxGroup/CheckboxCard, Radio/RadioGroup/RadioCard, Switch, Chip/ChipGroup, SegmentedControl, Fieldset
+## App helpers
 
-**Date & time inputs**: See [references/inputs-datetime.md](references/inputs-datetime.md)
-— DateInput, DatePickerInput, DateTimePicker, InlineDateTimePicker, MonthPickerInput, YearPickerInput, TimeInput, TimePicker, TimeGrid, Calendar, DatePicker, MonthPicker, YearPicker, MiniCalendar
+Ready-made pieces for appkit apps, exported from `appkit_mantine`:
 
-**Specialized inputs**: See [references/inputs-specialized.md](references/inputs-specialized.md)
-— Slider, RangeSlider, FileInput, PinInput, Rating, ColorInput, ColorPicker, HueSlider, AlphaSlider, AngleSlider
+| Helper | Purpose |
+| --- | --- |
+| `mn.delete_dialog(title, content, on_click, icon_button=False, action_loading=False, **trigger_props)` | `mn.alert_dialog` with a trash trigger (`mn.button` or `mn.action_icon`) and a German confirmation text naming `content` |
+| `mn.LoadingState` | `is_loading`, `is_loading_message`, `set_is_loading(bool)`; drives the wait cursor |
+| `mn.with_loading_reset(on_load)` | Returns the page `on_load` list (handler, list or `None`) with `LoadingState.set_is_loading(False)` appended |
+| `mn.ThemeState` | `gray_color`, `radius`, `scaling`, `appearance` for the Radix theme |
+| `mn.theme_wrapper(content)` | `rx.theme` bound to `ThemeState`, wait cursor while `LoadingState.is_loading` |
+| `mn.sticky_header_style` | Style dict for a sticky page header (z-index, shadow, clip path) |
 
-**Layout**: See [references/layout.md](references/layout.md)
-— Stack, Group, Flex, Grid, SimpleGrid, Container, Center, Box, Space, Divider, Affix, FocusTrap, AppShell (+ resizable), AspectRatio, Collapse, Marquee, Portal, Scroller, Transition, VisuallyHidden, FloatingWindow, OverflowList, Splitter
+```python
+mn.delete_dialog(
+    title="Benutzer löschen",
+    content=user.name,
+    on_click=UserState.delete_user(user.user_id),
+    icon_button=True,
+    variant="subtle",
+    color="red",
+)
 
-**Overlays**: See [references/overlays.md](references/overlays.md)
-— Modal, Drawer, AlertDialog, LoadingOverlay, Overlay, FloatingIndicator, Dialog, Popover, Tour
 
-**Data display**: See [references/data-display.md](references/data-display.md)
-— Accordion, Avatar, Badge, Card, Image, BackgroundImage, Paper, Indicator, Timeline, NumberFormatter, RollingNumber, Spoiler, ThemeIcon, ColorSwatch, Kbd, Tooltip, HoverCard, Button, ActionIcon, CloseButton, UnstyledButton, DataList, EmptyState
+@rx.page(route="/reports", on_load=mn.with_loading_reset(ReportState.on_load))
+def reports_page() -> rx.Component:
+    return mn.theme_wrapper(mn.app_shell(mn.app_shell.main(report_content())))
+```
 
-**Feedback & status**: See [references/feedback.md](references/feedback.md)
-— Alert, Notification, Progress, RingProgress, SemiCircleProgress, Loader, Skeleton
-
-**Navigation**: See [references/navigation.md](references/navigation.md)
-— Breadcrumbs, Pagination, Stepper, Tabs, NavLink, NavigationProgress, Anchor, Burger, TableOfContents, ScrollArea (autosize/autoscroll/stateful), RichTextEditor, MarkdownPreview, Toggle, Toolbar
-
-**Menu**: See [references/menu.md](references/menu.md)
-— Menu with items, labels, dividers, hover/click triggers, sub-menus, search/checkbox/radio items, context menu, Menubar
-
-**Table**: See [references/table.md](references/table.md)
-— Table with thead/tbody/tr/th/td, sticky header, striped, scroll container, vertical variant
-
-**Tree**: See [references/tree.md](references/tree.md)
-— Hierarchical tree view with search, checkboxes, drag-and-drop
-
-**Typography**: See [references/typography.md](references/typography.md)
-— Text, Title, Code, List, Blockquote, Highlight, Mark, TypographyStylesProvider
-
-**Charts**: See [references/charts.md](references/charts.md)
-— AreaChart, BarChart, LineChart, CompositeChart, DonutChart, PieChart, RadarChart, RadialBarChart, ScatterChart, BubbleChart, Sparkline, FunnelChart, Heatmap, Treemap, BarsList, SankeyChart, SunburstChart, BulletChart, ChartBrush, GaugeChart, WaffleChart, MatrixChart, CandlestickChart, reference areas/dots
-
-**Schedule** (calendar views): See [references/schedule.md](references/schedule.md)
-— Schedule, DayView, WeekView, MonthView, YearView, MobileMonthView, ResourcesSchedule, ResourcesDayView, ResourcesWeekView, ResourcesMonthView, AgendaView
-
-**Extensions**: See [references/extensions.md](references/extensions.md)
-— Carousel, Dropzone, ModalsProvider, Notifications, Lightbox, ActionBar, JsonViewer
-
-**Maps**: See [references/maps.md](references/maps.md)
-— Map, MapControls, MapMarker (+content/popup/tooltip/label), MapPopup, MapRoute, MapArc, MapGeoJSON, MapClusterLayer, MapNavigation, MapDirectionsPanel
-
-**Theme**: See [references/theme.md](references/theme.md)
-— create_theme, mantine_provider (scoped theme override), mermaid_zoom_script
-
-## Decision tree
-
-**Need a text / number / password input?** → inputs-text.md (`mn.text_input`, `mn.number_input`, `mn.password_input`, `mn.textarea`)
-**Need a custom input layout (label+description+error)?** → inputs-text.md (`mn.form.wrapper`, `mn.form.label`, `mn.form.error`)
-**Need a masked or JSON input?** → inputs-text.md (`mn.masked_input`, `mn.json_input`)
-**Need a dropdown / combobox?** → inputs-selection.md (`mn.select`, `mn.multi_select`, `mn.autocomplete`, `mn.native_select`)
-**Need a combobox dropdown on a plain button (no input)?** → inputs-selection.md (`mn.combobox_popover`)
-**Need a tags input?** → inputs-selection.md (`mn.tags_input`)
-**Need hierarchical selection?** → inputs-selection.md (`mn.tree_select`, or `mn.cascader` for drill-down columns)
-**Need a custom-rendered select?** → inputs-selection.md (`mn.rich_select` with `mn.rich_select.map(data, renderer=...)`)
-**Need a toggle/selector?** → inputs-toggle.md (`mn.segmented_control`, `mn.radio.group`, `mn.checkbox.group`, `mn.chip.group`, `mn.switch`)
-**Need to group related inputs with a legend?** → inputs-toggle.md (`mn.fieldset`)
-**Need a date/time picker?** → inputs-datetime.md (`mn.date_picker_input`, `mn.time_picker`, `mn.date_time_picker`, `mn.inline_date_time_picker`)
-**Need a range / numeric slider?** → inputs-specialized.md (`mn.slider`, `mn.range_slider`)
-**Need a color picker?** → inputs-specialized.md (`mn.color_input` with text input, `mn.color_picker` standalone, `mn.hue_slider`, `mn.alpha_slider`)
-**Need file upload?** → inputs-specialized.md (`mn.file_input` button-style) or extensions.md (`mn.dropzone` drag-and-drop)
-**Need an interactive map (markers, routes, GeoJSON, clustering, turn-by-turn directions)?** → maps.md (`mn.map`, `mn.map.marker`, `mn.map.route`, `mn.map.geojson`, `mn.map.cluster`, `mn.map.navigation`)
-**Need a PIN / OTP code entry?** → inputs-specialized.md (`mn.pin_input`)
-**Need a star rating?** → inputs-specialized.md (`mn.rating`)
-**Need an angle / direction picker?** → inputs-specialized.md (`mn.angle_slider`)
-**Need layout?** → layout.md (`mn.stack` vertical, `mn.group` horizontal, `mn.flex`, `mn.grid`)
-**Need a full app shell (header / navbar / footer / aside)?** → layout.md (`mn.app_shell`)
-**Need fixed aspect ratio container?** → layout.md (`mn.aspect_ratio`)
-**Need animated show/hide?** → layout.md (`mn.collapse`, `mn.transition`)
-**Need to render in a different DOM node?** → layout.md (`mn.portal`)
-**Need scrolling marquee text?** → layout.md (`mn.marquee`)
-**Need horizontal scroller with controls?** → layout.md (`mn.scroller`)
-**Need a draggable floating panel?** → layout.md (`mn.floating_window`)
-**Need to show only first N items + overflow?** → layout.md (`mn.overflow_list`)
-**Need a resizable split-pane layout?** → layout.md (`mn.splitter`, `mn.splitter.pane`)
-**Need a user-resizable navbar/aside in the app shell?** → layout.md (`mn.app_shell.resizable`)
-**Need a screen-reader-only label?** → layout.md (`mn.visually_hidden`)
-**Need a dialog?** → overlays.md (`mn.modal` centered, `mn.drawer` side panel, `mn.alert_dialog` confirmation, `mn.dialog` small floating panel)
-**Need a popover anchored to a trigger?** → overlays.md (`mn.popover`)
-**Need a guided onboarding tour?** → overlays.md (`mn.tour`, `mn.tour.step`)
-**Need a bottom bar for bulk actions on selected rows?** → extensions.md (`mn.action_bar`)
-**Need a full-screen image/video gallery viewer?** → extensions.md (`mn.lightbox`, `mn.lightbox_api`)
-**Need programmatic modal/confirm management?** → extensions.md (`mn.modals_provider`)
-**Need a loading state?** → overlays.md (`mn.loading_overlay`) or feedback.md (`mn.skeleton`, `mn.loader`)
-**Need feedback / status messages?** → feedback.md (`mn.alert`, `mn.notification`, `mn.progress`, `mn.ring_progress`, `mn.semi_circle_progress`, `mn.skeleton`)
-**Need toast notifications triggered from event handlers?** → extensions.md (`mn.notifications_provider` + `mn.notifications.show`)
-**Need a status label?** → data-display.md (`mn.badge`)
-**Need an animated rolling counter?** → data-display.md (`mn.rolling_number`)
-**Need expandable/spoiler content?** → data-display.md (`mn.spoiler`)
-**Need a colored icon container?** → data-display.md (`mn.theme_icon`)
-**Need to display a color sample?** → data-display.md (`mn.color_swatch`)
-**Need a keyboard-key display?** → data-display.md (`mn.kbd`)
-**Need an X close button?** → data-display.md (`mn.close_button`)
-**Need a button with zero styling?** → data-display.md (`mn.unstyled_button`)
-**Need a div with a background image?** → data-display.md (`mn.background_image`)
-**Need to show label/value pairs (definition list)?** → data-display.md (`mn.data_list`)
-**Need a "no data" placeholder with a CTA?** → data-display.md (`mn.empty_state`)
-**Need typography?** → typography.md (`mn.text`, `mn.title`, `mn.list_`, `mn.code`)
-**Need a styled link?** → navigation.md (`mn.anchor`)
-**Need a hamburger menu toggle?** → navigation.md (`mn.burger`)
-**Need a toggle button or a formatting toolbar?** → navigation.md (`mn.toggle`, `mn.toolbar`)
-**Need a page-section navigator?** → navigation.md (`mn.table_of_contents`)
-**Need to render highlighted substrings inside text?** → typography.md (`mn.highlight`)
-**Need a `<mark>` inline highlight?** → typography.md (`mn.mark`)
-**Need a blockquote?** → typography.md (`mn.blockquote`)
-**Need a dropdown/context menu?** → menu.md (`mn.menu`, `mn.menu.context_menu`)
-**Need a desktop-style menu bar (File/Edit/View)?** → menu.md (`mn.menubar`)
-**Need searchable / checkbox / radio menu items?** → menu.md (`mn.menu.search`, `mn.menu.checkbox_item`, `mn.menu.radio_group`)
-**Need chat/streaming scroll?** → navigation.md (`mn.scroll_area.autoscroll`)
-**Need tabular data?** → table.md (`mn.table`)
-**Need hierarchical data?** → tree.md (`mn.tree`)
-**Need charts?** → charts.md (`mn.line_chart`, `mn.bar_chart`, `mn.area_chart`, `mn.radial_bar_chart`, `mn.sankey_chart`, `mn.bars_list`, etc.)
-**Need a KPI chart?** → charts.md (`mn.gauge_chart`, `mn.bullet_chart`, `mn.waffle_chart`)
-**Need a financial or categorical heatmap chart?** → charts.md (`mn.candlestick_chart`, `mn.matrix_chart`)
-**Need a slideshow / carousel?** → extensions.md (`mn.carousel`)
-**Need a collapsible JSON tree?** → extensions.md (`mn.json_viewer`)
-**Need a calendar/schedule view?** → schedule.md (`mn.schedule`, `mn.schedule.day_view`, `mn.schedule.week_view`, etc.)
-**Need a resource scheduler (rooms/people as rows)?** → schedule.md (`mn.resources_schedule`, `mn.resources_day_view`, `mn.resources_week_view`, `mn.resources_month_view`)
-**Need an agenda list of events by date?** → schedule.md (`mn.agenda_view`)
-**Need rich text?** → navigation.md (`mn.rich_text_editor` Tiptap-based)
-**Need to render HTML/Markdown with Mantine typography styles?** → typography.md (`mn.typography_styles_provider`)
-**Need to customise the theme?** → theme.md (`mn.create_theme` + `mn.mantine_provider`)
-**Rendering Mermaid diagrams?** → theme.md (`mn.mermaid_zoom_script` to enable click-to-zoom)
+Pages behind a login use `authenticated_page` (appkit-user), which applies both
+helpers itself.
 
 ## Reflex 0.10 notes
 
@@ -273,17 +195,10 @@ class, which matters for the state and tests behind `mn.*` UIs:
 
 ## Namespace components (compound pattern)
 
-Some components use namespaces for sub-components:
+Sub-components hang off the parent (`mn.accordion.item`, `mn.popover.target`,
+`mn.app_shell.header`), never `mn.parent_child`:
 
 ```python
-mn.accordion(
-    mn.accordion.item(
-        mn.accordion.control("Section 1"),
-        mn.accordion.panel("Content 1"),
-        value="section-1",
-    ),
-)
-
 mn.tabs(
     mn.tabs.list(
         mn.tabs.tab("Tab 1", value="1"),
@@ -294,32 +209,12 @@ mn.tabs(
     value=State.active_tab,
     on_change=State.set_active_tab,
 )
-
-mn.modal(
-    rx.text("Content"),
-    title="My Modal",
-    opened=State.opened,
-    on_close=State.close_modal,
-)
 ```
 
 ## Mantine style props
 
-All layout/input components support Mantine's style system props directly:
-
-```python
-mn.text_input(
-    label="Email",
-    w="100%",  # width
-    maw=400,  # max-width
-    mt="md",  # margin-top
-    p="sm",  # padding
-    bg="gray.0",  # background
-    c="dark.9",  # color
-)
-```
-
-Available: `w`, `h`, `miw`, `maw`, `mih`, `mah`, `m`, `my`, `mx`, `mt`, `mb`, `ml`, `mr`, `p`, `py`, `px`, `pt`, `pb`, `pl`, `pr`, `bg`, `c`, `display`, `pos`, `flex`, `opacity`, `fz`, `fw`, `ta`, `td`, `bd`, `hidden_from`, `visible_from`, `light_hidden`, `dark_hidden`.
+All layout/input components take Mantine's style props directly
+(`mn.text_input(label="Email", w="100%", maw=400, mt="md", p="sm")`): `w`, `h`, `miw`, `maw`, `mih`, `mah`, `m`, `my`, `mx`, `mt`, `mb`, `ml`, `mr`, `p`, `py`, `px`, `pt`, `pb`, `pl`, `pr`, `bg`, `c`, `display`, `pos`, `flex`, `opacity`, `fz`, `fw`, `ta`, `td`, `bd`, `hidden_from`, `visible_from`, `light_hidden`, `dark_hidden`.
 
 ## Colors
 
@@ -347,19 +242,12 @@ Radix 1–12 scale and does not follow the Mantine theme.
 | `rx.box` as a container | `mn.card` or `mn.paper` |
 | `rx.text` / `rx.heading` for typography | `mn.text` / `mn.title` |
 | `mn.list(...)` | `mn.list_(...)` — underscore avoids shadowing Python `list` built-in |
-| `mn.checkbox_group(...)` | `mn.checkbox.group(...)` — namespace sub-component |
-| `mn.radio_group(...)` | `mn.radio.group(...)` — namespace sub-component |
-| `mn.chip_group(...)` | `mn.chip.group(...)` — namespace sub-component |
-| `mn.popover_target(...)` / `mn.popover_dropdown(...)` | `mn.popover.target(...)` / `mn.popover.dropdown(...)` — namespace |
-| `mn.dropzone_accept(...)` / `mn.dropzone_idle(...)` | `mn.dropzone.accept(...)` / `mn.dropzone.idle(...)` — namespace |
-| `mn.app_shell_header(...)` | `mn.app_shell.header(...)` — namespace |
-| `mn.carousel_slide(...)` | `mn.carousel.slide(...)` — namespace |
+| `mn.checkbox_group`, `mn.radio_group`, `mn.chip_group`, `mn.popover_target`, `mn.dropzone_idle`, `mn.app_shell_header`, `mn.carousel_slide` | Namespaces: `mn.checkbox.group`, `mn.popover.target`, `mn.app_shell.header`, ... |
 | Inline styles as strings `style="..."` | Mantine style props: `c="blue.6"`, `fw="bold"`, `p="md"` |
-| `and` / `or` inside `rx.cond(...)` | Use `&` and `\|` operators |
-| Bare Python `if` in component functions | `rx.cond(condition, true_comp, false_comp)` |
-| Bare Python `for` in component functions | `rx.foreach(State.items, render_fn)` |
 | Custom background on `mn.card` via `background_color`/`--card-bg` | `mn.card` ignores these; wrap in `rx.box` with desired `style` |
-| `.to_string()` for user-facing numbers in alloq apps | `de_number(value, ...)` from `alloq_commons.components.formatters` |
+| `rx.el.input(type="hidden", ...)` in a form | `mn.form.input(type="hidden", name=..., value=..., display="none")` |
+| Hand-written delete confirmation `alert_dialog` per table | `mn.delete_dialog(...)` |
+| `.to_string()` for user-facing numbers | `mn.number_formatter(value=..., thousand_separator=".", decimal_separator=",")` |
 
 ## ScrollArea variants
 
@@ -371,61 +259,6 @@ See [references/navigation.md](references/navigation.md) for full ScrollArea doc
 | `mn.scroll_area.autoscroll(...)` | Chat/streaming — auto-scrolls to bottom on new content |
 | `mn.scroll_area(...)` | Fixed-height scroll container |
 | `mn.scroll_area.stateful(...)` | Navbar with `persist_key=app_storage_key("navbar_scroll_area")` |
-
-```python
-mn.scroll_area.autosize(
-    rx.foreach(State.items, item_row),
-    mah=400,
-    type="hover",
-)
-```
-
-## German number and date formatting (alloq apps)
-
-Apps that depend on `alloq_commons` must use these helpers instead of raw
-values or `.to_string()`. Plain appkit apps do not have `alloq_commons`; use
-`mn.number_formatter` there.
-
-### Numbers
-
-```python
-from alloq_commons.components.formatters import de_number
-
-de_number(
-    emp.hours_per_week, suffix="h/W", size="xs", c="var(--alloq-text-muted)", fw="400"
-)
-# Renders with German separators: 1.234,5 h/W
-# Props: suffix, prefix, size, c, fw, decimal_scale
-```
-
-### Dates (display)
-
-```python
-from alloq_commons.components.formatters import format_date_de, format_date_de_named
-
-format_date_de(date_var)  # → DD.MM.YYYY
-format_date_de_named(date_var)  # → DD. Mon YYYY
-```
-
-### Date inputs
-
-```python
-mn.date_picker_input(
-    value=State.selected_date,
-    on_change=State.set_date,
-    value_format="DD.MM.YYYY",  # Mantine submits in this format too
-)
-
-
-# Parse in state — handles both DD.MM.YYYY and ISO YYYY-MM-DD:
-def _parse_date(value: str) -> date | None:
-    for fmt in ("%d.%m.%Y", "%Y-%m-%d"):
-        try:
-            return datetime.strptime(value, fmt).date()
-        except ValueError:
-            continue
-    return None
-```
 
 ---
 

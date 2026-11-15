@@ -1,0 +1,8 @@
+interface:
+  display_name: "Release"
+  short_description: "Bump version, write changelog, publish a GitHub release"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: false

@@ -11,3 +11,5 @@ signals.md 234
 skill-authoring.md 1374 2026-10-16 a binary prerequisite is one that starts, the ./<path> citation form
 starter-principles.md 504 2026-10-16 the marker is written after the answer, cited bodies are read, entry 23 covers the unmeasured baseline
 weekly-review.md 2055 2026-10-16 corrected command forms, the check an entry names, dated summary claims, shared-tree worker checks, keep-two per skill
+acting.md 101 2026-11-15 split from the core: the full acting-on-observations protocol and the sole-carrier rule
+writing-observations.md 105 2026-11-15 split from the core: the inline id snippet and the annotated frontmatter template

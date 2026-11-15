@@ -11,7 +11,7 @@ description: >
   the application stack.
 metadata:
   author: jens-rehpoehler
-  version: "2.2"
+  version: "2.3"
   license: MIT
 ---
 
@@ -21,7 +21,30 @@ Read before writing any new feature. Covers configuration, DI, persistence, and 
 
 ---
 
-## 1. Configuration
+## 1. Anti-Patterns
+
+| Anti-pattern | Correct approach |
+| --- | --- |
+| `rx.asession()` in background tasks / callbacks | `get_asyncdb_session()` |
+| `service_registry()` at module level | Call inside functions/methods |
+| SQLAlchemy entities in Reflex state | Convert to Pydantic `BaseModel` via `to_dict()` |
+| Duplicating CRUD in repos | Use `BaseRepository` built-ins; add only custom query methods |
+| `--autogenerate` for Alembic | Write migrations manually |
+| Hardcoded credentials in YAML | Use `secret:` prefix, resolve via `get_secret()` |
+| Bare `/img/...` asset `src`, API URLs, ASGI redirects | `public_path()` / `public_url()` |
+| `rx.redirect(public_path("/x"))` / `rx.link(href=public_path("/x"))` | App relative `"/x"`; React Router adds the prefix |
+| Literal `rx.LocalStorage(name="...")` or `localStorage.setItem("...")` | `app_storage_key("...")`, one shared constant |
+| Hardcoded OAuth `redirect_url` in `config.yaml` | Leave unset; derived from `public_base_url` |
+| `router.url.path == "/login"` | `strip_public_prefix(router.url.path) == "/login"` |
+| `session.commit()` inside `get_asyncdb_session()` block | Session auto-commits on context exit |
+| `State._backend_var` passed as prop/child, `State.var = x` (Reflex 0.10 descriptors) | `.default_value()` / `State.__fields__["x"].set_default(...)` |
+| Inherited vars written in a background task outside `async with self` | Wrap writes in `async with self` |
+| Several backend versions behind a load balancer without sticky sessions | Sticky sessions; Reflex 0.10.1 reloads a stale frontend on state-tree hash mismatch |
+| Non fork-safe app in production on Linux (workers fork from the imported app) | `REFLEX_BACKEND_START_METHOD=spawn` |
+
+---
+
+## 2. Configuration
 
 ### App initialization pattern
 
@@ -124,15 +147,25 @@ APP__MY_FEATURE__API_KEY=secret123
 
 ### Secret values
 
-Prefix with `secret:` to resolve at runtime via Azure Key Vault or local env:
+Prefix with `secret:` to resolve at runtime through `SECRET_PROVIDER`:
 
 ```yaml
 app:
   my_feature:
-    api_key: "secret:MY_FEATURE_API_KEY"
+    api_key: "secret:my-feature-api-key"
 ```
 
-`get_secret("MY_FEATURE_API_KEY")` tries `SECRET_PROVIDER` env var (AZURE or LOCAL).
+| `SECRET_PROVIDER` | Store | Name with `SECRET_NAMESPACE=myapp` | Extra |
+| --- | --- | --- | --- |
+| `local` (default) | env / `.env` (`name`, `NAME`, `NA_ME`) | — | — |
+| `macos` | Keychain, account = namespace (`appkit` if unset) | service `name` | — |
+| `windows` | Credential Manager | target `myapp:name` | `windows` |
+| `azure` | Key Vault (`az login` + `AZURE_KEY_VAULT_URL`) | `myapp-name` | `azure` |
+| `aws_ssm` | SSM Parameter Store (`aws login`, `AWS_PROFILE`/`AWS_REGION`) | `/myapp/name` | `aws` |
+
+Without `SECRET_NAMESPACE`, Azure and SSM use the bare name. Unknown providers raise `ValueError`. `.env` is loaded with `override=True`.
+
+Local stores are managed with the `appkit-secrets` CLI (`cli` extra): `add`, `update`, `delete`, `list` (names only), `env` (shell exports), `check` (every `secret:` of `configuration/` for `PROFILES` present; `--all-profiles`), `completion [zsh|bash|fish|powershell]` (init with `eval "$(appkit-secrets completion zsh)"`; completes stored names, missing config names for `add`, profiles).
 
 ### DatabaseConfig fields
 
@@ -153,74 +186,16 @@ url_override: str | None = None  # override full URL
 
 ### Serving below a path prefix (shared origin)
 
-Several apps can share one origin (e.g. `https://x/knai`, `https://x/alloq`).
-One setting drives it: `reflex.frontend_path`. `rxconfig.py` passes it to
-`rx.Config(frontend_path=...)`. Export and backend must use the same value.
-
-```yaml
-# config.local.yaml
-reflex:
-  frontend_path: /knai   # leave out for the site root
-```
-
-Derived from it automatically:
-
-| What | Site root | Below `/knai` | Override |
-| --- | --- | --- | --- |
-| Session cookie | `reflex_session` | `knai_session` | `authentication.session_cookie_name` |
-| Local storage prefix | `""` | `knai_` | `authentication.storage_key_prefix` |
-| `AuthenticationConfiguration.public_base_url` | `https://x` | `https://x/knai` | `server_url` already ending in `/knai` |
-| OAuth `redirect_url` | `<public_base_url>/oauth/<provider>/callback` | same, carries `/knai` | `oauth_providers[].redirect_url` |
-
-Helpers in `appkit_commons.public_path` (no Reflex import needed by callers):
-
-```python
-from appkit_commons.public_path import (
-    public_path,  # "/img/logo.svg" -> "/knai/img/logo.svg"; URLs unchanged
-    public_url,  # public_url(base, "/api/x") -> "<base>/knai/api/x"
-    strip_public_prefix,  # "/knai/login" -> "/login" (router.url.path carries it)
-    public_prefix,  # "/knai" or ""
-    app_slug,  # "knai" or ""
-)
-from appkit_user.authentication.states import app_storage_key  # "knai_<name>"
-
-rx.image(src=public_path("/img/logo.svg"))
-download_url = public_path(f"/api/bpmn/diagrams/{diagram_id}/xml")
-if strip_public_prefix(self.router.url.path) == "/login":
-    ...
-token: str = rx.LocalStorage(name=app_storage_key("my-key"), sync=True)
-
-rx.link("Login", href="/login")  # app relative: React Router adds the basename
-return rx.redirect("/login")  # same
-```
-
-Rules:
-
-- Page routes in `rx.link(href=...)`, `rx.redirect(...)` and `@rx.page(route=...)`
-  stay app relative. React Router adds the prefix; `public_path()` there doubles it.
-- Everything the browser or server resolves without React Router gets the prefix:
-  asset `src`, raw HTML `href`, HTTP redirects in ASGI middleware, REST/API URLs,
-  URLs handed to JS or external services. Use `public_path()` (path) or
-  `public_url()` (absolute URL).
-- Route checks on `router.url.path` go through `strip_public_prefix()`.
-- Every `rx.LocalStorage` / `rx.SessionStorage` name, every key written from
-  `rx.call_script` JS and every `persist_key` uses `app_storage_key()`. Writer
-  and reader must share one constant.
-- Do not set OAuth `redirect_url` in YAML unless you must; an explicit value is
-  used verbatim and skips the prefix. The provider's registered callback URL
-  must include the prefix (GitHub accepts a subpath of the registered URL, so
-  registering the origin root covers every prefix).
-- Cookie and storage names are fixed at import time and baked into the export.
-  Re-export after changing `frontend_path`. Test them in a fresh interpreter
-  (`subprocess`), not in-process.
-- In-process tests: `appkit_commons.testing.set_public_path_prefix(monkeypatch, "/knai")`.
-- Not prefixable (owned by Reflex / React Router): sessionStorage `token`,
-  localStorage `theme`, `last_compiled_theme`, `react-router-scroll-positions`.
-  Apps sharing one Redis also need distinct `app_name`s or Redis DBs.
+Several apps can share one origin (`https://x/knai`, `https://x/alloq`), driven by
+`reflex.frontend_path`. **Read [`references/path-prefix.md`](references/path-prefix.md)
+before writing links, asset URLs, redirects, browser storage keys, or OAuth redirect
+URLs.** In short: page routes stay app relative; assets, API URLs, and ASGI redirects
+go through `public_path()` / `public_url()`; route checks use `strip_public_prefix()`;
+storage keys use `app_storage_key()`.
 
 ---
 
-## 2. Service Registry
+## 3. Service Registry
 
 Single IoC container. All services registered as singletons by type.
 
@@ -260,7 +235,7 @@ class MyService:
 
 ---
 
-## 3. Repository Pattern
+## 4. Repository Pattern
 
 `BaseRepository[T]` provides full async CRUD. Add custom methods only for queries not in the base.
 
@@ -322,7 +297,7 @@ Never use `rx.asession()` — it breaks in background tasks and callbacks outsid
 
 ---
 
-## 4. Database Entities
+## 5. Database Entities
 
 ### Entity + Base
 
@@ -386,7 +361,7 @@ self.items = [MyModel(**e.to_dict()) for e in entities]
 
 ---
 
-## 5. Alembic Migrations
+## 6. Alembic Migrations
 
 Never use `--autogenerate`. Write migrations manually.
 
@@ -405,119 +380,19 @@ The `# Revises:` comment in the module docstring must match `down_revision`.
 
 ---
 
-## 6. Scheduler
+## 7. Scheduler
 
-Two backends: `APScheduler` (distributed-safe, default) and `PGQueuerScheduler`.
-
-### Define a scheduled service
-
-```python
-from appkit_commons.scheduler import ScheduledService, CronTrigger, IntervalTrigger
-from appkit_commons.database.session import get_asyncdb_session
-
-
-class NightlyCleanupService(ScheduledService):
-    job_id = "nightly_cleanup"
-    name = "Nightly Cleanup"
-
-    @property
-    def trigger(self) -> CronTrigger:
-        return CronTrigger(hour=2, minute=0)
-
-    async def execute(self, *args, **kwargs) -> None:
-        async with get_asyncdb_session() as session:
-            await my_entity_repo.delete_old_items(session)
-```
-
-### Trigger types
-
-```python
-# Cron — standard cron fields, all optional (default *)
-CronTrigger(hour=2, minute=30)  # daily at 02:30
-CronTrigger(day_of_week="mon", hour=9)  # every Monday 09:00
-CronTrigger(minute="*/15")  # every 15 minutes
-
-# Fixed interval
-IntervalTrigger(minutes=5)  # every 5 minutes
-IntervalTrigger(hours=1, minutes=30)  # every 90 minutes
-
-# Calendar interval (month/year-aware)
-from appkit_commons.scheduler import CalendarIntervalTrigger
-
-CalendarIntervalTrigger(months=1, day=1)  # 1st of each month
-```
-
-### Register and start
-
-```python
-from appkit_commons.scheduler import APScheduler
-
-scheduler = APScheduler()
-scheduler.add_service(NightlyCleanupService())
-service_registry().register(scheduler)
-
-# In app lifespan:
-await scheduler.start()
-
-# On shutdown:
-await scheduler.shutdown()
-```
-
-`APScheduler` auto-configures from `DatabaseConfig`. In multi-node deployments it coordinates via the SQL datastore so each job runs on only one node. Uses `PsycopgEventBroker` for real-time scheduling when PostgreSQL is available.
+Subclass `ScheduledService` (`job_id`, `name`, a `trigger` property returning
+`CronTrigger`, `IntervalTrigger` or `CalendarIntervalTrigger`, and `async execute()`),
+add it to an `APScheduler` registered in the service registry, and start/stop it in
+the app lifespan. **Details and trigger examples:
+[`references/scheduler.md`](references/scheduler.md).**
 
 ---
 
-## 7. ASGI Middleware
+## 8. ASGI Middleware
 
-`appkit_commons.middleware` holds two pure ASGI middlewares for Reflex's
-`api_transformer`. Do not copy them into an app.
+Use `ForceHTTPSMiddleware` and `SecurityHeadersMiddleware` from
+`appkit_commons.middleware` in `rx.App(api_transformer=[...])`; never copy them into
+an app. Order and options: [`references/middleware.md`](references/middleware.md).
 
-```python
-from appkit_commons.middleware import ForceHTTPSMiddleware, SecurityHeadersMiddleware
-
-
-def add_security_headers(asgi_app: ASGIApp) -> ASGIApp:
-    return SecurityHeadersMiddleware(asgi_app)
-
-
-def add_https_middleware(asgi_app: ASGIApp) -> ASGIApp:
-    return ForceHTTPSMiddleware(asgi_app, trusted_hosts=config.app.trusted_proxies)
-
-
-rx.App(api_transformer=[create_rest_api(), add_security_headers, add_https_middleware])
-```
-
-- `ForceHTTPSMiddleware` sets `scope["scheme"]` from `X-Forwarded-Proto`; it never
-  redirects. Pass `trusted_hosts` (the proxy addresses) wherever the backend port
-  can be reached without the proxy.
-- `SecurityHeadersMiddleware` adds `X-Content-Type-Options`, `Referrer-Policy`,
-  `Content-Security-Policy: frame-ancestors 'self'` and, on https, HSTS. Headers a
-  route sets itself are kept. A full CSP stays with the proxy (Reflex needs inline
-  scripts).
-- Reflex applies transformers in list order, each wrapping the previous. Put
-  `SecurityHeadersMiddleware` before `ForceHTTPSMiddleware`, so it sits inside it and
-  sees the corrected scheme when it decides on HSTS.
-- Tests: `BASE_SECURITY_HEADERS` and `HSTS` are module constants; assert on them.
-
----
-
-## 8. Anti-Patterns
-
-| Anti-pattern | Correct approach |
-| --- | --- |
-| `rx.asession()` in background tasks / callbacks | `get_asyncdb_session()` |
-| `service_registry()` at module level | Call inside functions/methods |
-| SQLAlchemy entities in Reflex state | Convert to Pydantic `BaseModel` via `to_dict()` |
-| Duplicating CRUD in repos | Use `BaseRepository` built-ins; add only custom query methods |
-| `--autogenerate` for Alembic | Write migrations manually |
-| Hardcoded credentials in YAML | Use `secret:` prefix, resolve via `get_secret()` |
-| Bare `/img/...` asset `src`, API URLs, ASGI redirects | `public_path()` / `public_url()` |
-| `rx.redirect(public_path("/x"))` / `rx.link(href=public_path("/x"))` | App relative `"/x"`; React Router adds the prefix |
-| Literal `rx.LocalStorage(name="...")` or `localStorage.setItem("...")` | `app_storage_key("...")`, one shared constant |
-| Hardcoded OAuth `redirect_url` in `config.yaml` | Leave unset; derived from `public_base_url` |
-| `router.url.path == "/login"` | `strip_public_prefix(router.url.path) == "/login"` |
-| `session.commit()` inside `get_asyncdb_session()` block | Session auto-commits on context exit |
-| `State._backend_var` passed as prop/child, `State.var = x` (Reflex 0.10 descriptors) | `.default_value()` / `State.__fields__["x"].set_default(...)` |
-| Inherited vars written in a background task outside `async with self` | Wrap writes in `async with self` |
-| Several backend versions behind a load balancer without sticky sessions | Sticky sessions; Reflex 0.10.1 reloads a stale frontend on state-tree hash mismatch |
-| Non fork-safe app in production on Linux (workers fork from the imported app) | `REFLEX_BACKEND_START_METHOD=spawn` |

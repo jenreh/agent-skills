@@ -1,0 +1,8 @@
+interface:
+  display_name: "GitHub Actions CI/CD"
+  short_description: "Create, audit, and debug GitHub Actions pipelines"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

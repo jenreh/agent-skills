@@ -29,20 +29,46 @@ to `<p>`, so subtreeing straight into `.agents/skills` would nest skills at
 `.agents/skills` at `agent-skills/skills` gives the flat `.agents/skills/<name>` layout
 every agent expects.
 
-## Portable core (D4)
+## Skill format: Claude Code first (D4)
 
-Shared skills use only the portable `SKILL.md` core so the bytes are identical for every
-agent:
+Skills are shared files, not byte-identical lowest-common-denominator copies. They are
+tuned for Claude Code and stay usable in Codex and Copilot, which ignore frontmatter keys
+they do not know.
 
-- Frontmatter: `name` + `description` (write the description as activation triggers,
-  "Use when …" — all three agents match on it). Optional `metadata`, `license`,
-  `allowed-tools`, `argument-hint` degrade gracefully on agents that don't read them.
-- Body: markdown instructions (keep under ~500 lines; push detail into `references/`).
-- Optional `scripts/`, `references/`, `assets/` subfolders.
+- Frontmatter: `name` + `description` (key use case first, then "Use when …" triggers;
+  Claude Code cuts `description` + `when_to_use` at 1,536 characters and shows `<` / `>`
+  as `&lt;` / `&gt;`).
+- Claude Code fields are welcome where they help:
+  - `disable-model-invocation: true` for side-effect workflows (commit, release).
+  - `allowed-tools` to pre-approve what the skill needs, as narrow rules such as
+    `Bash(git diff *)` or `Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/*)`. Never a bare
+    `Bash`, which approves every shell command for the turn.
+  - `disallowed-tools` for read-only workflows (`code-review-high` drops `Edit`/`Write`).
+  - `argument-hint` for skills people call with an argument.
+  - `` !`command` `` lines to pre-fill context when the skill loads (for example
+    `git status --short` in `commit-msg`). Pick commands that exit 0 in every normal case:
+    a non-zero exit aborts the skill. Pre-approve them in `allowed-tools`, and word the
+    text so an agent that does not run them knows to run them itself.
+- Bundled scripts are called as `${CLAUDE_SKILL_DIR}/scripts/<file>`. A bare
+  `scripts/<file>` runs from the user's working directory and breaks in a plugin install.
+  Skills that use scripts start with a one-line note naming the skill directory, so an
+  agent that leaves `${CLAUDE_SKILL_DIR}` unexpanded still finds the folder.
+- Body: markdown instructions, critical rules near the top (after compaction Claude keeps
+  only the first ~5,000 tokens of a skill). Aim for under 500 lines; push detail into
+  `references/`.
+- Optional `scripts/`, `references/`, `assets/`, `agents/` subfolders.
 
-**Not allowed in shared skills:** Claude-only `context: fork` frontmatter, Codex-only
-`openai.yaml`. Those break byte-identical reuse. If a skill genuinely needs a Claude-only
-feature, keep that variant out of this repo and only in the project's `.claude/skills`.
+`task validate` (or `python3 scripts/validate_skills.py`) checks these rules.
+
+**Codex / ChatGPT metadata:** every skill carries an `agents/openai.yaml`. It is an extra
+file that Codex and the ChatGPT desktop app read and every other agent ignores, so
+`SKILL.md` stays identical. It sets the display name, a short description (64 characters
+or less), the icon (`./assets/jenreh.svg`, copied into the skill so the folder stays
+self-contained), and `policy.allow_implicit_invocation`. Codex ignores Claude's
+`disable-model-invocation`, so a manual-only skill must also set
+`allow_implicit_invocation: false`; the validator enforces that. A new skill gets a stub
+from `scripts/link-plugins.sh` (via `scripts/codex_metadata.py`); edit the generated
+text, the script never overwrites an existing file.
 
 `task validate` (or `python3 scripts/validate_skills.py`) enforces these rules.
 
@@ -126,7 +152,8 @@ After running `scripts/add-skills.sh` (or the Copier template's `include_skills`
 - **Claude Code** — open the project, run `/skills` (or ask "list your skills"). The
   skills appear by name.
 - **Codex** — run Codex in the project dir; it scans `.agents/skills` and follows the
-  symlink.
+  symlink. As a plugin marketplace: `codex plugin marketplace add jenreh/agent-skills`
+  reads `.agents/plugins/marketplace.json`; install from the ChatGPT desktop app.
 - **Copilot** — in VS Code agent mode run `/skills`, or `gh copilot`; it resolves
   `.agents/skills`.
 

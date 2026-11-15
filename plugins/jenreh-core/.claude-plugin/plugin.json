@@ -1,11 +1,26 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jenreh-core",
-  "description": "Cross-cutting agent skills (boost, commit-msg, create-readme, release, task-observer, …).",
-  "version": "0.4.0",
+  "description": "Cross-cutting skills: boost, brainstorming, deep-research, doc-coauthoring, mein-schreibstil, plain-writing, skill-creator, task-observer.",
+  "version": "0.5.0",
   "author": { "name": "Jens Rehpöhler" },
   "homepage": "https://github.com/jenreh/agent-skills",
   "repository": "https://github.com/jenreh/agent-skills",
   "license": "MIT",
-  "keywords": ["agent-skills", "claude-code", "git", "release", "documentation"]
+  "keywords": ["agent-skills", "claude-code", "writing", "research", "skills"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "jenreh Core",
+        "shortDescription": "Prompting, research, writing, and skill authoring",
+        "longDescription": "Cross-cutting skills: boost, brainstorming, deep-research, doc-coauthoring, mein-schreibstil, plain-writing, skill-creator, task-observer.",
+        "developerName": "Jens Rehpöhler",
+        "category": "Productivity",
+        "websiteURL": "https://github.com/jenreh/agent-skills",
+        "brandColor": "#4476AF",
+        "composerIcon": "./assets/jenreh.svg",
+        "logo": "./assets/jenreh.svg"
+      }
+    }
+  }
 }

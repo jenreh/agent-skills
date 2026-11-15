@@ -1,0 +1,8 @@
+interface:
+  display_name: "Frontend Design"
+  short_description: "Build distinctive, production-grade frontend UIs"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

@@ -1,31 +1,45 @@
 #!/usr/bin/env python3
-"""Validate portable SKILL.md folders for cross-agent (Claude/Codex/Copilot) use.
+"""Validate SKILL.md folders shared by Claude Code, Codex, and Copilot.
 
 Self-contained: only depends on the stdlib plus a tiny inline frontmatter parser,
-so it runs identically on a laptop and in CI without a network round-trip. The
-hosted validators on https://agentskills.io / skills.sh are stricter about some
-optional fields; run `npx skills validate` there if you want the full check.
+so it runs identically on a laptop and in CI without a network round-trip.
 
-Rules enforced (portable core, per decision D4):
-  * Every skills/<name>/ folder has a SKILL.md.
+Skills are tuned for Claude Code first. Claude-specific frontmatter
+(`allowed-tools`, `argument-hint`, `disable-model-invocation`, `context`, ...)
+is fine: Codex and Copilot ignore keys they do not know. Rules enforced:
+  * Every skills/<name>/ folder has a SKILL.md, and the flat skills/ view mirrors
+    plugins/*/skills/* exactly.
   * SKILL.md starts with a YAML frontmatter block delimited by `---`.
-  * Frontmatter has non-empty `name` and `description`.
-  * `name` matches the folder name (so cross-agent discovery is stable).
-  * `description` is written as an activation trigger and is a sane length.
-  * No Claude-only `context:`/`fork` or Codex-only `openai.yaml` that would break
-    byte-identical reuse across agents.
+  * Frontmatter has non-empty `name` and `description`; `name` matches the folder.
+  * `description` + `when_to_use` fits Claude Code's 1,536-character listing cap,
+    and avoids `<` / `>` (Claude's listing shows them as &lt; / &gt;).
+  * Bundled scripts are called via `${CLAUDE_SKILL_DIR}/scripts/...`, so they
+    resolve from a plugin install instead of the user's working directory.
+  * `allowed-tools` does not pre-approve a bare `Bash` (every shell command; warning).
+  * Codex / ChatGPT metadata lives in `agents/openai.yaml` (an extra file the
+    other agents ignore). Each skill has one, its icons exist, and
+    a mismatch with `disable-model-invocation` is reported.
 """
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
 MIN_DESC = 20
-MAX_DESC = 1500
-MAX_BODY_LINES = 600  # soft cap; warn only
+MAX_LISTING = 1536  # Claude Code truncates description + when_to_use here
+MAX_BODY_LINES = 500  # Claude Code guidance: keep SKILL.md under 500 lines; warn only
+MAX_SHORT_DESC = 64  # Codex short_description; warn only
 
-SKILLS_DIR = Path(__file__).resolve().parent.parent / "skills"
+RELATIVE_SCRIPT = re.compile(r"\b(?:python3?|node|bash|sh) scripts/")
+BARE_BASH = re.compile(r"(?:^|[\s,\[])Bash(?=$|[\s,\]])")
+
+YAML_SCALAR = r"^\s+{key}:\s*[\"']?(.*?)[\"']?\s*$"
+
+REPO_DIR = Path(__file__).resolve().parent.parent
+SKILLS_DIR = REPO_DIR / "skills"
+PLUGINS_DIR = REPO_DIR / "plugins"
 
 
 def parse_frontmatter(text: str) -> tuple[dict[str, str], int]:
@@ -79,6 +93,39 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], int]:
     return data, len(lines) - end - 1
 
 
+def yaml_value(text: str, key: str) -> str | None:
+    """Value of an indented scalar `key:` in a small YAML file, or None."""
+    match = re.search(YAML_SCALAR.format(key=re.escape(key)), text, re.MULTILINE)
+    return match.group(1) if match else None
+
+
+def check_openai_yaml(folder: Path, fm: dict[str, str], warnings: list[str]) -> list[str]:
+    path = folder / "agents" / "openai.yaml"
+    if not path.is_file():
+        return [f"{folder.name}: no agents/openai.yaml (run scripts/link-plugins.sh)"]
+    text = path.read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    implicit = yaml_value(text, "allow_implicit_invocation") or "true"
+    manual_only = fm.get("disable-model-invocation", "").lower() == "true"
+    # A mismatch can be deliberate (e.g. auto-invoke in Codex, manual in Claude),
+    # so it is reported, not rejected.
+    if manual_only and implicit != "false":
+        warnings.append(f"{folder.name}: manual-only in Claude, but Codex may auto-invoke it")
+    elif not manual_only and implicit == "false":
+        warnings.append(f"{folder.name}: manual-only in Codex, but Claude may auto-invoke it")
+
+    for key in ("icon_small", "icon_large"):
+        ref = yaml_value(text, key)
+        if ref and not (folder / ref).is_file():
+            errors.append(f"{folder.name}: agents/openai.yaml {key} '{ref}' not found")
+
+    short = yaml_value(text, "short_description") or ""
+    if len(short) > MAX_SHORT_DESC:
+        warnings.append(f"{folder.name}: short_description is {len(short)} chars (>{MAX_SHORT_DESC})")
+    return errors
+
+
 def validate_skill(folder: Path) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -103,16 +150,29 @@ def validate_skill(folder: Path) -> tuple[list[str], list[str]]:
     if not desc:
         errors.append(f"{folder.name}: frontmatter missing 'description'")
     else:
+        listing = desc + fm.get("when_to_use", "")
         if len(desc) < MIN_DESC:
             errors.append(f"{folder.name}: description too short ({len(desc)} chars)")
-        if len(desc) > MAX_DESC:
-            warnings.append(f"{folder.name}: description very long ({len(desc)} chars)")
+        if len(listing) > MAX_LISTING:
+            errors.append(
+                f"{folder.name}: description + when_to_use is {len(listing)} chars; "
+                f"Claude Code truncates at {MAX_LISTING}"
+            )
+        if "<" in listing or ">" in listing:
+            warnings.append(f"{folder.name}: '<' or '>' in description shows as &lt;/&gt; in Claude")
 
-    # Portability guards (D4).
-    if "context:" in text.split("---", 2)[1] if text.count("---") >= 2 else False:
-        warnings.append(f"{folder.name}: 'context:' frontmatter is Claude-only")
+    body = text.split("---", 2)[2] if text.count("---") >= 2 else text
+    for match in sorted(set(RELATIVE_SCRIPT.findall(body))):
+        warnings.append(
+            f"{folder.name}: '{match}' runs from the user's cwd; use "
+            "'${CLAUDE_SKILL_DIR}/scripts/'"
+        )
+    if BARE_BASH.search(fm.get("allowed-tools", "")):
+        warnings.append(f"{folder.name}: allowed-tools pre-approves every Bash command; narrow it")
+
     if (folder / "openai.yaml").exists():
-        errors.append(f"{folder.name}: openai.yaml is Codex-only; not portable")
+        errors.append(f"{folder.name}: openai.yaml belongs in agents/openai.yaml")
+    errors.extend(check_openai_yaml(folder, fm, warnings))
 
     if body_lines > MAX_BODY_LINES:
         warnings.append(
@@ -121,6 +181,26 @@ def validate_skill(folder: Path) -> tuple[list[str], list[str]]:
         )
 
     return errors, warnings
+
+
+def check_flat_view() -> list[str]:
+    """The flat skills/ view must mirror plugins/*/skills/* exactly.
+
+    Broken symlinks are invisible to the per-folder checks (is_dir() is False),
+    so a skill moved between plugins would otherwise vanish silently.
+    """
+    errors: list[str] = []
+    for entry in sorted(SKILLS_DIR.iterdir()):
+        if entry.is_symlink() and not entry.exists():
+            errors.append(f"skills/{entry.name}: broken symlink (run scripts/link-plugins.sh)")
+    if PLUGINS_DIR.is_dir():
+        for sdir in sorted(PLUGINS_DIR.glob("*/skills/*")):
+            if sdir.is_dir() and not (SKILLS_DIR / sdir.name).exists():
+                errors.append(
+                    f"skills/{sdir.name}: missing link to {sdir.relative_to(REPO_DIR)} "
+                    "(run scripts/link-plugins.sh)"
+                )
+    return errors
 
 
 def main() -> int:
@@ -133,7 +213,7 @@ def main() -> int:
         print("ERROR: no skills found", file=sys.stderr)
         return 2
 
-    all_errors: list[str] = []
+    all_errors: list[str] = check_flat_view()
     all_warnings: list[str] = []
     for folder in folders:
         errs, warns = validate_skill(folder)

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "jenreh-agents",
+  "description": "AI agent skills: building-pydantic-ai-agents, deepeval, deepeval-tracing, deepeval-otel.",
+  "version": "0.1.0",
+  "author": { "name": "Jens Rehpöhler" },
+  "homepage": "https://github.com/jenreh/agent-skills",
+  "repository": "https://github.com/jenreh/agent-skills",
+  "license": "Apache-2.0",
+  "keywords": ["agent-skills", "claude-code", "agents", "pydantic-ai", "deepeval", "opentelemetry"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "jenreh Agents",
+        "shortDescription": "Build, evaluate, and trace AI agents in Azure or AWS",
+        "longDescription": "AI agent skills: building-pydantic-ai-agents, deepeval, deepeval-tracing, deepeval-otel.",
+        "developerName": "Jens Rehpöhler",
+        "category": "Coding",
+        "websiteURL": "https://github.com/jenreh/agent-skills",
+        "brandColor": "#4476AF",
+        "composerIcon": "./assets/jenreh.svg",
+        "logo": "./assets/jenreh.svg"
+      }
+    }
+  }
+}

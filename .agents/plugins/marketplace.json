@@ -1,0 +1,104 @@
+{
+  "name": "jenreh",
+  "interface": {
+    "displayName": "jenreh agent skills"
+  },
+  "plugins": [
+    {
+      "name": "jenreh-agents",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-agents"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "jenreh-core",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-core"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "jenreh-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "jenreh-graphdb",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-graphdb"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "jenreh-python",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-python"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "jenreh-reflex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-reflex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "jenreh-terraform",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-terraform"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "jenreh-tools",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jenreh-tools"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

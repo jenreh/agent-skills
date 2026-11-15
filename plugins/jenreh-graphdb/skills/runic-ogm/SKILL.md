@@ -33,21 +33,17 @@ For the full API surface (every `Field`/`Relation` parameter, all `Session`,
 [references/api-reference.md](references/api-reference.md). For task-oriented
 recipes and gotchas read [references/cookbook.md](references/cookbook.md).
 
-> The snippets below omit the `# type: ignore` / `# noqa` comments the repo's
-> own examples carry. Those exist only because `Field()`/`Relation()` return
-> `Any` and the descriptor comparison operators (`User.age > 18`) confuse some
-> type checkers. The code is correct as written; add the ignores only if your
-> checker complains.
+> The snippets omit the `# type: ignore` comments the repo's examples carry
+> (`Field()` returns `Any`, which confuses some type checkers). Add them only if
+> your checker complains.
 
 ---
 
 ## Quick start
 
-> **All runic.ogm imports come from `runic.ogm` directly.** `Session`,
-> `Repository`, `select`, and their methods (`add`, `commit`, `flush`,
-> `scalars`, `relate`, `unrelate`, `query`, `count`, `all_rows`, etc.) are
-> **runic.ogm-native API** — not from SQLAlchemy or any other ORM. Never
-> import from `runic.ogm.orm.*` — the package root re-exports everything.
+> **Import everything from `runic.ogm`**, never from `runic.ogm.orm.*`.
+> `Session`, `Repository`, `select` and their methods are runic's own API, not
+> SQLAlchemy's.
 
 ```python
 from runic.ogm import (
@@ -78,15 +74,8 @@ with Session(driver) as session:
 driver.close()
 ```
 
-Embedded FalkorDB (no server, great for tests/examples):
-
-```python
-from redislite import FalkorDB
-from runic.ogm.driver.falkordb import FalkorDBDriver
-
-db = FalkorDB(protocol=2)               # protocol=2 avoids a redis-py 8 issue
-driver = FalkorDBDriver(db.select_graph("app"))
-```
+For tests without a server, use embedded FalkorDB (redislite): see the
+cookbook's "Testing" section.
 
 ---
 
@@ -144,20 +133,10 @@ parameter table in [references/api-reference.md](references/api-reference.md).
   search. The declarations live on the model; actual index *creation* is done by
   `runic.migrate`'s `IndexManager` (see the `runic-migrate` skill).
 
-**Polymorphism** uses multi-label nodes with a shared `primary_label`. A query
-on the base class returns the correct concrete subtypes:
-
-```python
-class Location(Node, labels=["Location"], primary_label="Location"):
-    id: str
-    title: str
-
-class City(Location, labels=["Location", "City"], primary_label="Location"):
-    population: int | None = None
-```
-
-`Repository(session, Location).find_all()` returns a mix of `City`, etc., each
-as its concrete type. Full example: [examples/polymorphism.py](examples/polymorphism.py).
+**Polymorphism** uses multi-label nodes that share a `primary_label`
+(`class City(Location, labels=["Location", "City"], primary_label="Location")`).
+A query on the base class returns each row as its concrete subtype. Full
+example: [examples/polymorphism.py](examples/polymorphism.py).
 
 ---
 
@@ -219,10 +198,8 @@ session.unrelate(user, User.articles, article)   # remove the relationship
 - **Default to lazy; reach for `fetch=` when you know you need the data**,
   especially in loops (avoids N+1) or before detaching an entity.
 - **Async has no lazy loading.** In `AsyncSession`, accessing an unloaded
-  relation raises `LazyLoadError` — you *must* use
-  `await session.get(Cls, pk, fetch=[...])`. `relate()` / `unrelate()` in async
-  are coroutines (`await session.relate(...)`). The session-bound query builder
-  is also async: `await session.query(Cls).where(...).all()`. See
+  relation raises `LazyLoadError`, so use `await session.get(Cls, pk, fetch=[...])`.
+  Session methods and bound builders are coroutines there. See
   [examples/async_session.py](examples/async_session.py).
 - **Detached entities raise `DetachedEntityError`** on lazy access. After the
   session closes or you `expunge()`, the data is gone — fetch eagerly first.
@@ -316,11 +293,8 @@ per_user = session.all_rows(
 )
 ```
 
-`group_by` keeps its argument verbatim in the RETURN, and Cypher groups on any
-non-aggregated term. Pass `"alias.property"` (e.g. `"n.city"`) to group by a
-field — the result key is then that same string (`"n.city"`); pass a bare alias
-to group by the whole node. Helpers: `count`, `avg`, `sum_`, `min_`, `max_`,
-`collect` (each with `.as_()`; `count`/`collect` accept `distinct=True`).
+Helpers: `count`, `avg`, `sum_`, `min_`, `max_`, `collect` (each with
+`.as_()`; `count`/`collect` accept `distinct=True`).
 
 **Traversal** — alias nodes, hop across relationships, filter by alias:
 
@@ -358,17 +332,10 @@ for user, edge, movie in rows:    # (User, Rated, Movie) tuples
     ...
 ```
 
-**Search (FalkorDB)** — needs the relevant index created first:
-
-```python
-session.fulltext_search(Article, query="graph databases").where(
-    Article.published == True
-).limit(10).all()
-
-session.vector_search(
-    Article, field=Article.embedding, vector=[0.1, 0.2, 0.3, 0.4], k=3
-).all()
-```
+**Search:** `session.fulltext_search(Article, query="...")` and
+`session.vector_search(Article, field=Article.embedding, vector=[...], k=3)`
+return builders (`.where()`, `.limit()`, `.all()`). Both need a pre-created index;
+setup per backend is in the cookbook's "Fulltext & vector search" section.
 
 **Inspect without executing:** `cypher, params = select(...).build()`. Reach for
 this when debugging a query or explaining what runic generates.
@@ -396,28 +363,8 @@ this when debugging a query or explaining what runic generates.
   - `self.cypher_one(q, params, returns=int)` — first mapped row; use for single scalars
   - `self.cypher_raw(q, params)` — returns `GraphResult` with `.columns` (list of names) and `.rows` (list of value lists)
 
-```python
-class ArticleRepository(Repository[Article]):
-    def by_author(self, author: str) -> list[Article]:
-        return self.cypher(
-            "MATCH (a:Article {author: $a}) RETURN a", {"a": author}, returns=Article
-        )
-
-    def count_by_status(self, status: str) -> int:
-        return self.cypher_one(
-            "MATCH (a:Article {status: $s}) RETURN count(a)", {"s": status}, returns=int
-        )
-
-    def stats(self):
-        raw = self.cypher_raw(
-            "MATCH (a:Article) RETURN a.author AS author, count(a) AS n", {}
-        )
-        return [dict(zip(raw.columns, row)) for row in raw.rows]
-```
-
-See [references/api-reference.md](references/api-reference.md) for every method
-signature and [references/cookbook.md](references/cookbook.md) for async,
-multi-backend, performance, and error-handling recipes.
+  A worked `ArticleRepository` is in the cookbook's "Custom repositories & raw
+  Cypher" section.
 
 ---
 
@@ -433,11 +380,7 @@ multi-backend, performance, and error-handling recipes.
   cookbook multi-backend table); they are absent on ArcadeDB and Apache AGE.
 - **Multi-backend driver params differ.** FalkorDB uses `graph=` (the graph
   name); Neo4j/Memgraph/ArcadeDB use `database=`, `username=`, `password=`.
-  Neo4j defaults to `encrypted=True`. Example:
-  ```python
-  create_driver("neo4j", host="localhost", port=7687,
-                database="neo4j", username="neo4j", password="…")  # encrypted=True
-  ```
-  Pass the driver to `Session(driver)` — models and queries are unchanged.
+  Neo4j defaults to `encrypted=True`. Models and queries are unchanged across
+  backends (api-reference "Drivers & factory").
 - Indexes are *declared* on models but *created* by `runic.migrate` — keep
   schema changes in migrations, not application code.

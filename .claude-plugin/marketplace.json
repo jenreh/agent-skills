@@ -9,18 +9,26 @@
   },
   "plugins": [
     {
+      "name": "jenreh-agents",
+      "source": "./plugins/jenreh-agents",
+      "description": "AI agent skills: building-pydantic-ai-agents, deepeval, deepeval-tracing, deepeval-otel.",
+      "version": "0.1.0",
+      "author": { "name": "Jens Rehpöhler" },
+      "license": "Apache-2.0"
+    },
+    {
       "name": "jenreh-core",
       "source": "./plugins/jenreh-core",
-      "description": "Cross-cutting skills: boost, code-cleanup, commit-msg, create-readme, frontend-design, mein-schreibstil, plain-writing, release, task-observer.",
-      "version": "0.4.0",
+      "description": "Cross-cutting skills: boost, brainstorming, deep-research, doc-coauthoring, mein-schreibstil, plain-writing, skill-creator, task-observer.",
+      "version": "0.5.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
     {
       "name": "jenreh-design",
       "source": "./plugins/jenreh-design",
-      "description": "Design skills: brand, design, design-system, hallmark, ui-styling, ui-ux-pro-max.",
-      "version": "0.2.0",
+      "description": "Design skills: brand, design, design-system, frontend-design, hallmark, ui-styling, ui-ux-pro-max.",
+      "version": "0.3.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
@@ -35,8 +43,8 @@
     {
       "name": "jenreh-python",
       "source": "./plugins/jenreh-python",
-      "description": "Python archetype skills: python-coding, python-clean-code, appkit-commons, code-review-high, docker-multi-stage, github-actions-cicd.",
-      "version": "0.5.0",
+      "description": "Python skills: python-coding, python-clean-code, appkit-commons, code-cleanup, code-review-high, code-simplifier, docker-multi-stage, github-actions-cicd, systematic-debugging, test-driven-development.",
+      "version": "0.6.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
@@ -44,7 +52,7 @@
       "name": "jenreh-reflex",
       "source": "./plugins/jenreh-reflex",
       "description": "reflex.dev / AppKit web skills: appkit-mantine-reference, appkit-user, reflex-docs, reflex-state-and-architecture, reflex-testing-state.",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },
@@ -53,6 +61,14 @@
       "source": "./plugins/jenreh-terraform",
       "description": "Terraform / infra skills: AVM modules, refactor, acceptance tests, search-import, stacks, style-guide, test.",
       "version": "0.3.0",
+      "author": { "name": "Jens Rehpöhler" },
+      "license": "MIT"
+    },
+    {
+      "name": "jenreh-tools",
+      "source": "./plugins/jenreh-tools",
+      "description": "Developer tool skills: commit-msg, create-readme, drawio-skill, mermaid-skill, release.",
+      "version": "0.1.0",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     }

@@ -5,9 +5,12 @@ argument-hint: "[update|review|create] [args]"
 metadata:
   author: claudekit
   version: "1.0.0"
+allowed-tools: Bash(node ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
 
 # Brand
+
+> Skill directory: `${CLAUDE_SKILL_DIR}` (the folder that contains this SKILL.md; use that folder if your agent shows the placeholder unexpanded). Bundled script paths below are relative to it.
 
 Brand identity, voice, messaging, asset management, and consistency frameworks.
 
@@ -24,19 +27,19 @@ Brand identity, voice, messaging, asset management, and consistency frameworks.
 
 **Inject brand context into prompts:**
 ```bash
-node scripts/inject-brand-context.cjs
-node scripts/inject-brand-context.cjs --json
+node ${CLAUDE_SKILL_DIR}/scripts/inject-brand-context.cjs
+node ${CLAUDE_SKILL_DIR}/scripts/inject-brand-context.cjs --json
 ```
 
 **Validate an asset:**
 ```bash
-node scripts/validate-asset.cjs <asset-path>
+node ${CLAUDE_SKILL_DIR}/scripts/validate-asset.cjs <asset-path>
 ```
 
 **Extract/compare colors:**
 ```bash
-node scripts/extract-colors.cjs --palette
-node scripts/extract-colors.cjs <image-path>
+node ${CLAUDE_SKILL_DIR}/scripts/extract-colors.cjs --palette
+node ${CLAUDE_SKILL_DIR}/scripts/extract-colors.cjs <image-path>
 ```
 
 ## Brand Sync Workflow
@@ -44,9 +47,9 @@ node scripts/extract-colors.cjs <image-path>
 ```bash
 # 1. Edit docs/brand-guidelines.md (or use /brand update)
 # 2. Sync to design tokens
-node scripts/sync-brand-to-tokens.cjs
+node ${CLAUDE_SKILL_DIR}/scripts/sync-brand-to-tokens.cjs
 # 3. Verify
-node scripts/inject-brand-context.cjs --json | head -20
+node ${CLAUDE_SKILL_DIR}/scripts/inject-brand-context.cjs --json | head -20
 ```
 
 **Files synced:**

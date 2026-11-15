@@ -1,0 +1,8 @@
+interface:
+  display_name: "Brainstorming"
+  short_description: "Shape an idea into a design before building it"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

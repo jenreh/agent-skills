@@ -1,12 +1,27 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jenreh-python",
-  "description": "Python archetype skills (python-coding, appkit-commons, code-review-high, docker-multi-stage, …).",
-  "version": "0.5.0",
+  "description": "Python skills: python-coding, python-clean-code, appkit-commons, code-cleanup, code-review-high, code-simplifier, docker-multi-stage, github-actions-cicd, systematic-debugging, test-driven-development.",
+  "version": "0.6.0",
   "author": { "name": "Jens Rehpöhler" },
   "homepage": "https://github.com/jenreh/agent-skills",
   "repository": "https://github.com/jenreh/agent-skills",
   "license": "MIT",
   "keywords": ["agent-skills", "claude-code", "python", "docker", "ci-cd"],
-  "dependencies": [{ "name": "jenreh-core" }]
+  "dependencies": [{ "name": "jenreh-core" }],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "jenreh Python",
+        "shortDescription": "Python style, clean code, debugging, TDD, and CI",
+        "longDescription": "Python skills: python-coding, python-clean-code, appkit-commons, code-cleanup, code-review-high, code-simplifier, docker-multi-stage, github-actions-cicd, systematic-debugging, test-driven-development.",
+        "developerName": "Jens Rehpöhler",
+        "category": "Coding",
+        "websiteURL": "https://github.com/jenreh/agent-skills",
+        "brandColor": "#4476AF",
+        "composerIcon": "./assets/jenreh.svg",
+        "logo": "./assets/jenreh.svg"
+      }
+    }
+  }
 }

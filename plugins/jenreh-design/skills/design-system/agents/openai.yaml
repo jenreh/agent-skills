@@ -1,0 +1,8 @@
+interface:
+  display_name: "Design System"
+  short_description: "Design tokens, component specs, and slides"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

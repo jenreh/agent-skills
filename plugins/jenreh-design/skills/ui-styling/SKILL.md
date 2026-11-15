@@ -10,6 +10,8 @@ metadata:
 
 # UI Styling Skill
 
+> Skill directory: `${CLAUDE_SKILL_DIR}` (the folder that contains this SKILL.md; use that folder if your agent shows the placeholder unexpanded). Bundled script paths below are relative to it.
+
 Comprehensive skill for creating beautiful, accessible user interfaces combining shadcn/ui components, Tailwind CSS utility styling, and canvas-based visual design systems.
 
 ## Reference
@@ -215,13 +217,13 @@ Covers:
 ### shadcn_add.py
 Add shadcn/ui components with dependency handling:
 ```bash
-python scripts/shadcn_add.py button card dialog
+python ${CLAUDE_SKILL_DIR}/scripts/shadcn_add.py button card dialog
 ```
 
 ### tailwind_config_gen.py
 Generate tailwind.config.js with custom theme:
 ```bash
-python scripts/tailwind_config_gen.py --colors brand:blue --fonts display:Inter
+python ${CLAUDE_SKILL_DIR}/scripts/tailwind_config_gen.py --colors brand:blue --fonts display:Inter
 ```
 
 ## Best Practices

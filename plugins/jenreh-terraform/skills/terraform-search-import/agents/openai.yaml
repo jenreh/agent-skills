@@ -1,0 +1,8 @@
+interface:
+  display_name: "Terraform Search & Import"
+  short_description: "Find cloud resources and bulk import them"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

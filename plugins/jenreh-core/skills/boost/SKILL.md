@@ -1,7 +1,8 @@
 ---
 name: boost
 description: Use when the user wants to refine, sharpen, or expand a rough idea into a detailed implementation prompt — before any code gets written. Trigger on /boost, "refine this prompt", "turn this into a prompt", "help me specify", "what do I need to think through before implementing", "can you make this more detailed", rough feature ideas the user explicitly wants help scoping (not implementing). Also trigger when user says "boost this" or hands you a vague feature description and asks for a proper prompt or spec. Do NOT trigger for direct implementation requests, debugging questions, code reviews, or architectural questions where the user is not asking for a refined prompt.
-allowed-tools: Read, Bash, WebSearch, WebFetch, Agent, TodoWrite, EnterPlanMode, ExitPlanMode, mcp__code-reasoning__code-reasoning, mcp__duckduckgo__search, mcp__plugin_context7_context7__query-docs, mcp__plugin_context7_context7__resolve-library-id
+allowed-tools: Read, Glob, Grep, Bash(git log *), Bash(git status *), Bash(ls *), Bash(tree *), WebSearch, WebFetch, Agent, TodoWrite, EnterPlanMode, ExitPlanMode, mcp__code-reasoning__code-reasoning, mcp__duckduckgo__search, mcp__plugin_jenreh-core_code-reasoning__code-reasoning, mcp__plugin_jenreh-core_duckduckgo__search, mcp__plugin_jenreh-core_context7__query-docs, mcp__plugin_jenreh-core_context7__resolve-library-id
+argument-hint: "[rough idea]"
 ---
 
 # Boost — Prompt Refinement Workflow

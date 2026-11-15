@@ -1,0 +1,8 @@
+interface:
+  display_name: "Commit Message"
+  short_description: "Write a conventional commit message for your changes"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: false

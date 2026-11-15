@@ -1,11 +1,26 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jenreh-design",
-  "description": "Design skills: brand, design, design-system, hallmark, ui-styling, ui-ux-pro-max.",
-  "version": "0.2.0",
+  "description": "Design skills: brand, design, design-system, frontend-design, hallmark, ui-styling, ui-ux-pro-max.",
+  "version": "0.3.0",
   "author": { "name": "Jens Rehpöhler" },
   "homepage": "https://github.com/jenreh/agent-skills",
   "repository": "https://github.com/jenreh/agent-skills",
   "license": "MIT",
-  "keywords": ["agent-skills", "claude-code", "design", "diagrams", "frontend"]
+  "keywords": ["agent-skills", "claude-code", "design", "frontend", "ui"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "jenreh Design",
+        "shortDescription": "Brand, design systems, and frontend UI design",
+        "longDescription": "Design skills: brand, design, design-system, frontend-design, hallmark, ui-styling, ui-ux-pro-max.",
+        "developerName": "Jens Rehpöhler",
+        "category": "Design",
+        "websiteURL": "https://github.com/jenreh/agent-skills",
+        "brandColor": "#4476AF",
+        "composerIcon": "./assets/jenreh.svg",
+        "logo": "./assets/jenreh.svg"
+      }
+    }
+  }
 }

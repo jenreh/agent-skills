@@ -1,11 +1,26 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jenreh-terraform",
-  "description": "Terraform / infra skills (terraform-*).",
+  "description": "Terraform / infra skills: AVM modules, refactor, acceptance tests, search-import, stacks, style-guide, test.",
   "version": "0.3.0",
   "author": { "name": "Jens Rehpöhler" },
   "homepage": "https://github.com/jenreh/agent-skills",
   "repository": "https://github.com/jenreh/agent-skills",
   "license": "MIT",
-  "keywords": ["agent-skills", "claude-code", "terraform", "azure", "iac"]
+  "keywords": ["agent-skills", "claude-code", "terraform", "azure", "iac"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "jenreh Terraform",
+        "shortDescription": "Write, test, refactor, and import Terraform",
+        "longDescription": "Terraform / infra skills: AVM modules, refactor, acceptance tests, search-import, stacks, style-guide, test.",
+        "developerName": "Jens Rehpöhler",
+        "category": "Coding",
+        "websiteURL": "https://github.com/jenreh/agent-skills",
+        "brandColor": "#4476AF",
+        "composerIcon": "./assets/jenreh.svg",
+        "logo": "./assets/jenreh.svg"
+      }
+    }
+  }
 }

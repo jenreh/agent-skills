@@ -7,9 +7,38 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ### Added
 
+- Codex / ChatGPT integration: every skill has an `agents/openai.yaml` with a display
+  name, short description, the `jenreh.svg` icon, and `allow_implicit_invocation`
+  (`false` for the manual-only `commit-msg`, `release`, `code-cleanup`, `drawio-skill`,
+  and `mermaid-skill`, which Codex would otherwise start on its own). Each `plugin.json`
+  carries an `extensions.com.openai.interface` card, and `.agents/plugins/marketplace.json`
+  lists the plugins in Codex's format, so `codex plugin marketplace add jenreh/agent-skills`
+  works. `scripts/codex_metadata.py` generates the layer; the validators check it.
+- `jenreh-tools` 0.1.0: new plugin for developer tool skills (`commit-msg`, `create-readme`,
+  `drawio-skill`, `mermaid-skill`, `release`).
+- `jenreh-agents` 0.1.0: new plugin with `building-pydantic-ai-agents`, `deepeval`,
+  `deepeval-tracing`, and `deepeval-otel`, vendored from Arvato Systems' `nmxdi-agents`
+  1.1.1 (Apache-2.0, license kept in `licenses/`).
+- `jenreh-core` 0.5.0: `brainstorming`, `deep-research`, `doc-coauthoring`, and
+  `skill-creator` skills. `skill-creator`'s `SKILL.md` is slimmed: description optimization
+  and the Claude.ai / Cowork notes moved to `references/`.
+- `jenreh-python` 0.6.0: `code-simplifier`, `systematic-debugging`, and
+  `test-driven-development` skills.
+- `jenreh-reflex` 0.4.1: `appkit-user` 1.2 documents `authenticated_page` with a `template`
+  callable and the `PageLayout` argument of the login and password-reset page factories.
+  `appkit-mantine-reference` 1.8 adds the app helpers (`mn.theme_wrapper`, `mn.ThemeState`,
+  `mn.LoadingState`, `mn.with_loading_reset`, `mn.delete_dialog`) and hidden form fields via
+  `mn.form.input`. `reflex-state-and-architecture` 1.2 says where page layouts live.
+  `appkit-mantine-reference` 1.9 trims `SKILL.md` by about a third: one component index
+  replaces the category list and decision tree, and the project-specific `alloq_commons`
+  formatting helpers are removed.
+- `jenreh-python` 0.6.0: `appkit-commons` 2.3 lists the secret providers
+  (`SECRET_PROVIDER`, `SECRET_NAMESPACE`) and the `appkit-secrets` CLI.
 - `jenreh-design` 0.2.0: `hallmark` skill, vendored from
   [Nutlope/hallmark](https://github.com/Nutlope/hallmark) (MIT, license kept in the skill folder).
-- `jenreh-graphdb` 0.1.0: new plugin for graph database skills.
+- `jenreh-graphdb` 0.1.0: new plugin for graph database skills. `runic-ogm`'s `SKILL.md`
+  points to the cookbook for search, custom repositories, polymorphism, and embedded tests
+  instead of repeating them.
 - `jenreh-reflex` 0.3.6: `appkit-commons` 2.2 adds the ASGI middleware section
   (`ForceHTTPSMiddleware`, `SecurityHeadersMiddleware`). `appkit-user` 1.1 describes the login
   throttle as stored in `auth_login_throttle`, shared across workers and restarts.
@@ -50,6 +79,43 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ### Changed
 
+- Skills are now tuned for Claude Code instead of kept byte-identical across agents:
+  - Bundled scripts run via `${CLAUDE_SKILL_DIR}/scripts/...`, so they work from a plugin
+    install. This fixes `design` (pointed at `~/.claude/skills/design`), `ui-ux-pro-max`
+    (pointed at `${CLAUDE_PLUGIN_ROOT}/.claude/skills/...`), and the cwd-relative calls in
+    `brand`, `design-system`, `ui-styling`, `hallmark`, `task-observer`, `drawio-skill`,
+    `mermaid-skill`, and `skill-creator`.
+  - `allowed-tools` pre-approves those scripts and the read-only commands each workflow
+    needs. Bare `Bash` grants in `drawio-skill`, `commit-msg`, `release`, `code-cleanup`,
+    and `boost` are narrowed to specific commands; paid image generation in `design` still
+    asks.
+  - `commit-msg` and `release` pre-fill git status (and diff stats and recent commits) when
+    they load. `release` accepts `patch`, `minor`, or `major` as an argument and warns on a
+    dirty tree.
+  - `code-review-high` cannot edit files while it runs (`disallowed-tools`).
+  - `argument-hint` on the skills people call with an argument.
+  - `boost` uses the plugin-namespaced MCP tool names; `hallmark`'s description no longer
+    has `<` / `>`, which Claude's skill listing shows as `&lt;` / `&gt;`.
+  - `drawio-skill` and `mermaid-skill` are model-invocable again (Claude and Codex start them
+    on their own).
+  - The four skills over 500 lines now keep their rules in `SKILL.md` and move detail into
+    `references/`, loaded on demand: `task-observer` 700 → 493 (`references/acting.md`,
+    `references/writing-observations.md`; its own bundle gate and selftests pass),
+    `reflex-state-and-architecture` 575 → 448 (`backend-patterns.md`,
+    `mantine-examples.md`), `terraform-refactor-module` 538 → 290 (`worked-example.md`,
+    `module-readme-template.md`), `appkit-commons` 533 → 398 (`path-prefix.md`,
+    `scheduler.md`, `middleware.md`). Anti-pattern tables moved near the top, since Claude
+    keeps only the first ~5,000 tokens of a skill after compaction.
+  - The validator warns on SKILL.md files over 500 lines (was 600), cwd-relative script calls, bare `Bash` grants, and angle brackets
+    in descriptions, and fails on descriptions over Claude Code's 1,536-character cap.
+- `jenreh-core` 0.5.0: `commit-msg`, `create-readme`, `release`, `drawio-skill`, and
+  `mermaid-skill` moved to `jenreh-tools`; `code-cleanup` moved to `jenreh-python`;
+  `frontend-design` moved to `jenreh-design` (0.3.0). Reinstall the target plugin to keep them.
+- `code-cleanup`: `allowed-tools` uses the plugin-namespaced MCP tool names
+  (`mcp__plugin_jenreh-core_context7__*`), so the pre-approval matches again.
+- `scripts/link-plugins.sh` keeps each plugin's own version and license instead of writing
+  `0.3.0` / MIT into every manifest. The validators now fail on broken or missing links in
+  `skills/` and on plugins missing from `marketplace.json` or listed with a different version.
 - `jenreh-graphdb` 0.1.0: `runic-ogm` and `runic-migrate` moved here from `jenreh-python`.
 - `jenreh-python` 0.5.0: `appkit-commons` moved here from `jenreh-reflex` (0.4.0).
   `jenreh-reflex` already depends on `jenreh-python`.

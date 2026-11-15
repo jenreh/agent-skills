@@ -875,7 +875,7 @@ Steps 3 and 4.
 
 ## Assigning an id
 
-Rules: core, How to Log. The snippet lives in the core; the notes below
+Rules: core, How to Log. The snippet lives in `writing-observations.md`; the notes below
 explain its lines.
 
 The snippet leaves the derived number in `$next_id` and the target path in

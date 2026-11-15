@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "jenreh-tools",
+  "description": "Developer tool skills: commit-msg, create-readme, drawio-skill, mermaid-skill, release.",
+  "version": "0.1.0",
+  "author": { "name": "Jens Rehpöhler" },
+  "homepage": "https://github.com/jenreh/agent-skills",
+  "repository": "https://github.com/jenreh/agent-skills",
+  "license": "MIT",
+  "keywords": ["agent-skills", "claude-code", "git", "release", "documentation", "diagrams"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "jenreh Tools",
+        "shortDescription": "Commit messages, releases, READMEs, and diagrams",
+        "longDescription": "Developer tool skills: commit-msg, create-readme, drawio-skill, mermaid-skill, release.",
+        "developerName": "Jens Rehpöhler",
+        "category": "Productivity",
+        "websiteURL": "https://github.com/jenreh/agent-skills",
+        "brandColor": "#4476AF",
+        "composerIcon": "./assets/jenreh.svg",
+        "logo": "./assets/jenreh.svg"
+      }
+    }
+  }
+}

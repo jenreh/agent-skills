@@ -265,6 +265,90 @@ def check_skills(plugin: Path, rep: Report) -> int:
     return count
 
 
+def check_marketplace(plugins_dir: Path, plugins: list[Path], rep: Report) -> None:
+    """Every plugin is listed once in marketplace.json with its manifest's version."""
+    path = plugins_dir.parent / ".claude-plugin" / "marketplace.json"
+    if not path.is_file():
+        return
+    try:
+        entries = json.loads(path.read_text(encoding="utf-8")).get("plugins", [])
+    except (OSError, json.JSONDecodeError) as exc:
+        rep.error(f"marketplace.json: {exc}")
+        return
+    listed = {}
+    for entry in entries:
+        name = entry.get("name")
+        if name in listed:
+            rep.error(f"marketplace.json: plugin '{name}' listed twice")
+        listed[name] = entry
+    for plugin in plugins:
+        entry = listed.pop(plugin.name, None)
+        if entry is None:
+            rep.error(f"marketplace.json: plugin '{plugin.name}' is not listed")
+            continue
+        if entry.get("source") != f"./plugins/{plugin.name}":
+            rep.error(f"marketplace.json: '{plugin.name}' source is {entry.get('source')!r}")
+        try:
+            manifest = json.loads((plugin / "plugin.json").read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue  # already reported by check_manifest
+        if entry.get("version") != manifest.get("version"):
+            rep.error(
+                f"marketplace.json: '{plugin.name}' version {entry.get('version')!r} != "
+                f"plugin.json version {manifest.get('version')!r}"
+            )
+    for name in listed:
+        rep.error(f"marketplace.json: '{name}' has no plugins/{name} directory")
+
+
+def check_openai_interface(plugin: Path, rep: Report) -> None:
+    """Icon paths in extensions.com.openai.interface must exist inside the plugin."""
+    try:
+        manifest = json.loads((plugin / "plugin.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return  # already reported by check_manifest
+    interface = manifest.get("extensions", {}).get("com.openai", {}).get("interface", {})
+    for key in ("composerIcon", "logo"):
+        ref = interface.get(key)
+        if ref is None:
+            continue
+        target = (plugin / ref).resolve()
+        if not ref.startswith("./") or plugin.resolve() not in target.parents:
+            rep.error(f"{plugin.name}: com.openai interface.{key} '{ref}' must stay inside the plugin")
+        elif not target.is_file():
+            rep.error(f"{plugin.name}: com.openai interface.{key} '{ref}' not found")
+
+
+def check_codex_marketplace(plugins_dir: Path, plugins: list[Path], rep: Report) -> None:
+    """.agents/plugins/marketplace.json lists every plugin in Codex's format."""
+    path = plugins_dir.parent / ".agents" / "plugins" / "marketplace.json"
+    if not path.is_file():
+        return
+    label = ".agents/plugins/marketplace.json"
+    try:
+        entries = json.loads(path.read_text(encoding="utf-8")).get("plugins", [])
+    except (OSError, json.JSONDecodeError) as exc:
+        rep.error(f"{label}: {exc}")
+        return
+    listed = {e.get("name"): e for e in entries}
+    for plugin in plugins:
+        entry = listed.pop(plugin.name, None)
+        if entry is None:
+            rep.error(f"{label}: plugin '{plugin.name}' is not listed (run scripts/link-plugins.sh)")
+            continue
+        source = entry.get("source")
+        if source != {"source": "local", "path": f"./plugins/{plugin.name}"}:
+            rep.error(f"{label}: '{plugin.name}' source is {source!r}")
+        policy = entry.get("policy") or {}
+        for field in ("installation", "authentication"):
+            if not policy.get(field):
+                rep.error(f"{label}: '{plugin.name}' is missing policy.{field}")
+        if not entry.get("category"):
+            rep.error(f"{label}: '{plugin.name}' is missing category")
+    for name in listed:
+        rep.error(f"{label}: '{name}' has no plugins/{name} directory")
+
+
 def main(argv: list[str]) -> int:
     # Optional path argument so the checks can be exercised against a fixture.
     plugins_dir = Path(argv[0]).resolve() if argv else PLUGINS_DIR
@@ -283,6 +367,9 @@ def main(argv: list[str]) -> int:
         check_manifest(plugin, rep)
         check_mcp(plugin, rep)
         total_skills += check_skills(plugin, rep)
+        check_openai_interface(plugin, rep)
+    check_marketplace(plugins_dir, plugins, rep)
+    check_codex_marketplace(plugins_dir, plugins, rep)
 
     for w in rep.warnings:
         print(f"WARN  {w}")

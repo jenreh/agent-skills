@@ -1,0 +1,7 @@
+Apache-2.0
+
+This skill is distributed under the same license as DeepEval. See the
+plugin root `../../licenses/LICENSE.md` for the full Apache License, Version 2.0 text.
+
+Adapted by Arvato Systems: Azure/AWS cloud instrumentation,
+content controls, integration guidance, and optional local evaluation workflow.

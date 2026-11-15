@@ -5,7 +5,7 @@ description: >
   service registry, repository pattern, database models, project architecture.
 metadata:
   author: jens-rehpoehler
-  version: "1.1"
+  version: "1.2"
   license: MIT
 ---
 
@@ -46,7 +46,23 @@ app/
 
 ---
 
-## 2. State Management
+## 2. Anti-Patterns
+
+| Anti-pattern | Correct approach |
+|---|---|
+| Storing SQLAlchemy entity objects in state | Use `rx.Base` display models |
+| Calling `service_registry()` at module level | Call inside functions/methods |
+| Mutating state without `yield` in async gen | Always `yield` after mutations |
+| Fat page functions | Decompose into `_section()` helpers |
+| Logic in components | Move to state event handlers or `@rx.var` |
+| `rx.asession()` in background tasks / callbacks | Use `get_asyncdb_session()` |
+| `and` / `or` inside `rx.cond(...)` | Use `&` and `\|` operators |
+| Calling a background task directly from a handler | `yield MyState.background_task` — always yield the method reference |
+| Duplicating CRUD in repositories | Use `BaseRepository` methods directly; only add custom query methods |
+
+---
+
+## 3. State Management
 
 ### Base class
 
@@ -183,7 +199,7 @@ def _clear_caches(self) -> None:
 
 ---
 
-## 3. UI Components — appkit_mantine
+## 4. UI Components — appkit_mantine
 
 ### Documentation rule
 
@@ -197,22 +213,8 @@ resolve-library-id("mantine")  → then get-library-docs(id, topic="<component n
 resolve-library-id("reflex")   → then get-library-docs(id, topic="<component name>")
 ```
 
-Additional real-world usage examples are available in the appkit repository:
-**https://github.com/jenreh/appkit/tree/main/app/pages/examples**
-
-| File | Components covered |
-|---|---|
-| `button_examples.py` | `mn.button`, `mn.action_icon`, `mn.action_icon.group` |
-| `input_examples.py` | `mn.text_input`, `mn.textarea`, `mn.number_input`, `mn.tags_input`, `mn.password_input`, `mn.json_input`, `mn.slider`, `mn.range_slider`, `mn.switch` |
-| `date_examples.py` | `mn.date_input`, `mn.date_picker_input`, `mn.date_time_picker`, `mn.month_picker_input`, `mn.time_input`, `mn.calendar` |
-| `modal_examples.py` | `mn.modal`, `mn.modal.root`, `mn.modal.stack` |
-| `overlay_examples.py` | `mn.tooltip`, `mn.hover_card` |
-| `table_examples.py` | `mn.table`, `mn.table.thead/tbody/tr/th/td`, `sticky_header`, `with_table_border` |
-| `charts_examples.py` | `mn.bar_chart`, `mn.line_chart`, `mn.area_chart` |
-| `data_display_examples.py` | `mn.badge`, `mn.avatar`, `mn.card`, `mn.progress` |
-| `navigation_examples.py` | `mn.tabs`, `mn.nav_link`, `mn.breadcrumbs` |
-| `feedback_examples.py` | `mn.alert`, `mn.notification`, `mn.loader` |
-| `combobox_examples.py` | `mn.select`, `mn.multi_select`, `mn.combobox` |
+Real-world usage examples per component are indexed in
+[`references/mantine-examples.md`](references/mantine-examples.md).
 
 Always check the docs for:
 - Correct prop names (e.g. `left_section` not `leftSection`, `with_border` not `withBorder`)
@@ -223,7 +225,7 @@ Always check the docs for:
 
 ---
 
-## 4. Component Functions
+## 5. Component Functions
 
 **→ See [`examples/components_example.py`](examples/components_example.py) for full annotated examples.**
 
@@ -263,15 +265,34 @@ Use `rx.cond` and `rx.foreach` for conditionals and iteration — never bare Pyt
 
 ---
 
-## 5. Page Factory Pattern
+## 6. Page Factory Pattern
 
 **→ See [`examples/pages_example.py`](examples/pages_example.py) for the full annotated example including multi-page factories and registration.**
 
+Page layouts belong to the app. `app/components/templates.py` defines `authenticated`,
+`navbar_layout` (navbar + session monitor + `admin_only` gate) and `default_layout`
+(splash pages such as login). They build on `mn.theme_wrapper`,
+`mn.with_loading_reset(on_load)` and `session_monitor()` / `default_fallback()` from
+`appkit_user.authentication.components`.
+
+A package that registers pages without knowing the app layout uses
+`authenticated_page` from `appkit_user.authentication.templates` and takes the layout
+as a `template` callable `(content) -> rx.Component`:
+
+```python
+from appkit_user.authentication.templates import authenticated_page
+
+@authenticated_page(route="/settings", title="Settings", template=my_template, admin_only=True)
+def settings_page() -> rx.Component:
+    return mn.stack(...)
+```
+
+Pages registered by the app itself (or by a factory the app calls) use the app layout.
 Every feature package exports a factory function (not a bare page):
 
 ```python
 # pages.py
-from appkit_user.authentication.templates import authenticated
+from app.components.templates import authenticated
 
 def create_my_feature_page(navbar: rx.Component, route: str = "/my-feature", title: str = "My Feature") -> Callable:
     @authenticated(route=route, title=title, navbar=navbar, on_load=MyFeatureState.on_load, admin_only=True)
@@ -285,141 +306,28 @@ create_my_feature_page(app_navbar())
 
 ---
 
-## 6. Service Registry & Dependency Injection
+## 7. Backend: Services, Repositories, Models
 
-Use `service_registry()` (from `appkit_commons`) as the single IoC container.
+**→ Read [`references/backend-patterns.md`](references/backend-patterns.md) when adding a
+config class, service, repository, or entity.** The rules:
 
-### Configuration
-
-```python
-# configuration.py
-from appkit_commons.registry import service_registry
-
-class MyFeatureConfig(BaseConfig):
-    api_url: str | None = None
-    api_key: SecretStr | None = None
-```
-
-Register in `configure()` in `app/configuration.py` by adding to `AppConfig`:
-
-```python
-class AppConfig(ApplicationConfig):
-    my_feature: MyFeatureConfig | None = None
-```
-
-### Services
-
-```python
-class MyService:
-    def __init__(self) -> None:
-        self._config = service_registry().get(MyFeatureConfig)
-```
-
-Register in `app/app.py` `_initialize_services()` in dependency order.
-
-### Accessing in state
-
-```python
-def _do_work(self) -> None:
-    config = service_registry().get(MyFeatureConfig)
-    svc = service_registry().get(MyService)
-```
+- `service_registry()` (from `appkit_commons.registry`) is the single IoC container. Config
+  classes extend `BaseConfig` and are added to `AppConfig` in `app/configuration.py`;
+  services are registered in `app/app.py` `_initialize_services()` in dependency order.
+  Call `service_registry().get(...)` inside functions, never at module level.
+- Repositories extend `BaseRepository[Entity]`, which already provides
+  `create/update/save/find_by_id/find_all/delete_by_id/delete/exists_by_id/count`. Add
+  only custom queries.
+- Sessions come from `get_asyncdb_session()`, never `rx.asession()` (it fails in
+  background processors and callbacks outside the request lifecycle).
+- Entities inherit `Entity, Base` (from `appkit_commons.database.entities`; `id`,
+  `created`, `updated` included) and expose `to_dict()`.
+- State holds `rx.Base` display models built with `MyModel(**e.to_dict())`, never
+  SQLAlchemy entities (lazy-loaded relationships fail outside the session).
 
 ---
 
-## 7. Repository Pattern
-
-`BaseRepository` (from `appkit_commons`) already provides full CRUD:
-`create()`, `update()`, `save()`, `find_by_id()`, `find_all()`, `delete_by_id()`, `delete()`, `exists_by_id()`, `count()`
-
-Only add custom methods for queries not covered by the base class (e.g., `find_by_email`, `find_all_paginated`):
-
-```python
-# backend/repository.py
-
-from appkit_commons.repositories.base import BaseRepository
-from appkit_commons.database.session import get_asyncdb_session
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-
-class MyModelRepository(BaseRepository[MyModelEntity]):
-
-    async def find_by_name(
-        self, session: AsyncSession, name: str
-    ) -> MyModelEntity | None:
-        result = await session.execute(
-            select(MyModelEntity).where(MyModelEntity.name == name)
-        )
-        return result.scalar_one_or_none()
-
-
-my_model_repo = MyModelRepository(MyModelEntity)
-```
-
-Always use `get_asyncdb_session()` — not `rx.asession()` — as the session factory:
-
-```python
-# In state event handlers
-async with get_asyncdb_session() as session:
-    items = await my_model_repo.find_all(session)
-    entity = await my_model_repo.find_by_id(session, item_id)
-    await my_model_repo.create(session, new_entity)
-    await my_model_repo.update(session, entity)
-    await my_model_repo.delete_by_id(session, item_id)
-```
-
-Never use `rx.asession()` — it does not work in background processors or callbacks outside the Reflex request lifecycle.
-
----
-
-## 8. Database Models
-
-### SQLAlchemy Entity (DB table)
-
-Inherit from both `Entity` and `Base` from `appkit_commons.database.entities`. `Entity` provides `id`, `created`, and `updated` automatically. Add `to_dict()` for conversion to Pydantic/display models:
-
-```python
-# backend/entities.py
-from appkit_commons.database.entities import Base, Entity
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
-
-class MyEntity(Entity, Base):
-    __tablename__ = "my_feature_items"
-
-    name: Mapped[str] = mapped_column(String(200))
-    is_active: Mapped[bool] = mapped_column(default=True)
-
-    def to_dict(self) -> dict:
-        return {
-            "id": self.id,
-            "name": self.name,
-            "is_active": self.is_active,
-        }
-```
-
-### Pydantic display model (UI-layer DTO)
-
-Use `rx.Base` for models stored in Reflex state — never store SQLAlchemy `table=True` models directly:
-
-```python
-# backend/models.py
-import reflex as rx
-
-class MyModel(rx.Base):
-    """UI-only DTO — safe to store in state."""
-    id: int
-    name: str
-    is_active: bool = True
-```
-
-Convert in state: `self.items = [MyModel(**e.to_dict()) for e in entities]`
-
-**Important**: Never store SQLAlchemy entity objects (those with relationships) directly in Reflex state — lazy-loaded relationships will fail outside the session context.
-
----
-
-## 9. Roles & Authorization
+## 8. Roles & Authorization
 
 Define new roles in `app/roles.py`:
 
@@ -441,23 +349,7 @@ requires_role(
 
 ---
 
-## 10. Anti-Patterns
-
-| Anti-pattern | Correct approach |
-|---|---|
-| Storing SQLAlchemy entity objects in state | Use `rx.Base` display models |
-| Calling `service_registry()` at module level | Call inside functions/methods |
-| Mutating state without `yield` in async gen | Always `yield` after mutations |
-| Fat page functions | Decompose into `_section()` helpers |
-| Logic in components | Move to state event handlers or `@rx.var` |
-| `rx.asession()` in background tasks / callbacks | Use `get_asyncdb_session()` |
-| `and` / `or` inside `rx.cond(...)` | Use `&` and `\|` operators |
-| Calling a background task directly from a handler | `yield MyState.background_task` — always yield the method reference |
-| Duplicating CRUD in repositories | Use `BaseRepository` methods directly; only add custom query methods |
-
----
-
-## 11. File & Naming Conventions
+## 9. File & Naming Conventions
 
 ```
 state/my_feature_state.py        → MyFeatureState(rx.State)
@@ -471,7 +363,7 @@ configuration.py                 → MyFeatureConfig(BaseConfig)
 
 ---
 
-## 12. Form Validation Pattern
+## 10. Form Validation Pattern
 
 Use a **dedicated `rx.State` subclass** (not mixed into the main feature state) to hold form field values, per-field error strings, and validation logic. This keeps form concerns isolated and testable.
 
@@ -491,6 +383,8 @@ Use a **dedicated `rx.State` subclass** (not mixed into the main feature state) 
   `on_submit` handler as `form_data: rx.form.FormData[str, str]` and read `form_data.getlist("name")`
   (Reflex 0.10.1). A plain `dict` annotation keeps only the last value per name. In a `TypedDict`,
   `list[str]` collects every value and `bool` is `False` for an unchecked box.
+- Hidden form fields: `mn.form.input(type="hidden", name="user_id", value=..., display="none")`,
+  not `rx.el.input`.
 
 ### Pattern summary
 
@@ -537,7 +431,7 @@ async def submit_item(self) -> AsyncGenerator:
 
 ---
 
-## 13. Example Files
+## 11. Example Files
 
 See the `examples/` folder alongside this SKILL.md:
 

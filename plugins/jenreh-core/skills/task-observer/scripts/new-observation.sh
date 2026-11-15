@@ -16,7 +16,7 @@
 # created. Write the observation body into the printed path, with the id
 # from its NNNN- prefix in the `id:` field — copied, never retyped.
 #
-# This is the id-derivation snippet from SKILL.md "How to Log", plus a
+# This is the id-derivation snippet from references/writing-observations.md, plus a
 # number claim the inline snippet lacks, packaged so that the moment of
 # derivation cannot drift away from the moment of writing: an id derived
 # at session start and carried in memory to a later write is the collision

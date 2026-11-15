@@ -1,0 +1,8 @@
+interface:
+  display_name: "DeepEval Tracing"
+  short_description: "Instrument AI apps for tracing in Azure or AWS"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,8 @@
+interface:
+  display_name: "Systematic Debugging"
+  short_description: "Find the root cause before proposing a fix"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

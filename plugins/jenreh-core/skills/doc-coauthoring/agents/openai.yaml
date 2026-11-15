@@ -1,0 +1,8 @@
+interface:
+  display_name: "Doc Co-authoring"
+  short_description: "Co-author proposals, specs, and docs in three stages"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

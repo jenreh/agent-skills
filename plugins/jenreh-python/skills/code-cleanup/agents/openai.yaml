@@ -1,0 +1,8 @@
+interface:
+  display_name: "Code Cleanup"
+  short_description: "Refactor and lint the Python files changed this session"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: false

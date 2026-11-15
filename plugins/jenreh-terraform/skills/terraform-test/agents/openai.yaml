@@ -1,0 +1,8 @@
+interface:
+  display_name: "Terraform Test"
+  short_description: "Write and run .tftest.hcl tests"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

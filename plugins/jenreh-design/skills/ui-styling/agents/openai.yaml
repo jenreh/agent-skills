@@ -1,0 +1,8 @@
+interface:
+  display_name: "UI Styling"
+  short_description: "Style UIs with shadcn/ui, Radix, and Tailwind CSS"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

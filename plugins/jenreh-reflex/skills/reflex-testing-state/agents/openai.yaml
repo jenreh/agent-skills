@@ -1,0 +1,8 @@
+interface:
+  display_name: "Reflex State Tests"
+  short_description: "Generate pytest tests for Reflex state classes"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true
