@@ -10,6 +10,18 @@ description: |
   the query builder, and for any "how do I model/query this graph in runic"
   task. This is the OGM skill; for schema migrations use the `runic-migrate`
   skill instead.
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-graphdb"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.1.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-graphdb/skills/runic-ogm"
+  jenreh.registry/source-digest: "d8c13373ec31456074d4d923e3de2b9f7b14af0d22ba45ec0edeeaebdaa75660"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # runic.ogm — Graph OGM for Cypher Databases

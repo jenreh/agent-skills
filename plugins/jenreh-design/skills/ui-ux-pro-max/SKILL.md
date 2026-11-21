@@ -2,6 +2,18 @@
 name: ui-ux-pro-max
 description: "UI/UX design intelligence for web, mobile, and desktop. This skill should be used when designing, building, reviewing, or fixing interfaces, including pages, components, design systems, accessibility, interaction, responsive layout, typography, color, charts, and stack-specific UI implementation. Searchable local data: 79 searchable styles (50 active), 192 product palettes and reasoning profiles, 74 font pairings, 119 UX guidelines, 105 icons, 17 GSAP presets, 25 chart types, and 22 stacks."
 allowed-tools: Bash(python ${CLAUDE_SKILL_DIR}/scripts/search.py *) Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/search.py *)
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-design"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.3.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-design/skills/ui-ux-pro-max"
+  jenreh.registry/source-digest: "114ecd6600da19972e1eb970d59a1408cb408d40caa1782e9f3a933251e73ae5"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # UI/UX Pro Max - Design Intelligence

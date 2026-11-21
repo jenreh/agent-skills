@@ -10,6 +10,20 @@
   "keywords": ["agent-skills", "claude-code", "graph", "cypher", "python"],
   "dependencies": [{ "name": "jenreh-python" }],
   "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:jenreh-graphdb",
+      "kind": "local",
+      "upstreamMarketplace": "jenreh/agent-skills",
+      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamLicense": "MIT",
+      "sourceDigest": "d8c13373ec31456074d4d923e3de2b9f7b14af0d22ba45ec0edeeaebdaa75660",
+      "riskTier": "standard",
+      "dataClassification": "internal",
+      "supportedChannels": [
+        "beta",
+        "stable"
+      ]
+    },
     "com.openai": {
       "interface": {
         "displayName": "jenreh Graph DB",

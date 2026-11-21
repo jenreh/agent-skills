@@ -1,6 +1,18 @@
 ---
 name: skill-creator
 description: Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-core"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.5.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-core/skills/skill-creator"
+  jenreh.registry/source-digest: "1f85d4a3cdfea47ce753cffd543f3beafb742bbbe1504c1c88c7b0b2617be7bf"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Skill Creator

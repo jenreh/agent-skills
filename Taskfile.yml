@@ -1,21 +1,34 @@
 version: "3"
 
+vars:
+  # skill-dojo pinned to the same commit as registry/config.yaml and
+  # .github/workflows/validate-marketplace.yml. Change all three together.
+  SKILL_DOJO_SHA: 465d726586362395fdb74859d9d35d751f47e973
+  SKILL_DOJO_SRC: git+https://github.com/jenreh/skill-dojo@{{.SKILL_DOJO_SHA}}#subdirectory=components
+  SKILL_DOJO: >-
+    uvx --with "{{.SKILL_DOJO_SRC}}/skill-dojo-core"
+    --from "{{.SKILL_DOJO_SRC}}/skill-dojo-cli" skill-dojo
+
 tasks:
   validate:
-    desc: Validate skills and check plugins conform to Agent Plugins 1.0.0
+    desc: Validate plugins, skills, catalogs and registry/ (Agent Plugins 1.0.0, drift, MCP pins)
     cmds:
-      - task: validate:skills
-      - task: validate:plugins
+      - "{{.SKILL_DOJO}} validate"
 
-  validate:skills:
-    desc: Validate all SKILL.md folders (Claude-first, Codex/Copilot-compatible)
+  build:
+    desc: Regenerate both catalogs, manifests, provenance metadata and the layout links
     cmds:
-      - python3 scripts/validate_skills.py
+      - "{{.SKILL_DOJO}} build"
 
-  validate:plugins:
-    desc: Validate plugins/ against the Agent Plugins 1.0.0 spec (agent-plugins.org)
+  build:check:
+    desc: Fail if build would change any file (what CI runs)
     cmds:
-      - python3 scripts/validate_plugins.py
+      - "{{.SKILL_DOJO}} build --check"
+
+  lock:refresh:
+    desc: Record an edit to a local plugin in registry/lock.json (then commit it)
+    cmds:
+      - "{{.SKILL_DOJO}} lock refresh"
 
   list:
     desc: List all skills with their description
@@ -26,8 +39,3 @@ tasks:
           desc=$(awk '/^description:/{sub(/^description:[ ]*/,"");print;exit}' "$d/SKILL.md")
           printf "  %-34s %s\n" "$name" "$desc"
         done
-
-  marketplace:link:
-    desc: (Re)create plugin skill symlinks from the marketplace plugins back to skills/
-    cmds:
-      - bash scripts/link-plugins.sh

@@ -1,0 +1,27 @@
+name: jenreh
+repository: jenreh/agent-skills
+display_name: jenreh agent skills
+description: Portable agent skills shared across Claude Code, Codex, and Copilot.
+owner:
+  name: Jens Rehpöhler
+  url: https://github.com/jenreh
+namespace:
+  skill: jenreh.registry/
+  plugin: com.jenreh.registry
+tool:
+  git: 465d726586362395fdb74859d9d35d751f47e973
+layout:
+  manifest_symlinks: true
+  mcp_symlink: true
+  flat_skills: true
+branding:
+  icon: assets/jenreh.svg
+  brand_color: '#4476AF'
+  developer_name: Jens Rehpöhler
+  website_url: https://github.com/jenreh/agent-skills
+  openai_yaml_stubs: true
+default_category: Coding
+default_policy:
+  installation: AVAILABLE
+  authentication: ON_INSTALL
+categories: []

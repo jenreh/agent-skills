@@ -10,6 +10,18 @@ description: >-
   make writing clearer or easier to read. Default to this style for prose
   written for the user unless they ask for a different one. Do not apply it to
   code itself, only to the words around it.
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-core"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.5.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-core/skills/plain-writing"
+  jenreh.registry/source-digest: "1f85d4a3cdfea47ce753cffd543f3beafb742bbbe1504c1c88c7b0b2617be7bf"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Plain writing

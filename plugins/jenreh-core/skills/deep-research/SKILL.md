@@ -3,6 +3,17 @@ name: deep-research
 description: Use this skill when the user's prompt requires (1) researching a topic across multiple sources, comparing options or alternatives, analyzing trends or history, understanding markets or industries, or reviewing literature or studies and (2) synthesizing that research into a comprehensive, narrative report. If you're planning to search the web or internal knowledge bases, consider using this skill. This skill coordinates research subagents, so use it only when you have a tool for spawning subagents (the Agent or Task tool); otherwise, research the question directly.
 metadata:
   short-description: "Research a topic across sources and write a narrative report with subagents."
+  jenreh.registry/id: "jenreh:jenreh-core"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.5.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-core/skills/deep-research"
+  jenreh.registry/source-digest: "1f85d4a3cdfea47ce753cffd543f3beafb742bbbe1504c1c88c7b0b2617be7bf"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 argument-hint: "[topic or question]"
 ---
 

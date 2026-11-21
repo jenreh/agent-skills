@@ -3,6 +3,18 @@ name: boost
 description: Use when the user wants to refine, sharpen, or expand a rough idea into a detailed implementation prompt — before any code gets written. Trigger on /boost, "refine this prompt", "turn this into a prompt", "help me specify", "what do I need to think through before implementing", "can you make this more detailed", rough feature ideas the user explicitly wants help scoping (not implementing). Also trigger when user says "boost this" or hands you a vague feature description and asks for a proper prompt or spec. Do NOT trigger for direct implementation requests, debugging questions, code reviews, or architectural questions where the user is not asking for a refined prompt.
 allowed-tools: Read, Glob, Grep, Bash(git log *), Bash(git status *), Bash(ls *), Bash(tree *), WebSearch, WebFetch, Agent, TodoWrite, EnterPlanMode, ExitPlanMode, mcp__code-reasoning__code-reasoning, mcp__duckduckgo__search, mcp__plugin_jenreh-core_code-reasoning__code-reasoning, mcp__plugin_jenreh-core_duckduckgo__search, mcp__plugin_jenreh-core_context7__query-docs, mcp__plugin_jenreh-core_context7__resolve-library-id
 argument-hint: "[rough idea]"
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-core"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.5.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-core/skills/boost"
+  jenreh.registry/source-digest: "1f85d4a3cdfea47ce753cffd543f3beafb742bbbe1504c1c88c7b0b2617be7bf"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Boost — Prompt Refinement Workflow

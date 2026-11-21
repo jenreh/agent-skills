@@ -4,6 +4,18 @@ description: Refactor and simplify Python files modified in the current session 
 disable-model-invocation: true
 allowed-tools: Read, Edit, Agent, Bash(git diff *), Bash(git ls-files *), Bash(task format *), Bash(task lint *), Bash(task typecheck *), mcp__code-reasoning__code-reasoning, mcp__plugin_jenreh-core_code-reasoning__code-reasoning, mcp__plugin_jenreh-core_context7__query-docs, mcp__plugin_jenreh-core_context7__resolve-library-id
 argument-hint: "[files...]"
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-python"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.6.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-python/skills/code-cleanup"
+  jenreh.registry/source-digest: "30e8bc22c280a2c1ac15b6e2a080ed2b2da679274c7bb2205676e5cc2e26b7b2"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Code Cleanup

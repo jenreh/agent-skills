@@ -1,6 +1,18 @@
 ---
 name: terraform-style-guide
 description: Generate Terraform HCL code following HashiCorp's official style conventions and best practices. Use when writing, reviewing, or generating Terraform configurations.
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-terraform"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.3.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-terraform/skills/terraform-style-guide"
+  jenreh.registry/source-digest: "0423246bd1f1ebd6274544da6d3e8fe7520e645c38fec788763fd1c1e9fd2998"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Terraform Style Guide

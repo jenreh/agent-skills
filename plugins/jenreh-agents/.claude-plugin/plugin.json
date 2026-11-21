@@ -9,6 +9,20 @@
   "license": "Apache-2.0",
   "keywords": ["agent-skills", "claude-code", "agents", "pydantic-ai", "deepeval", "opentelemetry"],
   "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:jenreh-agents",
+      "kind": "local",
+      "upstreamMarketplace": "jenreh/agent-skills",
+      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamLicense": "Apache-2.0",
+      "sourceDigest": "ecbfee83ca7c9ad85cefde68650bd331dac0e9ce72e8f6a9a6b04f9841bc13f6",
+      "riskTier": "standard",
+      "dataClassification": "internal",
+      "supportedChannels": [
+        "beta",
+        "stable"
+      ]
+    },
     "com.openai": {
       "interface": {
         "displayName": "jenreh Agents",

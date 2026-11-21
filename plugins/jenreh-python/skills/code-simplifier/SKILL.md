@@ -3,6 +3,17 @@ name: code-simplifier
 description: Simplify and refine recently changed code for clarity, consistency, and maintainability while preserving its exact behavior. Use when the user asks to simplify code, reduce nesting, remove redundant abstractions, improve naming, or apply the code-simplifier workflow. Follow the target project's language and conventions.
 metadata:
   short-description: Simplify recently changed code for readability and maintainability while preserving behavior.
+  jenreh.registry/id: "jenreh:jenreh-python"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.6.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-python/skills/code-simplifier"
+  jenreh.registry/source-digest: "30e8bc22c280a2c1ac15b6e2a080ed2b2da679274c7bb2205676e5cc2e26b7b2"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Code simplifier

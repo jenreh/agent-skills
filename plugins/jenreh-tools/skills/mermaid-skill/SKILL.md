@@ -4,6 +4,18 @@ description: Generate Mermaid diagrams (.mmd) and export to PNG/SVG/PDF using mm
 homepage: https://github.com/Agents365-ai/365-skills
 version: 1.3.0
 allowed-tools: Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/*) Bash(mmdc *)
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-tools"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.1.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-tools/skills/mermaid-skill"
+  jenreh.registry/source-digest: "f9b9e43eccc2c7fd45f04f760209fbaea4ae88f15f3e288aef958de2f8d0a318"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Mermaid Diagrams

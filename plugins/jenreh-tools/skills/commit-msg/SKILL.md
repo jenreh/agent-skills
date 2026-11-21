@@ -4,6 +4,18 @@ description: Generate a conventional commit message from staged (or unstaged) ch
 disable-model-invocation: true
 allowed-tools: Bash(git status *) Bash(git diff *) Bash(git log *)
 argument-hint: "[scope, ticket, or intent]"
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-tools"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.1.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-tools/skills/commit-msg"
+  jenreh.registry/source-digest: "f9b9e43eccc2c7fd45f04f760209fbaea4ae88f15f3e288aef958de2f8d0a318"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Commit Message

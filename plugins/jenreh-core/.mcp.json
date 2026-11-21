@@ -4,17 +4,17 @@
     "context7": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
+      "args": ["-y", "@upstash/context7-mcp@4.7.3"]
     },
     "code-reasoning": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@mettamatt/code-reasoning"]
+      "args": ["-y", "@mettamatt/code-reasoning@0.8.1"]
     },
     "duckduckgo": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["duckduckgo-mcp-server"]
+      "args": ["duckduckgo-mcp-server==0.7.0"]
     }
   }
 }
