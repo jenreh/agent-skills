@@ -13,6 +13,17 @@ metadata:
   author: jens-rehpoehler
   version: "2.3"
   license: MIT
+  jenreh.registry/id: "jenreh:jenreh-python"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.6.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-python/skills/appkit-commons"
+  jenreh.registry/source-digest: "30e8bc22c280a2c1ac15b6e2a080ed2b2da679274c7bb2205676e5cc2e26b7b2"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # appkit-commons Best Practices

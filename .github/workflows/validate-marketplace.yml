@@ -1,0 +1,32 @@
+name: Validate marketplace
+
+on:
+  pull_request:
+    branches: [main, staging]
+  push:
+    branches: [main, staging]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate plugins, skills and registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.8"
+
+      - name: Validate
+        run: uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo validate
+
+      - name: Catalogs and manifests are up to date
+        run: uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo build --check

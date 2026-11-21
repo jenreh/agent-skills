@@ -6,6 +6,18 @@ description: >
   write, scaffold, or review tests for a Reflex State class. Do NOT use for Playwright
   integration tests or UI component rendering tests.
 argument-hint: "[state class or file]"
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-reflex"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.4.1"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-reflex/skills/reflex-testing-state"
+  jenreh.registry/source-digest: "805c8a72966e3428da7a0f31a41889eabeb2768e790e0e23032a1168defb8727"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Testing Reflex State

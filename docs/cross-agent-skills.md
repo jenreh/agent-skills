@@ -58,7 +58,7 @@ they do not know.
   `references/`.
 - Optional `scripts/`, `references/`, `assets/`, `agents/` subfolders.
 
-`task validate` (or `python3 scripts/validate_skills.py`) checks these rules.
+`task validate` (`skill-dojo validate`) checks these rules.
 
 **Codex / ChatGPT metadata:** every skill carries an `agents/openai.yaml`. It is an extra
 file that Codex and the ChatGPT desktop app read and every other agent ignores, so
@@ -67,10 +67,10 @@ or less), the icon (`./assets/jenreh.svg`, copied into the skill so the folder s
 self-contained), and `policy.allow_implicit_invocation`. Codex ignores Claude's
 `disable-model-invocation`, so a manual-only skill must also set
 `allow_implicit_invocation: false`; the validator enforces that. A new skill gets a stub
-from `scripts/link-plugins.sh` (via `scripts/codex_metadata.py`); edit the generated
-text, the script never overwrites an existing file.
+from `task build` (`skill-dojo build`); edit the generated text, then run
+`task lock:refresh`. Build never overwrites an `openai.yaml` it did not generate.
 
-`task validate` (or `python3 scripts/validate_skills.py`) enforces these rules.
+`task validate` (`skill-dojo validate`) enforces these rules.
 
 ## Plugin marketplace format (Claude Code + GitHub Copilot)
 
@@ -121,8 +121,9 @@ plugins/jenreh-core/
 ```
 
 This is explicitly allowed: symlinks "MAY resolve to targets within the plugin root",
-and these relative links never leave it. `scripts/link-plugins.sh` (re)creates them with
-`ln -s`; nothing is ever duplicated.
+and these relative links never leave it. `task build` (re)creates them
+(`layout.manifest_symlinks` and `mcp_symlink` in `registry/config.yaml`); nothing is ever
+duplicated.
 
 The two real files carry the spec metadata alongside the Claude fields, which do not
 collide:
@@ -138,16 +139,17 @@ top-level `dependencies` field, which is not part of the portable core. The spec
 an unknown top-level field as non-fatal — "a client reports and ignores that field" —
 so this costs a warning rather than rejection. Moving it under `extensions` would make
 the manifest schema-clean but would silently break Claude Code's dependency
-auto-install, which is the worse trade. `scripts/validate_plugins.py` reports it as a
+auto-install, which is the worse trade. `skill-dojo validate` reports it as a
 known, accepted warning.
 
-Run `task validate` (or `python3 scripts/validate_plugins.py`) to check conformance;
+Run `task validate` to check conformance;
 it mirrors both published schemas offline and also enforces that the spec paths and the
 Claude files really are the same inode, so they cannot drift apart.
 
 ## Verifying discovery per agent
 
-After running `scripts/add-skills.sh` (or the Copier template's `include_skills` task):
+After running `skill-dojo vendor` (see the README; or the Copier template's
+`include_skills` task):
 
 - **Claude Code** — open the project, run `/skills` (or ask "list your skills"). The
   skills appear by name.

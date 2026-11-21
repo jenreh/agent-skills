@@ -1,0 +1,41 @@
+items:
+  - id: jenreh-agents
+    kind: local
+    supported_channels:
+      - beta
+      - stable
+  - id: jenreh-core
+    kind: local
+    supported_channels:
+      - beta
+      - stable
+  - id: jenreh-design
+    kind: local
+    supported_channels:
+      - beta
+      - stable
+  - id: jenreh-graphdb
+    kind: local
+    supported_channels:
+      - beta
+      - stable
+  - id: jenreh-python
+    kind: local
+    supported_channels:
+      - beta
+      - stable
+  - id: jenreh-reflex
+    kind: local
+    supported_channels:
+      - beta
+      - stable
+  - id: jenreh-terraform
+    kind: local
+    supported_channels:
+      - beta
+      - stable
+  - id: jenreh-tools
+    kind: local
+    supported_channels:
+      - beta
+      - stable

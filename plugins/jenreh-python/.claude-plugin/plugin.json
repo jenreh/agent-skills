@@ -10,6 +10,20 @@
   "keywords": ["agent-skills", "claude-code", "python", "docker", "ci-cd"],
   "dependencies": [{ "name": "jenreh-core" }],
   "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:jenreh-python",
+      "kind": "local",
+      "upstreamMarketplace": "jenreh/agent-skills",
+      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamLicense": "MIT",
+      "sourceDigest": "30e8bc22c280a2c1ac15b6e2a080ed2b2da679274c7bb2205676e5cc2e26b7b2",
+      "riskTier": "standard",
+      "dataClassification": "internal",
+      "supportedChannels": [
+        "beta",
+        "stable"
+      ]
+    },
     "com.openai": {
       "interface": {
         "displayName": "jenreh Python",

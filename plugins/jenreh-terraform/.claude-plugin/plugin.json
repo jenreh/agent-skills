@@ -9,6 +9,20 @@
   "license": "MIT",
   "keywords": ["agent-skills", "claude-code", "terraform", "azure", "iac"],
   "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:jenreh-terraform",
+      "kind": "local",
+      "upstreamMarketplace": "jenreh/agent-skills",
+      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamLicense": "MIT",
+      "sourceDigest": "0423246bd1f1ebd6274544da6d3e8fe7520e645c38fec788763fd1c1e9fd2998",
+      "riskTier": "standard",
+      "dataClassification": "internal",
+      "supportedChannels": [
+        "beta",
+        "stable"
+      ]
+    },
     "com.openai": {
       "interface": {
         "displayName": "jenreh Terraform",

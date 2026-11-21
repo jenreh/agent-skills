@@ -9,6 +9,20 @@
   "license": "MIT",
   "keywords": ["agent-skills", "claude-code", "design", "frontend", "ui"],
   "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:jenreh-design",
+      "kind": "local",
+      "upstreamMarketplace": "jenreh/agent-skills",
+      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamLicense": "MIT",
+      "sourceDigest": "114ecd6600da19972e1eb970d59a1408cb408d40caa1782e9f3a933251e73ae5",
+      "riskTier": "standard",
+      "dataClassification": "internal",
+      "supportedChannels": [
+        "beta",
+        "stable"
+      ]
+    },
     "com.openai": {
       "interface": {
         "displayName": "jenreh Design",

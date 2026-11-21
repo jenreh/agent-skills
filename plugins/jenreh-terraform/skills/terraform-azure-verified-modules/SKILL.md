@@ -1,6 +1,18 @@
 ---
 name: terraform-azure-verified-modules
 description: Azure Verified Modules (AVM) requirements and best practices for developing certified Azure Terraform modules. Use when creating or reviewing Azure modules that need AVM certification.
+metadata:
+  jenreh.registry/id: "jenreh:jenreh-terraform"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.3.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-terraform/skills/terraform-azure-verified-modules"
+  jenreh.registry/source-digest: "0423246bd1f1ebd6274544da6d3e8fe7520e645c38fec788763fd1c1e9fd2998"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Azure Verified Modules (AVM) Requirements

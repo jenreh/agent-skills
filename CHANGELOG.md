@@ -5,6 +5,20 @@ All notable changes to this repo are documented here. Format loosely follows
 
 ## [Unreleased]
 
+### Changed
+
+- The repo is now a curated marketplace managed by
+  [skill-dojo](https://github.com/jenreh/skill-dojo) (pinned by git commit until its first
+  release). `registry/` tracks every plugin as a `local` item, `registry/lock.json` pins
+  per-file hashes, and each `SKILL.md` / `plugin.json` carries provenance metadata
+  (`jenreh.registry/` prefix, `com.jenreh.registry` extension). `scripts/` is gone:
+  `task validate`, `task build`, `task build:check` and `task lock:refresh` call
+  skill-dojo, and `.github/workflows/validate-marketplace.yml` replaces `validate.yml`.
+  `add-skills.sh` is replaced by `skill-dojo vendor`.
+- MCP servers are pinned to exact versions: `@upstash/context7-mcp@4.7.3`,
+  `@mettamatt/code-reasoning@0.8.1`, `duckduckgo-mcp-server==0.7.0` (jenreh-core),
+  `chrome-devtools-mcp@1.13.0`, `@playwright/mcp@0.0.86` (jenreh-reflex).
+
 ### Added
 
 - Codex / ChatGPT integration: every skill has an `agents/openai.yaml` with a display

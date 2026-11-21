@@ -5,6 +5,17 @@ argument-hint: "<prompt> | redesign <path> | audit <path>"
 version: 2.0.0
 metadata:
   opencode/slash: "true"
+  jenreh.registry/id: "jenreh:jenreh-design"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.3.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "MIT"
+  jenreh.registry/source-path: "plugins/jenreh-design/skills/hallmark"
+  jenreh.registry/source-digest: "114ecd6600da19972e1eb970d59a1408cb408d40caa1782e9f3a933251e73ae5"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 allowed-tools: Bash(node ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
 

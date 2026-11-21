@@ -16,3 +16,4 @@ venv/
 
 # Node (validators run via npx)
 node_modules/
+registry/.lock

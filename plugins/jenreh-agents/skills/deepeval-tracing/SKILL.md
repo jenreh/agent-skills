@@ -18,6 +18,17 @@ metadata:
   original-author: Confident AI
   category: observability
   tags: "tracing, instrumentation, opentelemetry, azure-monitor, ai-foundry, aws-xray, local-evaluation"
+  jenreh.registry/id: "jenreh:jenreh-agents"
+  jenreh.registry/kind: "local"
+  jenreh.registry/version: "0.1.0"
+  jenreh.registry/source-marketplace: "jenreh/agent-skills"
+  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-license: "Apache-2.0"
+  jenreh.registry/source-path: "plugins/jenreh-agents/skills/deepeval-tracing"
+  jenreh.registry/source-digest: "ecbfee83ca7c9ad85cefde68650bd331dac0e9ce72e8f6a9a6b04f9841bc13f6"
+  jenreh.registry/risk-tier: "standard"
+  jenreh.registry/data-classification: "internal"
+  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # AI tracing with Azure or AWS

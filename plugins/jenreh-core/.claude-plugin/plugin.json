@@ -9,6 +9,20 @@
   "license": "MIT",
   "keywords": ["agent-skills", "claude-code", "writing", "research", "skills"],
   "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:jenreh-core",
+      "kind": "local",
+      "upstreamMarketplace": "jenreh/agent-skills",
+      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamLicense": "MIT",
+      "sourceDigest": "1f85d4a3cdfea47ce753cffd543f3beafb742bbbe1504c1c88c7b0b2617be7bf",
+      "riskTier": "standard",
+      "dataClassification": "internal",
+      "supportedChannels": [
+        "beta",
+        "stable"
+      ]
+    },
     "com.openai": {
       "interface": {
         "displayName": "jenreh Core",
