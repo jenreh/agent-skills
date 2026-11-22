@@ -1,0 +1,50 @@
+name: Sync upstream
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+    inputs:
+      item:
+        description: Only this item (empty = all mirrors)
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Open candidate PRs for upstream changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.SKILL_DOJO_TOKEN || github.token }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.8"
+
+      - name: Configure the commit author
+        run: |
+          git config user.name "skill-dojo[bot]"
+          git config user.email "skill-dojo@users.noreply.github.com"
+
+      - name: Sync
+        env:
+          GH_TOKEN: ${{ secrets.SKILL_DOJO_TOKEN || github.token }}
+          ITEM: ${{ inputs.item }}
+        run: |
+          if [ -n "$ITEM" ]; then
+            uvx skill-dojo==0.0.1 sync --item "$ITEM"
+          else
+            uvx skill-dojo==0.0.1 sync
+          fi

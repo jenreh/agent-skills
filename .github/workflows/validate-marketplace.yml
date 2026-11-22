@@ -26,7 +26,39 @@ jobs:
           version: "0.13.8"
 
       - name: Validate
-        run: uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo validate
+        run: uvx skill-dojo==0.0.1 validate
 
       - name: Catalogs and manifests are up to date
-        run: uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo build --check
+        run: uvx skill-dojo==0.0.1 build --check
+
+  flags:
+    name: Risk flags
+    if: github.event_name == 'pull_request' && github.base_ref == 'staging'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.8"
+
+      - name: Compute risk flags against the base branch
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: uvx skill-dojo==0.0.1 flags --base "origin/$BASE_REF" > "$RUNNER_TEMP/flags.md"
+
+      - name: Post them on the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: >-
+          gh pr comment "$PR_NUMBER" --edit-last --create-if-none
+          --body-file "$RUNNER_TEMP/flags.md"
