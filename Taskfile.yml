@@ -1,13 +1,10 @@
 version: "3"
 
 vars:
-  # skill-dojo pinned to the same commit as registry/config.yaml and
+  # skill-dojo pinned to the same version as registry/config.yaml and
   # .github/workflows/validate-marketplace.yml. Change all three together.
-  SKILL_DOJO_SHA: 465d726586362395fdb74859d9d35d751f47e973
-  SKILL_DOJO_SRC: git+https://github.com/jenreh/skill-dojo@{{.SKILL_DOJO_SHA}}#subdirectory=components
-  SKILL_DOJO: >-
-    uvx --with "{{.SKILL_DOJO_SRC}}/skill-dojo-core"
-    --from "{{.SKILL_DOJO_SRC}}/skill-dojo-cli" skill-dojo
+  SKILL_DOJO_VERSION: 0.0.1
+  SKILL_DOJO: uvx skill-dojo=={{.SKILL_DOJO_VERSION}}
 
 tasks:
   validate:

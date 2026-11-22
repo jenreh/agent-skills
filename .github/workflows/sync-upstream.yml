@@ -44,7 +44,7 @@ jobs:
           ITEM: ${{ inputs.item }}
         run: |
           if [ -n "$ITEM" ]; then
-            uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo sync --item "$ITEM"
+            uvx skill-dojo==0.0.1 sync --item "$ITEM"
           else
-            uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo sync
+            uvx skill-dojo==0.0.1 sync
           fi

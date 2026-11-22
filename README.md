@@ -38,12 +38,9 @@ commit `registry/lock.json` with the change.
 ### Any repo (all three agents) — recommended
 
 ```bash
-SRC="git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components"
-uvx --with "$SRC/skill-dojo-core" --from "$SRC/skill-dojo-cli" \
-  skill-dojo vendor https://github.com/jenreh/agent-skills.git --name agent-skills
+uvx skill-dojo==0.0.1 vendor https://github.com/jenreh/agent-skills.git --name agent-skills
 ```
 
-(After skill-dojo's first PyPI release this becomes `uvx skill-dojo==X.Y.Z vendor ...`.)
 Pass `--ref marketplace-vYYYY.MM.DD` to pin a release tag. Without skill-dojo, the same
 works with plain git:
 

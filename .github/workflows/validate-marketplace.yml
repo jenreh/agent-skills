@@ -26,10 +26,10 @@ jobs:
           version: "0.13.8"
 
       - name: Validate
-        run: uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo validate
+        run: uvx skill-dojo==0.0.1 validate
 
       - name: Catalogs and manifests are up to date
-        run: uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo build --check
+        run: uvx skill-dojo==0.0.1 build --check
 
   flags:
     name: Risk flags
@@ -53,7 +53,7 @@ jobs:
       - name: Compute risk flags against the base branch
         env:
           BASE_REF: ${{ github.base_ref }}
-        run: uvx --with "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-core" --from "git+https://github.com/jenreh/skill-dojo@465d726586362395fdb74859d9d35d751f47e973#subdirectory=components/skill-dojo-cli" skill-dojo flags --base "origin/$BASE_REF" > "$RUNNER_TEMP/flags.md"
+        run: uvx skill-dojo==0.0.1 flags --base "origin/$BASE_REF" > "$RUNNER_TEMP/flags.md"
 
       - name: Post them on the pull request
         env:
