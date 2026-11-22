@@ -9,7 +9,7 @@ namespace:
   skill: jenreh.registry/
   plugin: com.jenreh.registry
 tool:
-  git: 465d726586362395fdb74859d9d35d751f47e973
+  version: 0.0.1
 layout:
   manifest_symlinks: true
   mcp_symlink: true
