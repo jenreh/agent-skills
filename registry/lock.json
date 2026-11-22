@@ -3775,6 +3775,29 @@
         "path": "plugins/jenreh-tools",
         "repository": "jenreh/agent-skills"
       }
+    },
+    "security": {
+      "files": {
+        "plugin.json": {
+          "mode": "100644",
+          "normalizedSha256": "3d54c1b92e4c00a82b27d8567f22a12ccd4658ea8d7f15612dd80604ec6c34b1",
+          "sha256": "b6b3492632a0bf7b866e2802b8eb45e4a7b8e25c16b42afef1c312aaafc31551"
+        }
+      },
+      "generated": [
+        ".claude-plugin/plugin.json",
+        "assets/jenreh.svg"
+      ],
+      "kind": "bundle",
+      "parts": [],
+      "treeSha256": "94b92dda6ce17e8dc05752aea0a4f68be02538e35b00c8564756b701cb5397f8",
+      "upstream": {
+        "commit": "61ee12c96014fdfc2b7b4ba6f06c4da72c698255",
+        "path": "plugins/security",
+        "ref": "staging",
+        "repository": "jenreh/agent-skills"
+      },
+      "version": "0.1.0"
     }
   },
   "lockVersion": 1

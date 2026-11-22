@@ -39,3 +39,9 @@ items:
     supported_channels:
       - beta
       - stable
+  - id: security
+    kind: bundle
+    supported_channels:
+      - beta
+      - stable
+    category: security
