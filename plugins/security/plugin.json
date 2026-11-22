@@ -1,0 +1,36 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "security",
+  "version": "0.1.0",
+  "description": "Bundle security.",
+  "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:security",
+      "kind": "bundle",
+      "upstreamMarketplace": "jenreh/agent-skills",
+      "upstreamRef": "staging",
+      "upstreamCommit": "61ee12c96014fdfc2b7b4ba6f06c4da72c698255",
+      "upstreamVersion": "0.1.0",
+      "sourceDigest": "94b92dda6ce17e8dc05752aea0a4f68be02538e35b00c8564756b701cb5397f8",
+      "riskTier": "standard",
+      "dataClassification": "internal",
+      "supportedChannels": [
+        "beta",
+        "stable"
+      ]
+    },
+    "com.openai": {
+      "interface": {
+        "displayName": "Security",
+        "shortDescription": "Bundle security",
+        "longDescription": "Bundle security.",
+        "developerName": "Jens Rehpöhler",
+        "category": "security",
+        "websiteURL": "https://github.com/jenreh/agent-skills",
+        "brandColor": "#4476AF",
+        "composerIcon": "./assets/jenreh.svg",
+        "logo": "./assets/jenreh.svg"
+      }
+    }
+  }
+}
