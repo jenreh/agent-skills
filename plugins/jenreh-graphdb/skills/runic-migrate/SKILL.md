@@ -17,7 +17,6 @@ metadata:
   jenreh.registry/source-digest: "d8c13373ec31456074d4d923e3de2b9f7b14af0d22ba45ec0edeeaebdaa75660"
   jenreh.registry/risk-tier: "standard"
   jenreh.registry/data-classification: "internal"
-  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Runic — Graph Schema Migration Tool

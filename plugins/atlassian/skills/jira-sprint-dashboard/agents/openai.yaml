@@ -1,0 +1,8 @@
+interface:
+  display_name: "Jira Sprint Dashboard"
+  short_description: "Create a visual Jira sprint dashboard from Jira project…"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

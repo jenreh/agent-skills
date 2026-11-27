@@ -1,0 +1,37 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "atlassian",
+  "version": "1.0.0",
+  "description": "Connect AI agents to Atlassian products including Jira and Confluence, with reusable skills for common workflows.",
+  "author": {
+    "name": "Atlassian",
+    "url": "https://www.atlassian.com"
+  },
+  "homepage": "https://support.atlassian.com/atlassian-rovo-mcp-server/docs/getting-started-with-the-atlassian-remote-mcp-server/",
+  "repository": "https://github.com/atlassian/atlassian-mcp-server",
+  "license": "Apache-2.0",
+  "keywords": [
+    "atlassian",
+    "rovo",
+    "mcp",
+    "jira",
+    "confluence",
+    "jira-service-management",
+    "bitbucket",
+    "compass"
+  ],
+  "extensions": {
+    "com.jenreh.registry": {
+      "registryId": "jenreh:atlassian",
+      "kind": "mirror",
+      "upstreamMarketplace": "https://github.com/atlassian/atlassian-mcp-server.git",
+      "upstreamPlugin": "atlassian",
+      "upstreamRef": "b74220d41142fae52b4f680c805b2ab81050991a",
+      "upstreamCommit": "b74220d41142fae52b4f680c805b2ab81050991a",
+      "upstreamVersion": "1.0.0",
+      "sourceDigest": "08cc9287dbf331541609ac8063a2a7e7c19b9f55217acfdee2fe25d9fa7feae5",
+      "riskTier": "standard",
+      "dataClassification": "internal"
+    }
+  }
+}

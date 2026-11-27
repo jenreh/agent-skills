@@ -17,11 +17,7 @@
       "upstreamLicense": "MIT",
       "sourceDigest": "0423246bd1f1ebd6274544da6d3e8fe7520e645c38fec788763fd1c1e9fd2998",
       "riskTier": "standard",
-      "dataClassification": "internal",
-      "supportedChannels": [
-        "beta",
-        "stable"
-      ]
+      "dataClassification": "internal"
     },
     "com.openai": {
       "interface": {

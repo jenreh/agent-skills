@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jenreh-agents",
   "description": "AI agent skills: building-pydantic-ai-agents, deepeval, deepeval-tracing, deepeval-otel.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": { "name": "Jens Rehpöhler" },
   "homepage": "https://github.com/jenreh/agent-skills",
   "repository": "https://github.com/jenreh/agent-skills",
@@ -13,14 +13,25 @@
       "registryId": "jenreh:jenreh-agents",
       "kind": "local",
       "upstreamMarketplace": "jenreh/agent-skills",
-      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamCommit": "61ee12c96014fdfc2b7b4ba6f06c4da72c698255",
       "upstreamLicense": "Apache-2.0",
-      "sourceDigest": "ecbfee83ca7c9ad85cefde68650bd331dac0e9ce72e8f6a9a6b04f9841bc13f6",
+      "sourceDigest": "d0b87d54ea80e14cccdaca4c9f3cf11440df14b50bb06e28eac0371ad92a3d21",
       "riskTier": "standard",
       "dataClassification": "internal",
-      "supportedChannels": [
-        "beta",
-        "stable"
+      "parts": [
+        {
+          "kind": "skill",
+          "name": "campaign-strategist",
+          "path": "skills/campaign-strategist",
+          "upstream": {
+            "repository": "https://github.com/ActiveCampaign/activecampaign-plugin.git",
+            "commit": "0ff858728bc52aee335d5475b0d4eb5f3a9589b0",
+            "path": ".",
+            "ref": "0ff858728bc52aee335d5475b0d4eb5f3a9589b0",
+            "plugin": "activecampaign",
+            "license": "MIT"
+          }
+        }
       ]
     },
     "com.openai": {

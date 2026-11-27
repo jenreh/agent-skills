@@ -1,41 +1,43 @@
 items:
   - id: jenreh-agents
     kind: local
-    supported_channels:
-      - beta
-      - stable
+    parts:
+      - kind: skill
+        name: campaign-strategist
+        source: claude-plugins-official
+        upstream_plugin: activecampaign
+        ref: 0ff858728bc52aee335d5475b0d4eb5f3a9589b0
+        commit: 0ff858728bc52aee335d5475b0d4eb5f3a9589b0
   - id: jenreh-core
     kind: local
-    supported_channels:
-      - beta
-      - stable
   - id: jenreh-design
     kind: local
-    supported_channels:
-      - beta
-      - stable
   - id: jenreh-graphdb
     kind: local
-    supported_channels:
-      - beta
-      - stable
   - id: jenreh-python
     kind: local
-    supported_channels:
-      - beta
-      - stable
+    parts:
+      - kind: agent
+        name: code-simplifier
+        source: claude-plugins-official
+        upstream_plugin: code-simplifier
+        ref: main
+        commit: 65adb96f26deb662f6a993f74347d0ccd1a61a52
+      - kind: mcp_server
+        name: context7
+        source: claude-plugins-official
+        upstream_plugin: context7
+        ref: main
+        commit: 65adb96f26deb662f6a993f74347d0ccd1a61a52
   - id: jenreh-reflex
     kind: local
-    supported_channels:
-      - beta
-      - stable
   - id: jenreh-terraform
     kind: local
-    supported_channels:
-      - beta
-      - stable
   - id: jenreh-tools
     kind: local
-    supported_channels:
-      - beta
-      - stable
+  - id: atlassian
+    kind: mirror
+    source: claude-plugins-official
+    upstream_plugin: atlassian
+    ref: b74220d41142fae52b4f680c805b2ab81050991a
+    commit: b74220d41142fae52b4f680c805b2ab81050991a

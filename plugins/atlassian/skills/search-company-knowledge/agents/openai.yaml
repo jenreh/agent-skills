@@ -1,0 +1,8 @@
+interface:
+  display_name: "Search Company Knowledge"
+  short_description: "Search across company knowledge bases (Confluence, Jira…"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

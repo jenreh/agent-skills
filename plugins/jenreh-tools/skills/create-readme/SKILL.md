@@ -15,7 +15,6 @@ metadata:
   jenreh.registry/source-digest: "f9b9e43eccc2c7fd45f04f760209fbaea4ae88f15f3e288aef958de2f8d0a318"
   jenreh.registry/risk-tier: "standard"
   jenreh.registry/data-classification: "internal"
-  jenreh.registry/supported-channels: "beta,stable"
 allowed-tools: WebFetch(domain:raw.githubusercontent.com)
 argument-hint: "[focus or audience]"
 ---

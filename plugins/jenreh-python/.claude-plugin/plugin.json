@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jenreh-python",
   "description": "Python skills: python-coding, python-clean-code, appkit-commons, code-cleanup, code-review-high, code-simplifier, docker-multi-stage, github-actions-cicd, systematic-debugging, test-driven-development.",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": { "name": "Jens Rehpöhler" },
   "homepage": "https://github.com/jenreh/agent-skills",
   "repository": "https://github.com/jenreh/agent-skills",
@@ -14,14 +14,38 @@
       "registryId": "jenreh:jenreh-python",
       "kind": "local",
       "upstreamMarketplace": "jenreh/agent-skills",
-      "upstreamCommit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+      "upstreamCommit": "61ee12c96014fdfc2b7b4ba6f06c4da72c698255",
       "upstreamLicense": "MIT",
-      "sourceDigest": "30e8bc22c280a2c1ac15b6e2a080ed2b2da679274c7bb2205676e5cc2e26b7b2",
+      "sourceDigest": "3ee21d9b21c9c0fc61c27dd6936345212363986e9f0cb1b1c082c97a354aafc9",
       "riskTier": "standard",
       "dataClassification": "internal",
-      "supportedChannels": [
-        "beta",
-        "stable"
+      "parts": [
+        {
+          "kind": "agent",
+          "name": "code-simplifier",
+          "path": "plugins/code-simplifier/agents/code-simplifier.md",
+          "upstream": {
+            "repository": "https://github.com/anthropics/claude-plugins-official",
+            "commit": "65adb96f26deb662f6a993f74347d0ccd1a61a52",
+            "path": "plugins/code-simplifier",
+            "ref": "main",
+            "plugin": "code-simplifier",
+            "license": null
+          }
+        },
+        {
+          "kind": "mcp_server",
+          "name": "context7",
+          "path": "external_plugins/context7/.mcp.json",
+          "upstream": {
+            "repository": "https://github.com/anthropics/claude-plugins-official",
+            "commit": "65adb96f26deb662f6a993f74347d0ccd1a61a52",
+            "path": "external_plugins/context7",
+            "ref": "main",
+            "plugin": "context7",
+            "license": null
+          }
+        }
       ]
     },
     "com.openai": {

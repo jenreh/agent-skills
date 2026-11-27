@@ -16,7 +16,6 @@ metadata:
   jenreh.registry/source-digest: "114ecd6600da19972e1eb970d59a1408cb408d40caa1782e9f3a933251e73ae5"
   jenreh.registry/risk-tier: "standard"
   jenreh.registry/data-classification: "internal"
-  jenreh.registry/supported-channels: "beta,stable"
 allowed-tools: Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/logo/search.py *) Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/cip/search.py *) Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/cip/render-html.py *)
 ---
 

@@ -7,15 +7,14 @@ argument-hint: "[files...]"
 metadata:
   jenreh.registry/id: "jenreh:jenreh-python"
   jenreh.registry/kind: "local"
-  jenreh.registry/version: "0.6.0"
+  jenreh.registry/version: "0.6.1"
   jenreh.registry/source-marketplace: "jenreh/agent-skills"
-  jenreh.registry/source-commit: "43748cbfd1e10079f1c194be5f68b1de59dc359b"
+  jenreh.registry/source-commit: "61ee12c96014fdfc2b7b4ba6f06c4da72c698255"
   jenreh.registry/source-license: "MIT"
   jenreh.registry/source-path: "plugins/jenreh-python/skills/code-cleanup"
-  jenreh.registry/source-digest: "30e8bc22c280a2c1ac15b6e2a080ed2b2da679274c7bb2205676e5cc2e26b7b2"
+  jenreh.registry/source-digest: "3ee21d9b21c9c0fc61c27dd6936345212363986e9f0cb1b1c082c97a354aafc9"
   jenreh.registry/risk-tier: "standard"
   jenreh.registry/data-classification: "internal"
-  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Code Cleanup
