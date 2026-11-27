@@ -1,0 +1,8 @@
+interface:
+  display_name: "Spec To Backlog"
+  short_description: "Automatically convert Confluence specification documents into…"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true

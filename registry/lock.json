@@ -1,11 +1,290 @@
 {
   "items": {
+    "atlassian": {
+      "files": {
+        ".claude-plugin/plugin.json": {
+          "mode": "100644",
+          "normalizedSha256": "ce85e8565dda3cf743021c1fbdafddfa40859d86114ebf1029b09f02e64fb7a4",
+          "sha256": "5adb039a7dcb8040d26ad2ecffc38fec5ec2e06c9693578d3eebde2407a0f8af"
+        },
+        ".cursor-plugin/plugin.json": {
+          "mode": "100644",
+          "sha256": "82f55adc3e10614c1930fc0b64b27019d7de53b30a918d3c19e908bb6b41d568"
+        },
+        ".gitignore": {
+          "mode": "100644",
+          "sha256": "54a9fee613bb9f6b9e08a8f67a6854c5e6887ce8e6de0069144ce47cd4136a0b"
+        },
+        ".mcp.json": {
+          "mode": "100644",
+          "sha256": "37324463496d4fcfed97509c66a7363d33f67de8224a43fd01973989e4f071f2"
+        },
+        "CODEOWNERS": {
+          "mode": "100644",
+          "sha256": "81d8f30ccd2f2342ac61322940f63eb9838068716ea3a74771f479681e78f6db"
+        },
+        "CODE_OF_CONDUCT.md": {
+          "mode": "100644",
+          "sha256": "2490b418554546e190404e47bcc7d439f55d8f13496d22b6063ec4e99e583466"
+        },
+        "CONTRIBUTING.md": {
+          "mode": "100644",
+          "sha256": "3c02e6b9b6d0f2eb3b1da77db2d69aea90f98d8c64645e3c7f91bd071cb0c2ad"
+        },
+        "LICENSE": {
+          "mode": "100644",
+          "sha256": "fff3bdc1d0125e492d7a2cb866c01a8ab587dee0405e77440ca524205a1f8c28"
+        },
+        "README.md": {
+          "mode": "100644",
+          "sha256": "286e7d6dd52ae80bb563842609aa5b208574b9c2f0f3881f211c4dbc20b9fc68"
+        },
+        "SECURITY.md": {
+          "mode": "100644",
+          "sha256": "f9dbadb19a226db5f43058feeddbb43461eb94f9dc99a5f989457eb793a4443b"
+        },
+        "assets/logo.svg": {
+          "mode": "100644",
+          "sha256": "0ab515fcad8b2a4104871a672211ac7bc9bcec0236808918fb29b0f322fcf4f5"
+        },
+        "gemini-extension.json": {
+          "mode": "100644",
+          "sha256": "7ca2b36f325e26a0260ea007a4c9196e9b58d86fd033eb6a7b8e64e278a59e7d"
+        },
+        "images/atlassian_logo_brand_RGB.svg": {
+          "mode": "100644",
+          "sha256": "90b411f6575a3e5e014821df58915617878052ca2a109c2bcecf5bca658eac5d"
+        },
+        "mcp.json": {
+          "mode": "100644",
+          "sha256": "81486e806112b827802ffc08030e6cce7fa0345b5e805b923d6c59ca33175c17"
+        },
+        "package-lock.json": {
+          "mode": "100644",
+          "sha256": "1862614ec91e254540fcd77c17647704ea61d7c033bc1bd825a8e5a43f417fd2"
+        },
+        "package.json": {
+          "mode": "100644",
+          "sha256": "8fddd35736059dcb5513decb44a5e9d169af976be68fd04a9eb95ce796a9d537"
+        },
+        "plugin.json": {
+          "mode": "100644",
+          "normalizedSha256": "aef4bfd8e97edafa4ed11520501aab5851f9e0c508ec7e2ef58ab12ad28fd632",
+          "sha256": "b4698e323de0b05a6eb5c0f3d5963ecadc903298d92f1e0b7dfbdbce1539b626"
+        },
+        "scripts/validate-template.mjs": {
+          "mode": "100644",
+          "sha256": "c9bf40038d03ee4958664d26aac781caa1a5238c19544d7a0fab74d31291aa65"
+        },
+        "scripts/validate-template.test.mjs": {
+          "mode": "100644",
+          "sha256": "084c2dd788a4bd5e60265f1bfbd15103dda3dd51405afe48ae075d437ce3838f"
+        },
+        "scripts/validation/agent-plugin.mjs": {
+          "mode": "100644",
+          "sha256": "4a3242fe4367ddf4df3215ded3b516c24fd49d74c87ce1a31d301a73a3d99b07"
+        },
+        "scripts/validation/agent-plugin.test.mjs": {
+          "mode": "100644",
+          "sha256": "3318b3555ef50d7be224f9ee2714cceb797640138052f02d11c6aae03f3d92b7"
+        },
+        "scripts/validation/agent-skills.mjs": {
+          "mode": "100644",
+          "sha256": "09f97145914807dc8995080154d800666e2f47029fa98dffcef29583c163b31d"
+        },
+        "scripts/validation/agent-skills.test.mjs": {
+          "mode": "100644",
+          "sha256": "4fc74869f7959bd7335c33db3512d4d8a8be577fe49e995e501050aa3f78b78d"
+        },
+        "scripts/validation/client-formats.mjs": {
+          "mode": "100644",
+          "sha256": "a73c6778c635833495c6058b92c2ec69b2988a6eb73fc4a50cb99ec194196a74"
+        },
+        "scripts/validation/common.mjs": {
+          "mode": "100644",
+          "sha256": "9f01eaf58de90712b1c5eb06a93017230c8576094860a74d2d72b71db245be19"
+        },
+        "scripts/validation/repository.mjs": {
+          "mode": "100644",
+          "sha256": "3e5081dc7985f6a1129c07f2d94196ac316ce146094b03ab27b6461ff526c4db"
+        },
+        "scripts/validation/test-helpers.mjs": {
+          "mode": "100644",
+          "sha256": "ed60a3523488297396afd70340d1ad2ea20f63083441a9a13fe7bbdeb017623b"
+        },
+        "server.json": {
+          "mode": "100644",
+          "sha256": "94d29890adf60f72367b1857667a6bcaaca7420b916bc10141f6cc5beeb14bb8"
+        },
+        "skills/README.md": {
+          "mode": "100644",
+          "sha256": "8db1bab636acd0269adfa6984683b17b9c8c56fcf200ff1c8958cbbf5d4e37d3"
+        },
+        "skills/capture-tasks-from-meeting-notes/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "2ad72652ecf0967dfd07dc009e55685d9ffe5ec668a3f6535cf5b85312829e7c",
+          "sha256": "10603589f81d61908094f573cc6218308b95f6d7ce14498c3cf208ceee7435c1"
+        },
+        "skills/capture-tasks-from-meeting-notes/references/action-item-patterns.md": {
+          "mode": "100644",
+          "sha256": "b630fd46b06d348803de5b97b8180269c1f9b51ea3121dfa1e9e50ce0dbb6195"
+        },
+        "skills/generate-status-report/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "6dddb588551f6a7299a3fef9efede01cc05afb08f1317bcd59b08b1babc3112e",
+          "sha256": "e9fd30be0ae63f07daf60d5c02271f56177d78f156e97c496c56bd06940db960"
+        },
+        "skills/generate-status-report/references/jql-patterns.md": {
+          "mode": "100644",
+          "sha256": "bac0cc8f2cff9cbff8a715f4900803968b5984a33086f612ee788a05a8e9f649"
+        },
+        "skills/generate-status-report/references/report-templates.md": {
+          "mode": "100644",
+          "sha256": "618ac02868d47504db18147543b69577105a47bc3dff7116fa5067f3a6b21cf1"
+        },
+        "skills/generate-status-report/scripts/jql_builder.py": {
+          "mode": "100644",
+          "sha256": "7ebf59034972cdf04d73b30f885885d6a6359609778fa584c06759ae03c5f303"
+        },
+        "skills/jira-sprint-dashboard/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "c585e9a55dc09da6ecd6bca08ae21841e42c1a146f62eac5e31743e10465f584",
+          "sha256": "0a812dc617d59e4771ad96b39f6472b2c542be165c7ee077b56a4fcd48d7afdf"
+        },
+        "skills/search-company-knowledge/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "b381c8a2eb7cd3986b48b8827982ccfc67ba1ce77cdbcf898c6e0198f9bbf2da",
+          "sha256": "2c734047a8710c5b5b007d107e594b0213d88769b476b9888913e4947c6f3d8e"
+        },
+        "skills/spec-to-backlog/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "686ecb1a29a9a1f9200e292c5b9eb9780f4b8a0f6e34579d6d457a515050c612",
+          "sha256": "7c2aa5b6327437bfefe77f845d0be4a3a431fb88d5f8e0ca9bf6256df5ac2a89"
+        },
+        "skills/spec-to-backlog/references/breakdown-examples.md": {
+          "mode": "100644",
+          "sha256": "57ff3c616ef0e761911cde849848497028faf570b027c9a16689a2889525eb30"
+        },
+        "skills/spec-to-backlog/references/epic-templates.md": {
+          "mode": "100644",
+          "sha256": "ca1c28239608b0dfef47426ab0420f6ddcf16370f30f6ed6796e0c391ebb5ce8"
+        },
+        "skills/spec-to-backlog/references/ticket-writing-guide.md": {
+          "mode": "100644",
+          "sha256": "fcc9369f54089ac41bd7a2813f8c19b1b6d092d6226cf4b4104d494b03400754"
+        },
+        "skills/triage-issue/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "fcb95fa2277ec4541ca90522c3d1ce1b78d6473475143c98595b944177c05599",
+          "sha256": "8b9f857efb4a29ded4cc3c758e3d1b2f93cf78ae549801df72ef9a80182aee00"
+        },
+        "skills/triage-issue/references/bug-report-templates.md": {
+          "mode": "100644",
+          "sha256": "ece9041b1c1a827707d70113c5c29cf6b2638ddd102dac496ddbef326f559d8a"
+        },
+        "skills/triage-issue/references/search-patterns.md": {
+          "mode": "100644",
+          "sha256": "7f25799e3d2cda78c98c37b75c7e46b838025e06c6b42ca1c929a6ab797ede02"
+        },
+        "skills/v1/capture-tasks-from-meeting-notes/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "cc11356c802f3f32784e8092a268c86f372a67a02bc85ec2f928e1d8c072a5ab",
+          "sha256": "44940f580f884976f74dd416b2267a7c8dad9718526158596d51fa8781079707"
+        },
+        "skills/v1/capture-tasks-from-meeting-notes/references/action-item-patterns.md": {
+          "mode": "100644",
+          "sha256": "b630fd46b06d348803de5b97b8180269c1f9b51ea3121dfa1e9e50ce0dbb6195"
+        },
+        "skills/v1/generate-status-report/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "3a97c84494923f0c4939c160bb5a808ab905c3cae0032a0059314d8ade42ac53",
+          "sha256": "d5548b058a8454a1545003091e4acbea6b2fb0f3ac222b08550e6daa9aafe443"
+        },
+        "skills/v1/generate-status-report/references/jql-patterns.md": {
+          "mode": "100644",
+          "sha256": "bac0cc8f2cff9cbff8a715f4900803968b5984a33086f612ee788a05a8e9f649"
+        },
+        "skills/v1/generate-status-report/references/report-templates.md": {
+          "mode": "100644",
+          "sha256": "618ac02868d47504db18147543b69577105a47bc3dff7116fa5067f3a6b21cf1"
+        },
+        "skills/v1/generate-status-report/scripts/jql_builder.py": {
+          "mode": "100644",
+          "sha256": "7ebf59034972cdf04d73b30f885885d6a6359609778fa584c06759ae03c5f303"
+        },
+        "skills/v1/jira-sprint-dashboard/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "5601d32d6efc5c341a7fb2c688244b7d62163f5a854564688faa994c0392c858",
+          "sha256": "3e78ef20541e0502dca29e2369ed96ef4f95f358ccd128b3df70c2ddc768927f"
+        },
+        "skills/v1/search-company-knowledge/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "d5e3588cfe11c7656779037d589191130e8556c19d39253c4d2fbc3c298956bf",
+          "sha256": "580f5c5f5b66968a394e56b5f92a99cb28a88396f1af6618991ca746cefc591d"
+        },
+        "skills/v1/spec-to-backlog/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "bcd41b8f316ee3b8bd33caefd4ed1c10852fbc8b875c25db5a538018b43d00dd",
+          "sha256": "082876467b45a40e86cc617dbcd1eecf9044c3ff63367cfb62b6dccb51cf440d"
+        },
+        "skills/v1/spec-to-backlog/references/breakdown-examples.md": {
+          "mode": "100644",
+          "sha256": "57ff3c616ef0e761911cde849848497028faf570b027c9a16689a2889525eb30"
+        },
+        "skills/v1/spec-to-backlog/references/epic-templates.md": {
+          "mode": "100644",
+          "sha256": "ca1c28239608b0dfef47426ab0420f6ddcf16370f30f6ed6796e0c391ebb5ce8"
+        },
+        "skills/v1/spec-to-backlog/references/ticket-writing-guide.md": {
+          "mode": "100644",
+          "sha256": "fcc9369f54089ac41bd7a2813f8c19b1b6d092d6226cf4b4104d494b03400754"
+        },
+        "skills/v1/triage-issue/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "723ded74b02fa940468c09f984de9caff72e8d3f4aec2e70aefee65dde004d28",
+          "sha256": "4ce1808138ea8871e5a113e4f7b7ae28dc8e78a36df4cb7c87f9666c20620e0c"
+        },
+        "skills/v1/triage-issue/references/bug-report-templates.md": {
+          "mode": "100644",
+          "sha256": "ece9041b1c1a827707d70113c5c29cf6b2638ddd102dac496ddbef326f559d8a"
+        },
+        "skills/v1/triage-issue/references/search-patterns.md": {
+          "mode": "100644",
+          "sha256": "7f25799e3d2cda78c98c37b75c7e46b838025e06c6b42ca1c929a6ab797ede02"
+        }
+      },
+      "generated": [
+        "skills/capture-tasks-from-meeting-notes/agents/openai.yaml",
+        "skills/capture-tasks-from-meeting-notes/assets/jenreh.svg",
+        "skills/generate-status-report/agents/openai.yaml",
+        "skills/generate-status-report/assets/jenreh.svg",
+        "skills/jira-sprint-dashboard/agents/openai.yaml",
+        "skills/jira-sprint-dashboard/assets/jenreh.svg",
+        "skills/search-company-knowledge/agents/openai.yaml",
+        "skills/search-company-knowledge/assets/jenreh.svg",
+        "skills/spec-to-backlog/agents/openai.yaml",
+        "skills/spec-to-backlog/assets/jenreh.svg",
+        "skills/triage-issue/agents/openai.yaml",
+        "skills/triage-issue/assets/jenreh.svg"
+      ],
+      "kind": "mirror",
+      "parts": [],
+      "treeSha256": "08cc9287dbf331541609ac8063a2a7e7c19b9f55217acfdee2fe25d9fa7feae5",
+      "upstream": {
+        "commit": "b74220d41142fae52b4f680c805b2ab81050991a",
+        "path": ".",
+        "plugin": "atlassian",
+        "ref": "b74220d41142fae52b4f680c805b2ab81050991a",
+        "repository": "https://github.com/atlassian/atlassian-mcp-server.git"
+      },
+      "version": "1.0.0"
+    },
     "jenreh-agents": {
       "files": {
         ".claude-plugin/plugin.json": {
           "mode": "100644",
-          "normalizedSha256": "c32154f715c6ea06f29d6908046ce7d204845e2ad75b3ea2aa7ab58113ecc7ee",
-          "sha256": "3a6682a217958d9237927521ab42b463aacb3afd35d3a3c70d1b0a29081e2155"
+          "normalizedSha256": "5e5af2f9cf1a118c27eeff3f4c20e1e92e4cb9c388f29778c4ca3d52f3503b5b",
+          "sha256": "6c60b2f66213f54c2c4bda9b5b5411bcd075aa1d358218baef683625df0e21fd"
         },
         "README.md": {
           "mode": "100644",
@@ -19,6 +298,10 @@
           "mode": "100644",
           "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
         },
+        "licenses/claude-plugins-official-activecampaign/LICENSE": {
+          "mode": "100644",
+          "sha256": "96cb31c0a491470a662994025e429829382fd7ae23b6d9a47b6ac05cfd8f0281"
+        },
         "plugin.json": {
           "mode": "120000",
           "sha256": "037fda53525563fb89230704794a06db1150204ca28ce80697a637121c3ed3f9"
@@ -26,7 +309,7 @@
         "skills/building-pydantic-ai-agents/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "7e944fe030e735962cf367069c20a8bb867f08dcea80a7164766d61bf5507644",
-          "sha256": "fa9b21478de4ef1d6f20b7dd006db6a001992b450ed5402a5b30797498f6de41"
+          "sha256": "28c8dc66790ef2722f7875f7a3cb3b66491dd53c250e7837547449db4a8d3ed9"
         },
         "skills/building-pydantic-ai-agents/agents/openai.yaml": {
           "mode": "100644",
@@ -80,6 +363,11 @@
           "mode": "100644",
           "sha256": "d48d3823afe066b86737e4860e6ac1fe7c4595f43e7aaf9eb793009f485c4dc5"
         },
+        "skills/campaign-strategist/SKILL.md": {
+          "mode": "100644",
+          "normalizedSha256": "e8bf280a1a0a90be72f9af53e3d1c5a3071ea8e409e4c80b7f297dbcc70682f7",
+          "sha256": "a9ffbc07cba8f665bc40fbc86af431a81128590b03905350875cde0cd2528eaa"
+        },
         "skills/deepeval-otel/LICENSE": {
           "mode": "100644",
           "sha256": "64604df2538753efcad5cab220190e20591765e2c06d1b8deffd1f4f45ee0b1d"
@@ -87,7 +375,7 @@
         "skills/deepeval-otel/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "cf045f8d57392b54fa7a78610ecccddbc474d0a7f2a1e92d28077218155b2bb3",
-          "sha256": "0e51ac143046043cc0c8e4846f472ffa45dc660a6f73eeffe5b1dab7b63ba554"
+          "sha256": "826ba5fe6be5e8a8595f22edeeafec7e1dad465bf28c5fa00717873b852b9cd0"
         },
         "skills/deepeval-otel/agents/openai.yaml": {
           "mode": "100644",
@@ -140,7 +428,7 @@
         "skills/deepeval-tracing/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "2909d8e933c239c9593cb04d0446ec8ed1eea617eaebd21f5faf658277fdb881",
-          "sha256": "38177a28fd7c94530e9e5c288682fd88276f139214e3d6dc3ad22a4c6af3ed90"
+          "sha256": "7efc79e1756f21fb130a847190972c28d599ea0f2a85297d92ddf0e60c567d5c"
         },
         "skills/deepeval-tracing/agents/openai.yaml": {
           "mode": "100644",
@@ -337,7 +625,7 @@
         "skills/deepeval/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "627fa51feaa4e9ac10a74c2f34dffc3233636a1dab20feb000702e879f53d436",
-          "sha256": "da35b45beab7b7f253dfdc6cf15389c51bd55b7435243db32ac30a743c0d1fbc"
+          "sha256": "4b40d6a44adcd8d355b4bca6b92a40f483e6c80effc5fce22ed23bad0c4ccc87"
         },
         "skills/deepeval/agents/openai.yaml": {
           "mode": "100644",
@@ -404,12 +692,29 @@
           "sha256": "37bb3fd1cb8c5fb087eb69b77d098efa1442f2cd58340cf37f8475c295431609"
         }
       },
-      "generated": [],
+      "generated": [
+        "skills/campaign-strategist/agents/openai.yaml",
+        "skills/campaign-strategist/assets/jenreh.svg"
+      ],
       "kind": "local",
-      "parts": [],
-      "treeSha256": "ecbfee83ca7c9ad85cefde68650bd331dac0e9ce72e8f6a9a6b04f9841bc13f6",
+      "parts": [
+        {
+          "kind": "skill",
+          "name": "campaign-strategist",
+          "path": "skills/campaign-strategist",
+          "upstream": {
+            "commit": "0ff858728bc52aee335d5475b0d4eb5f3a9589b0",
+            "license": "MIT",
+            "path": ".",
+            "plugin": "activecampaign",
+            "ref": "0ff858728bc52aee335d5475b0d4eb5f3a9589b0",
+            "repository": "https://github.com/ActiveCampaign/activecampaign-plugin.git"
+          }
+        }
+      ],
+      "treeSha256": "d0b87d54ea80e14cccdaca4c9f3cf11440df14b50bb06e28eac0371ad92a3d21",
       "upstream": {
-        "commit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+        "commit": "61ee12c96014fdfc2b7b4ba6f06c4da72c698255",
         "path": "plugins/jenreh-agents",
         "repository": "jenreh/agent-skills"
       }
@@ -2713,12 +3018,28 @@
       "files": {
         ".claude-plugin/plugin.json": {
           "mode": "100644",
-          "normalizedSha256": "cdd80fc2b949a718ebe01253724d7689f614541c3d573aa25c8f6da8a762050f",
-          "sha256": "bcb40ac9c5a5b3df64215928a4e662b0bec704df3beada91c5688d68e62925d2"
+          "normalizedSha256": "f93344d1ed4212117100c8abe905446ceda7f53cd942bfee58fdb039e2886fd0",
+          "sha256": "70c8e6fa56be9055de97dc39e27d5d9ef164ec360489338b7702bfc54efd9b59"
+        },
+        ".mcp.json": {
+          "mode": "100644",
+          "sha256": "e5dfed1749b361fbb2d0ad64a3792a28622e788c3c058fa0f0c923991f941c17"
+        },
+        "agents/code-simplifier.md": {
+          "mode": "100644",
+          "sha256": "2a51e8d210580d9f66ac2ed1226c41f9374565fc275da30d7bb95f65c2cc87bb"
         },
         "assets/jenreh.svg": {
           "mode": "100644",
           "sha256": "cf7386fe6c158ef6f941a6889eb1ecf31669fc7a1c9b0f403d39ac046d88970c"
+        },
+        "licenses/claude-plugins-official-code-simplifier/LICENSE": {
+          "mode": "100644",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        "licenses/claude-plugins-official-context7/LICENSE": {
+          "mode": "100644",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
         },
         "plugin.json": {
           "mode": "120000",
@@ -2727,7 +3048,7 @@
         "skills/appkit-commons/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "0f7562c04e8e040eaf8d3ea666fc67a0e90bf25aec0f88c1dde713434c500944",
-          "sha256": "5bffafc8bf63569e7f84e6f1aa8b67b592e1565a9a3e8b66fe4ed52ac05bc762"
+          "sha256": "706e66e0098137265eb4e830fa05848601c6e4eeebba35e0c8d3302204e31b1e"
         },
         "skills/appkit-commons/agents/openai.yaml": {
           "mode": "100644",
@@ -2752,7 +3073,7 @@
         "skills/code-cleanup/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "e868104458fc399a50699e66b51359c18ee1d6c607c9d96892f6deccee834cf9",
-          "sha256": "2ce2c2870916cedc2f5f02fa4f57328547f1c5a822e1924143d5841f92248bf8"
+          "sha256": "1f57a817a2dad09a0059a31c463f8ec76e473f6c3c6831956a9b2eb6d40b06c5"
         },
         "skills/code-cleanup/agents/openai.yaml": {
           "mode": "100644",
@@ -2765,7 +3086,7 @@
         "skills/code-review-high/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "f5545cd350475951f6d69007ad69e2c3c9cf75a6b167d56837fc122dc4fe954f",
-          "sha256": "72bc733086feaf8942869d11a9c89ea3c876bb0c5310bd5c504e28f0ff0570d5"
+          "sha256": "596f66a9f5ccd4678ad550635585146648f0c749846407c2323022df1ee2cb7e"
         },
         "skills/code-review-high/agents/openai.yaml": {
           "mode": "100644",
@@ -2778,7 +3099,7 @@
         "skills/code-simplifier/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "e53298e640167f257a5d820fa130631e59303ec9e3aeda95f7ef0fef38951a80",
-          "sha256": "792e96724969691aaedfccc9dfd6f9ed28411e852780fc5ebf0d8c20e0c17071"
+          "sha256": "2a10c5c862fbc9f7c61bd3c5b65fc14e33a3c832df856daf33a3178d42a26c72"
         },
         "skills/code-simplifier/agents/openai.yaml": {
           "mode": "100644",
@@ -2791,7 +3112,7 @@
         "skills/docker-multi-stage/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "0072d1f26f774dac52316bf52ecc5aba8f311e01ba1a0f321db000a5a1e41a33",
-          "sha256": "ffcf81302087c1b8013127b8629cc963642c526f8e193b7591f63ce2f17b12d0"
+          "sha256": "a145f7dc4c0431ffe9ffd18d7fdeee2507c7c10d38ca45eefa85634ccaf7da73"
         },
         "skills/docker-multi-stage/agents/openai.yaml": {
           "mode": "100644",
@@ -2804,7 +3125,7 @@
         "skills/github-actions-cicd/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "c21325e1f7049d987036393b2a03251483f02be209dfaf06b75726d944660609",
-          "sha256": "22056bc20051a7a4ebb0818f52a2488c26c619061d98993f92cdca6d7d11d08a"
+          "sha256": "05913b6a4b2978a8e37a12ff3ee2b85a7a64473994d9c7b411330456a497de7e"
         },
         "skills/github-actions-cicd/agents/openai.yaml": {
           "mode": "100644",
@@ -2817,7 +3138,7 @@
         "skills/python-clean-code/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "2e3953fc6f1ecfe2bc7cd9e73b4e8e4b6fc65d9b1ae89f07b132f56f2e54f68f",
-          "sha256": "66fe05c96fcaa6195f2ef5550ac11318ea10d9710577f6aab4682624e233ac08"
+          "sha256": "e96e5c1e8e79c71c42ddf88968727e7238058a59532628788c888113792c31b4"
         },
         "skills/python-clean-code/agents/openai.yaml": {
           "mode": "100644",
@@ -2834,7 +3155,7 @@
         "skills/python-coding/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "000dfdc9fb1b0b4b2b56deaf98824533cfe62a3da722f986443880ff8b2ec1ce",
-          "sha256": "d4dcc40f6e48765652609b37756d9655db013bdee240525b43cb93d7022952ae"
+          "sha256": "eb6ab4f0794435864b236313d7a23d69d80ad7edeaf0372286964bc119a26b44"
         },
         "skills/python-coding/agents/openai.yaml": {
           "mode": "100644",
@@ -2855,7 +3176,7 @@
         "skills/systematic-debugging/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "449ff55b8963d9ae0cdf879d8fc4667c79c4c81c4057531753f0900b7a3a4261",
-          "sha256": "5656a3d10ec07428fb1f01a190fd8f50fcfda572ca406361db171350ac225873"
+          "sha256": "5279fd99ac9ee8197a1a34888546b06aa4d7c6ca5cf3818adcf75f27b46e204e"
         },
         "skills/systematic-debugging/agents/openai.yaml": {
           "mode": "100644",
@@ -2904,7 +3225,7 @@
         "skills/test-driven-development/SKILL.md": {
           "mode": "100644",
           "normalizedSha256": "a0884535cef33c7649c9e8ae2034ac02b0106e923b328e568428b91014e1d9d5",
-          "sha256": "64b03fce4aee5a97a93160cea8111f3ba13a17b7c001db4bd5836d67fd10705d"
+          "sha256": "be5667963e68ce037d842cdb1df347617fa38aeef25e3389eeedbc80bf20467d"
         },
         "skills/test-driven-development/agents/openai.yaml": {
           "mode": "100644",
@@ -2919,12 +3240,39 @@
           "sha256": "51471c853306ff92ca8bb41dcaea05f31c0e46b03651f8f3c99754b7172f4ae1"
         }
       },
-      "generated": [],
+      "generated": [
+        "mcp.json"
+      ],
       "kind": "local",
-      "parts": [],
-      "treeSha256": "30e8bc22c280a2c1ac15b6e2a080ed2b2da679274c7bb2205676e5cc2e26b7b2",
+      "parts": [
+        {
+          "kind": "agent",
+          "name": "code-simplifier",
+          "path": "plugins/code-simplifier/agents/code-simplifier.md",
+          "upstream": {
+            "commit": "65adb96f26deb662f6a993f74347d0ccd1a61a52",
+            "path": "plugins/code-simplifier",
+            "plugin": "code-simplifier",
+            "ref": "main",
+            "repository": "https://github.com/anthropics/claude-plugins-official"
+          }
+        },
+        {
+          "kind": "mcp_server",
+          "name": "context7",
+          "path": "external_plugins/context7/.mcp.json",
+          "upstream": {
+            "commit": "65adb96f26deb662f6a993f74347d0ccd1a61a52",
+            "path": "external_plugins/context7",
+            "plugin": "context7",
+            "ref": "main",
+            "repository": "https://github.com/anthropics/claude-plugins-official"
+          }
+        }
+      ],
+      "treeSha256": "3ee21d9b21c9c0fc61c27dd6936345212363986e9f0cb1b1c082c97a354aafc9",
       "upstream": {
-        "commit": "43748cbfd1e10079f1c194be5f68b1de59dc359b",
+        "commit": "61ee12c96014fdfc2b7b4ba6f06c4da72c698255",
         "path": "plugins/jenreh-python",
         "repository": "jenreh/agent-skills"
       }

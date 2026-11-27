@@ -12,7 +12,6 @@ metadata:
   jenreh.registry/source-digest: "1f85d4a3cdfea47ce753cffd543f3beafb742bbbe1504c1c88c7b0b2617be7bf"
   jenreh.registry/risk-tier: "standard"
   jenreh.registry/data-classification: "internal"
-  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Skill Creator

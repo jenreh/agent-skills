@@ -1,1 +1,33 @@
-sources: []
+sources:
+  - id: claude-plugins-official
+    type: claude_marketplace
+    repository: https://github.com/anthropics/claude-plugins-official
+    ref: main
+  - id: knowledge-work-plugins
+    type: claude_marketplace
+    repository: https://github.com/anthropics/knowledge-work-plugins
+    ref: main
+  - id: superpowers
+    type: claude_marketplace
+    repository: https://github.com/obra/superpowers
+    ref: main
+  - id: agent-toolkit-for-aws
+    type: agent_plugins_marketplace
+    repository: https://github.com/aws/agent-toolkit-for-aws
+    ref: main
+  - id: aws-labs
+    type: agent_plugins_marketplace
+    repository: https://github.com/awslabs/agent-plugins
+    ref: main
+  - id: mlflow-skills
+    type: git
+    repository: https://github.com/mlflow/skills
+    ref: main
+  - id: deepeval
+    type: claude_marketplace
+    repository: https://github.com/confident-ai/deepeval
+    ref: main
+  - id: pydantic-ai
+    type: agent_plugins_marketplace
+    repository: https://github.com/pydantic/skills
+    ref: main

@@ -15,7 +15,6 @@ metadata:
   jenreh.registry/source-digest: "0423246bd1f1ebd6274544da6d3e8fe7520e645c38fec788763fd1c1e9fd2998"
   jenreh.registry/risk-tier: "standard"
   jenreh.registry/data-classification: "internal"
-  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 An acceptance test is a Go test function with the prefix `TestAcc`.

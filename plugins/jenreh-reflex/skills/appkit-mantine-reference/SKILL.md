@@ -15,7 +15,6 @@ metadata:
   jenreh.registry/source-digest: "805c8a72966e3428da7a0f31a41889eabeb2768e790e0e23032a1168defb8727"
   jenreh.registry/risk-tier: "standard"
   jenreh.registry/data-classification: "internal"
-  jenreh.registry/supported-channels: "beta,stable"
 ---
 
 # Using appkit_mantine Components

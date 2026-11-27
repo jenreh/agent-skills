@@ -9,10 +9,16 @@
   },
   "plugins": [
     {
+      "name": "atlassian",
+      "source": "./plugins/atlassian",
+      "description": "Connect to Atlassian products including Jira and Confluence. Search and create issues, access documentation, manage sprints, and integrate your development workflow with Atlassian's collaboration tools.",
+      "author": { "name": "Atlassian" }
+    },
+    {
       "name": "jenreh-agents",
       "source": "./plugins/jenreh-agents",
       "description": "AI agent skills: building-pydantic-ai-agents, deepeval, deepeval-tracing, deepeval-otel.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": { "name": "Jens Rehpöhler" },
       "license": "Apache-2.0"
     },
@@ -44,7 +50,7 @@
       "name": "jenreh-python",
       "source": "./plugins/jenreh-python",
       "description": "Python skills: python-coding, python-clean-code, appkit-commons, code-cleanup, code-review-high, code-simplifier, docker-multi-stage, github-actions-cicd, systematic-debugging, test-driven-development.",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "author": { "name": "Jens Rehpöhler" },
       "license": "MIT"
     },

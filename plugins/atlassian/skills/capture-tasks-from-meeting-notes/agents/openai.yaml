@@ -1,0 +1,8 @@
+interface:
+  display_name: "Capture Tasks From Meeting Notes"
+  short_description: "Analyze meeting notes to find action items and create Jira…"
+  icon_small: "./assets/jenreh.svg"
+  icon_large: "./assets/jenreh.svg"
+  brand_color: "#4476AF"
+policy:
+  allow_implicit_invocation: true
